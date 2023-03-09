@@ -1,20 +1,50 @@
+import React, { useState, useCallback, useEffect } from "react";
+import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 
-export default function App() {
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import AuthContext from "./app/auth/context";
+import AppStarter from "./app/start/AppStarter";
+// import authStorage from "./app/auth/storage";
+import OfflineNotice from "./app/components/OfflineNotice";
+
+SplashScreen.preventAutoHideAsync();
+
+const App = () => {
+  const [user, setUser] = useState();
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  const restoreUser = async () => {
+    // const user = await authStorage.getUser();
+    // const user = { name: "Zeeshan", id: 5 };
+    const user = null;
+    if (user) setUser(user);
+
+    setAppIsReady(true);
+  };
+
+  useEffect(() => {
+    restoreUser();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) await SplashScreen.hideAsync();
+  }, [appIsReady]);
+
+  if (!appIsReady) return null;
   return (
-    <View style={styles.container}>
-      <Text>Wheely Dealy!</Text>
-      <StatusBar style="auto" />
+    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <AuthContext.Provider value={{ user, setUser }}>
+          <OfflineNotice />
+          {user ? <AppStarter user={user} /> : <AuthNavigator />}
+        </AuthContext.Provider>
+      </GestureHandlerRootView>
+      <StatusBar hidden />
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;
