@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-
-import navigation from "../navigation/Supplier/rootNavigation";
 
 import expoPushTokensApi from "../api/expoPushTokens";
 import authApi from "../api/auth";
@@ -17,30 +16,25 @@ Notifications.setNotificationHandler({
 });
 
 export default useNotifications = () => {
+  const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const [loading, setLoading] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const { user, refreshUserToken } = useAuth();
 
   useEffect(() => {
-    registerForPushNotifications();
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
 
-    // Notifications.addNotificationReceivedListener((notification) =>
-    //   console.log(notification)
-    // );
-
-    // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
       });
 
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response.notification.request.content);
-        navigation.navigate("AccountS");
+        console.log(response);
       });
 
     return () => {
@@ -51,23 +45,47 @@ export default useNotifications = () => {
     };
   }, []);
 
-  const registerForPushNotifications = async () => {
-    try {
-      const permissions = await Notifications.getPermissionsAsync();
-      if (!permissions.granted) {
-        const finalPermissions = await Notifications.requestPermissionsAsync();
-        if (!finalPermissions.granted) {
-          console.log("permissions NOT granted!");
-          return;
-        }
-      }
-      // console.log("permissions granted!");
-      const token = await Notifications.getExpoPushTokenAsync();
-      patchToken(token);
-    } catch (error) {
-      console.log("Error getting a push token", error);
+  async function schedulePushNotification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "You've got mail! 📬",
+        body: "Here is the notification body",
+        data: { data: "goes here" },
+      },
+      trigger: { seconds: 2 },
+    });
+  }
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+
+    if (Platform.OS === "android") {
+      await Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
     }
-  };
+
+    if (Device.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted")
+        return alert("Failed to get push token for push notification!");
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    return token;
+  }
 
   const patchToken = async (token) => {
     if (user.expoPushToken !== token.data) {

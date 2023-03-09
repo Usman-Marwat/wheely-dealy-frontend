@@ -18,8 +18,12 @@ const App = () => {
 
   const restoreUser = async () => {
     // const user = await authStorage.getUser();
-    // const user = { name: "Zeeshan", id: 5 };
-    const user = null;
+    const user = {
+      name: "aman",
+      role: "Seller",
+      user_id: "63390ba766243cb0ff33ecd5",
+      image: "https://cdn-icons-png.flaticon.com/256/8662/8662305.png",
+    };
     if (user) setUser(user);
 
     setAppIsReady(true);

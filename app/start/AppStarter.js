@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { StreamChat } from "stream-chat";
 import { Chat, OverlayProvider } from "stream-chat-expo";
 
-import BuyerNavigator from "../navigation/BuyerNavigator";
+import ClientNavigator from "../navigation/ClientNavigator";
 import SellerNavigator from "../navigation/SellerNavigator";
 
 const Api_Key = "fnmp8yh8yfe2";
@@ -24,8 +24,8 @@ const AppStarter = ({ user }) => {
     <OverlayProvider>
       <View style={styles.container}>
         <Chat client={client}>
-          {user.actor === "Buyer" && <BuyerNavigator />}
-          {user.actor === "Seller" && <SellerNavigator />}
+          {user.role === "Seller" && <SellerNavigator />}
+          {user.role === "Client" && <ClientNavigator />}
         </Chat>
       </View>
     </OverlayProvider>

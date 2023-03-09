@@ -4,7 +4,7 @@ import cache from "../utility/cache";
 import authStorage from "../auth/storage";
 
 const apiClient = create({
-  baseURL: "http://172.20.10.14:9001/api",
+  baseURL: "http://192.168.18.10:9001/api",
 });
 //adding Token for every request
 apiClient.addAsyncRequestTransform(async (request) => {

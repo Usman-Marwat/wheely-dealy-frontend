@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const BuyerNavigator = () => {
+const ClientNavigator = () => {
   return (
     <View>
-      <Text>BuyerNavigator</Text>
+      <Text>ClientNavigator</Text>
     </View>
   );
 };
 
-export default BuyerNavigator;
+export default ClientNavigator;
 
 const styles = StyleSheet.create({});
