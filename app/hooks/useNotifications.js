@@ -78,8 +78,12 @@ export default useNotifications = () => {
       }
       if (finalStatus !== "granted")
         return alert("Failed to get push token for push notification!");
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
+      token = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId: "55436dee-be2b-4e19-a9ed-cd025f5cecff",
+        })
+      ).data;
+      // console.log(token);
     } else {
       alert("Must use physical device for Push Notifications");
     }

@@ -1,7 +1,9 @@
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { useChatContext } from "stream-chat-expo";
 import { useNavigation } from "@react-navigation/native";
+
+const SPACING = 20;
 
 export default function UserListItem({ chatUser, user }) {
   const { client } = useChatContext();
@@ -16,23 +18,30 @@ export default function UserListItem({ chatUser, user }) {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} style={styles.root}>
+    <TouchableOpacity onPress={handlePress} style={styles.itemWrapper}>
       <Image style={styles.image} source={{ uri: chatUser.image }}></Image>
-      <Text>{chatUser.name}</Text>
+
+      <View style={{ flexShrink: 1 }}>
+        <Text style={styles.name}>{chatUser.name}</Text>
+      </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    marginRight: 10,
-  },
-  root: {
+  itemWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    margin: 10,
+    padding: SPACING,
+  },
+  image: {
+    width: 70,
+    height: 70,
+    borderRadius: 70,
+    marginRight: SPACING,
+  },
+  name: {
+    fontSize: 22,
+    fontWeight: "700",
   },
 });
