@@ -21,8 +21,8 @@ export default Object.freeze({
   BIDS_DETAILS: "BidsDetail",
 
   //Employee
-  FIRMSLIST: "FirmsList",
-  FIRMSLISTDETAILS: "FirmsListDetails",
+  DEALERSLIST: "DealersList",
+  DEALERSLISTDETAILS: "DealersListDetails",
 
   //Contractor
   All_CONTRACTS_DETAILS: "AllContractsDetails",

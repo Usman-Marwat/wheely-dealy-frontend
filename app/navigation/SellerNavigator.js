@@ -8,6 +8,7 @@ import CustomDrawer from "./CustomDrawer";
 import DrawerAnimationContext from "../contexts/drawerAnimationContext";
 import navigationTheme from "./navigationTheme";
 import RootNavigator from "../chat/RootNavigator";
+import DealersListNavigator from "./DealersListNavigator";
 import useNotifications from "../hooks/useNotifications";
 
 const DrawerNavigator = createDrawerNavigator();
@@ -46,6 +47,10 @@ const CustomerNavigator = () => {
               );
             }}
           >
+            <DrawerNavigator.Screen
+              name="Dealers"
+              component={DealersListNavigator}
+            />
             <DrawerNavigator.Screen name="Chat" component={RootNavigator} />
           </DrawerNavigator.Navigator>
         </NavigationContainer>
