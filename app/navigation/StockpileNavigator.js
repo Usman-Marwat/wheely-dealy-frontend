@@ -1,29 +1,31 @@
+import { Easing } from "react-native";
 import React from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import ReceivedContracts from "../screens/ReceivedContracts";
-import ReceivedContractDetails from "../screens/ReceivedContractDetails";
 import { options } from "./navigationOptions";
+import Stockpile from "../screens/Stockpile";
+import StockpileDetails from "../screens/StockpileDetails";
 
 const Stack = createSharedElementStackNavigator();
 
-export default function ReceivedContractNavigator() {
+const StockpileNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="RecievedContracts" component={ReceivedContracts} />
+      <Stack.Screen name="StockpileScreen" component={Stockpile} />
       <Stack.Screen
-        name="RecievedContractDetails"
-        component={ReceivedContractDetails}
+        name="StockpileDetailsScreen"
+        component={StockpileDetails}
         sharedElements={(route) => {
           const { item } = route.params;
           return [
-            { id: `item.${item._id}.image` },
-            { id: `item.${item._id}.bg` },
-            { id: `item.${item._id}.meta` },
+            { id: `item.${item.key}.photo` },
+            { id: `item.${item.key}.shopName` },
           ];
         }}
         options={options}
       />
     </Stack.Navigator>
   );
-}
+};
+
+export default StockpileNavigator;

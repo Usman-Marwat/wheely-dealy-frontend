@@ -12,6 +12,7 @@ import { SharedElement } from "react-navigation-shared-element";
 
 import Screen from "../components/Screen";
 import routes from "../navigation/routes";
+import MenuFoldButton from "../navigation/MenuFoldButton";
 
 faker.seed(1);
 
@@ -65,6 +66,7 @@ const BG_COLOR = "#C1CEE077";
 const AdsListScreen = ({ navigation }) => {
   return (
     <View>
+      <MenuFoldButton />
       <FlatList
         contentContainerStyle={{ padding: SPACING }}
         data={fakerData}

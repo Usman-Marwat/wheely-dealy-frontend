@@ -17,6 +17,11 @@ const AdsNavigator = () => {
         sharedElements={(route) => {
           const { item } = route.params;
           return [
+            { id: `item.${item.key}.modal` },
+            { id: `item.${item.key}.image` },
+            { id: `item.${item.key}.description` },
+            { id: `item.${item.key}.team` },
+
             { id: `item.${item._id}.modal` },
             { id: `item.${item._id}.image` },
             { id: `item.${item._id}.description` },
