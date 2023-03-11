@@ -12,9 +12,9 @@ import niceColors from "nice-color-palettes";
 import { faker } from "@faker-js/faker";
 import { SharedElement } from "react-navigation-shared-element";
 
-import Screen from "../components/Screen";
+import MenuFoldButton from "../navigation/MenuFoldButton";
 import routes from "../navigation/routes";
-import Header from "../components/Header";
+import Screen from "../components/Screen";
 
 faker.seed(1);
 const colors = [
@@ -55,7 +55,7 @@ const SPACING = 10;
 const DealersList = ({ navigation }) => {
   return (
     <Screen style={styles.container}>
-      <Header />
+      <MenuFoldButton />
       <FlatList
         contentContainerStyle={{ padding: SPACING }}
         data={fakerData}

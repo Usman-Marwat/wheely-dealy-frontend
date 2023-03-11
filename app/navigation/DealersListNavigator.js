@@ -1,8 +1,8 @@
 import React from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import DealersList from "../screens/DealersList";
-import DealersListDetailsScreen from "../screens/DealersListDetails";
+import DealersListScreen from "../screens/DealersListScreen";
+import DealersListDetailsScreen from "../screens/DealersListDetailsScreen";
 import { options } from "./navigationOptions";
 import routes from "./routes";
 
@@ -11,7 +11,7 @@ const Stack = createSharedElementStackNavigator();
 const DealersListNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={routes.DEALERSLIST} component={DealersList} />
+      <Stack.Screen name={routes.DEALERSLIST} component={DealersListScreen} />
       <Stack.Screen
         name={routes.DEALERSLISTDETAILS}
         component={DealersListDetailsScreen}
