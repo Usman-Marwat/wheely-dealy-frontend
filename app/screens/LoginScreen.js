@@ -10,8 +10,12 @@ import {
 import * as Yup from "yup";
 import { SharedElement } from "react-navigation-shared-element";
 import * as Animatable from "react-native-animatable";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import ActivityIndicator from "../components/ActivityIndicator";
+
+import AuthContext from "../auth/context";
+import authStorage from "../auth/storage";
 
 import {
   ErrorMessage,
@@ -38,71 +42,74 @@ function LoginScreen({ navigation, route }) {
   const [error, setError] = useState();
   // const loginApi = useApi(authApi.login);
   // const { logIn } = useAuth();
+  const { user, setUser } = useContext(AuthContext);
 
   const handleSubmit = async (userInfo) => {
-    // const result = await loginApi.request({ ...userInfo, actor: item.actor });
-    // if (!result.ok) {
-    //   if (result.data) setError(result.data.email + result.data.password);
-    //   else setError("An unexpected error occurred.");
-    //   return;
-    // }
-    // logIn(result.data);
-    console.log("Login Formik");
+    // console.log(userInfo);
+    const user = {
+      name: "aman",
+      role: "Seller",
+      user_id: "63390ba766243cb0ff33ecd5",
+      image: "https://cdn-icons-png.flaticon.com/256/8662/8662305.png",
+    };
+    setUser(user);
   };
 
   return (
     <>
       {/* <ActivityIndicator visible={loginApi.loading} /> */}
-      <View style={styles.container}>
-        <View style={styles.headingConatiner}>
-          <SharedElement id={`item.${item.key}.image`}>
-            <Image source={{ uri: item.image }} style={styles.image} />
-          </SharedElement>
-          <Animatable.View animation="fadeInUp" delay={DURATION / 2}>
-            <Text style={styles.title}>{item.actor}</Text>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.headingConatiner}>
+            <SharedElement id={`item.${item.key}.image`}>
+              <Image source={{ uri: item.image }} style={styles.image} />
+            </SharedElement>
+            <Animatable.View animation="fadeInUp" delay={DURATION / 2}>
+              <Text style={styles.title}>{item.role}</Text>
+            </Animatable.View>
+          </View>
+          <Animatable.View animation="fadeInUp" delay={DURATION}>
+            <AppForm
+              initialValues={{ email: "", password: "" }}
+              onSubmit={handleSubmit}
+              validationSchema={validationSchema}
+            >
+              <ErrorMessage error={error} visible={error} />
+              <AppFormField
+                autoCapitalize="none"
+                autoCorrect={false}
+                icon="email"
+                keyboardType="email-address"
+                name="email"
+                placeholder="Email"
+                textContentType="emailAddress"
+              />
+              <AppFormField
+                autoCapitalize="none"
+                autoCorrect={false}
+                icon="lock"
+                name="password"
+                placeholder="Password"
+                secureTextEntry
+                textContentType="password"
+              />
+              <SubmitButton title="Login" bg={bg} />
+            </AppForm>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Icon
+                family="mci"
+                name="keyboard-backspace"
+                backgroundColor="#fff"
+                iconColor={colors.medium}
+              />
+              <Text style={{ color: colors.medium }}>back</Text>
+            </TouchableOpacity>
           </Animatable.View>
         </View>
-        <Animatable.View animation="fadeInUp" delay={DURATION}>
-          <AppForm
-            initialValues={{ email: "", password: "" }}
-            onSubmit={handleSubmit}
-            validationSchema={validationSchema}
-          >
-            <ErrorMessage error={error} visible={error} />
-            <AppFormField
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="email"
-              keyboardType="email-address"
-              name="email"
-              placeholder="Email"
-              textContentType="emailAddress"
-            />
-            <AppFormField
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="lock"
-              name="password"
-              placeholder="Password"
-              secureTextEntry
-              textContentType="password"
-            />
-            <SubmitButton title="Login" bg={bg} />
-          </AppForm>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Icon
-              family="mci"
-              name="keyboard-backspace"
-              backgroundColor="#fff"
-              iconColor={colors.medium}
-            />
-            <Text style={{ color: colors.medium }}>back</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-      </View>
+      </KeyboardAwareScrollView>
     </>
   );
 }

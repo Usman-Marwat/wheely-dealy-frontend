@@ -20,7 +20,7 @@ const bgs = ["#ff355e", "#ffa07a"];
 
 const DATA = [
   {
-    actor: "Seller",
+    role: "Seller",
     key: "3571572",
     title: "Expand the realm of your business",
     description:
@@ -28,7 +28,7 @@ const DATA = [
     image: "https://cdn-icons-png.flaticon.com/512/7005/7005687.png",
   },
   {
-    actor: "Client",
+    role: "Client",
     key: "3571747",
     title: "Find the car of your choice here",
     description:
@@ -139,7 +139,7 @@ export default function WelcomeScreen({ navigation }) {
                 </SharedElement>
               </View>
               <View style={{ flex: 0.3 }}>
-                <Text style={styles.title}>{item.actor}</Text>
+                <Text style={styles.title}>{item.role}</Text>
                 <Text style={styles.tagline}>{item.title}</Text>
                 <View style={styles.description}>
                   <Text>{item.description}</Text>
@@ -154,7 +154,7 @@ export default function WelcomeScreen({ navigation }) {
           color="transparent"
           style={[styles.button, { width: 190 }]}
           title={"Register"}
-          subTitle={"as " + DATA[currentIndex]?.actor}
+          subTitle={"as " + DATA[currentIndex]?.role}
           onPress={() =>
             navigation.navigate(routes.REGISTER, {
               item: DATA[currentIndex],

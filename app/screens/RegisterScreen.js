@@ -126,11 +126,12 @@ function RegisterScreen({ navigation, route }) {
   const { item, bg } = route.params;
   const [otpVisible, setOtpVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const [formData, setFormData] = useState({ actor: item.actor });
+  const [formData, setFormData] = useState({ role: item.role });
   const [error, setError] = useState();
 
   const handleSubmit = async (userInfo, { resetForm }) => {
     console.log(userInfo);
+    setFormData({ ...formData, ...userInfo });
     // resetForm();
   };
 
@@ -144,7 +145,7 @@ function RegisterScreen({ navigation, route }) {
               <Image source={{ uri: item.image }} style={styles.image} />
             </SharedElement>
             <Animatable.View animation="fadeInUp" delay={DURATION / 2}>
-              <Text style={styles.title}>{item.actor}</Text>
+              <Text style={styles.title}>{item.role}</Text>
             </Animatable.View>
           </View>
           <Animatable.View animation="fadeInUp" delay={DURATION}>
