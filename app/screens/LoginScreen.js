@@ -22,7 +22,7 @@ import {
 // import authApi from "../api/auth";
 // import useAuth from "../auth/useAuth";
 // import useApi from "../hooks/useApi";
-// import Icon from "../components/Icon";
+import Icon from "../components/Icon";
 import colors from "../config/colors";
 
 const { width, height } = Dimensions.get("screen");
@@ -36,7 +36,7 @@ const validationSchema = Yup.object().shape({
 function LoginScreen({ navigation, route }) {
   const { item, bg } = route.params;
   const [error, setError] = useState();
-  const loginApi = useApi(authApi.login);
+  // const loginApi = useApi(authApi.login);
   // const { logIn } = useAuth();
 
   const handleSubmit = async (userInfo) => {
@@ -52,7 +52,7 @@ function LoginScreen({ navigation, route }) {
 
   return (
     <>
-      <ActivityIndicator visible={loginApi.loading} />
+      {/* <ActivityIndicator visible={loginApi.loading} /> */}
       <View style={styles.container}>
         <View style={styles.headingConatiner}>
           <SharedElement id={`item.${item.key}.image`}>
@@ -61,18 +61,6 @@ function LoginScreen({ navigation, route }) {
           <Animatable.View animation="fadeInUp" delay={DURATION / 2}>
             <Text style={styles.title}>{item.actor}</Text>
           </Animatable.View>
-          <Animatable.View
-            animation="fadeInUp"
-            delay={DURATION}
-            style={[
-              StyleSheet.absoluteFillObject,
-              styles.backdrop,
-              { backgroundColor: bg },
-            ]}
-          >
-            <View />
-          </Animatable.View>
-          <View style={styles.square} />
         </View>
         <Animatable.View animation="fadeInUp" delay={DURATION}>
           <AppForm
@@ -126,12 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
   },
-  backdrop: {
-    backgroundColor: "#ff355e",
-    zIndex: -5,
-    borderBottomEndRadius: 30,
-    borderBottomLeftRadius: 30,
-  },
+
   container: {
     padding: 10,
     paddingTop: 10,
@@ -144,34 +127,15 @@ const styles = StyleSheet.create({
     width: width / 2,
     height: width / 2.5,
     marginTop: 30,
-    marginBottom: 30,
     resizeMode: "contain",
     zIndex: 1,
-  },
-  logo: {
-    width: 80,
-    height: 80,
-    alignSelf: "center",
-    marginTop: 50,
-    marginBottom: 20,
-  },
-  square: {
-    width: height,
-    height: height,
-    backgroundColor: "#fff",
-    borderRadius: 86,
-    position: "absolute",
-    top: -height * 0.88,
-    left: -height * 0.35,
-    zIndex: -1,
-    transform: [{ rotate: "35deg" }],
   },
   title: {
     fontWeight: "800",
     fontSize: 32,
     textTransform: "uppercase",
-    color: "#fff",
-    marginVertical: 40,
+    color: colors.medium,
+    marginVertical: 20,
   },
 });
 

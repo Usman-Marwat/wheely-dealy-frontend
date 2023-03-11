@@ -14,20 +14,14 @@ import * as Animatable from "react-native-animatable";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import _ from "lodash";
 
-// import authApi from "../api/auth";
-// import useAuth from "../auth/useAuth";
 import {
   ErrorMessage,
   AppForm as Form,
   AppFormField as FormField,
   SubmitButton,
 } from "../components/forms";
-import usersApi from "../api/users";
-import useApi from "../hooks/useApi";
 import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
-// import AppPhoneInput from "../components/forms/AppPhoneInput";
-// import OtpInput from "../components/forms/OtpInput";
 import Icon from "../components/Icon";
 
 const images = [
@@ -134,43 +128,15 @@ function RegisterScreen({ navigation, route }) {
   const [isValid, setIsValid] = useState(false);
   const [formData, setFormData] = useState({ actor: item.actor });
   const [error, setError] = useState();
-  // const { logIn } = useAuth();
-
-  const registerApi = useApi(usersApi.register);
-  // const loginApi = useApi(authApi.login);
 
   const handleSubmit = async (userInfo, { resetForm }) => {
-    const result = await otpApi.request(userInfo);
-    if (!result.ok) {
-      if (result.data) setError(result.data.error);
-      else setError("An unexpected error occurred.");
-      return;
-    }
-    setFormData({ ...formData, ...userInfo, ...result.data });
-    setOtpVisible(!otpVisible);
+    console.log(userInfo);
     // resetForm();
-  };
-
-  const handleOtp = async (otp) => {
-    setOtpVisible(!otpVisible);
-    const result = await registerApi.request({
-      ...formData,
-      otp,
-      image: images[_.random(images.length - 1)],
-    });
-    console.log(result.data);
-    if (!result.ok) return setError(result.data.error);
-    // handleLogin();
-  };
-
-  const handleLogin = async () => {
-    const { data: authToken } = await loginApi.request(formData);
-    logIn(authToken);
   };
 
   return (
     <>
-      <ActivityIndicator visible={registerApi.loading || otpApi.loading} />
+      {/* <ActivityIndicator visible={registerApi.loading || otpApi.loading} /> */}
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.headingConatiner}>
@@ -180,19 +146,6 @@ function RegisterScreen({ navigation, route }) {
             <Animatable.View animation="fadeInUp" delay={DURATION / 2}>
               <Text style={styles.title}>{item.actor}</Text>
             </Animatable.View>
-
-            <Animatable.View
-              animation="fadeInUp"
-              delay={DURATION}
-              style={[
-                StyleSheet.absoluteFillObject,
-                styles.backdrop,
-                { backgroundColor: bg },
-              ]}
-            >
-              <View />
-            </Animatable.View>
-            <View style={styles.square} />
           </View>
           <Animatable.View animation="fadeInUp" delay={DURATION}>
             <Form
@@ -254,12 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
   },
-  backdrop: {
-    backgroundColor: "#ff355e",
-    zIndex: -5,
-    borderBottomEndRadius: 30,
-    borderBottomLeftRadius: 30,
-  },
+
   container: {
     padding: 10,
     paddingTop: 10,
@@ -272,27 +220,16 @@ const styles = StyleSheet.create({
     width: width / 2,
     height: width / 2.5,
     marginTop: 30,
-    marginBottom: 30,
     resizeMode: "contain",
     zIndex: 1,
   },
-  square: {
-    width: height,
-    height: height,
-    backgroundColor: "#fff",
-    borderRadius: 86,
-    position: "absolute",
-    top: -height * 0.88,
-    left: -height * 0.35,
-    zIndex: -1,
-    transform: [{ rotate: "35deg" }],
-  },
+
   title: {
     fontWeight: "800",
     fontSize: 32,
     textTransform: "uppercase",
-    color: "#fff",
-    marginVertical: 40,
+    color: colors.medium,
+    marginVertical: 20,
   },
 });
 

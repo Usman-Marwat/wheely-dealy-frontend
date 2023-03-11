@@ -16,40 +16,24 @@ import routes from "../navigation/routes";
 
 const { width, height } = Dimensions.get("screen");
 
-const bgs = ["#ff355e", "#cb4154", "#ffa07a", "#A5BBFF"];
+const bgs = ["#ff355e", "#ffa07a"];
 
 const DATA = [
   {
-    actor: "Contractor",
+    actor: "Seller",
     key: "3571572",
     title: "Expand the realm of your business",
     description:
       "I'll back up the multi-byte XSS matrix, that should feed the SCSI WelcomeScreenlication!",
-    image: "https://cdn-icons-png.flaticon.com/512/7899/7899486.png",
+    image: "https://cdn-icons-png.flaticon.com/512/7005/7005687.png",
   },
   {
-    actor: "Customer",
+    actor: "Client",
     key: "3571747",
-    title: "Find the best makers for your house",
+    title: "Find the car of your choice here",
     description:
       "Use the optical SAS system, then you can navigate the auxiliary alarm!",
-    image: "https://cdn-icons-png.flaticon.com/512/7899/7899565.png",
-  },
-  {
-    actor: "Employee",
-    key: "3571680",
-    title: "Be part of your amazing firm",
-    description:
-      "The ADP array is down, compress the online sensor so we can input the HTTP panel!",
-    image: "https://cdn-icons-png.flaticon.com/512/7899/7899416.png",
-  },
-  {
-    actor: "Supplier",
-    key: "3571603",
-    title: "Help contractor, and grow your business",
-    description:
-      "We need to program the open-source IB interface! hey how are you",
-    image: "https://cdn-icons-png.flaticon.com/512/7899/7899473.png",
+    image: "https://cdn-icons-png.flaticon.com/512/6101/6101650.png",
   },
 ];
 
@@ -263,12 +247,13 @@ const styles = StyleSheet.create({
   tagline: {
     color: "#fff",
     fontWeight: "800",
-    fontSize: 25,
+    fontSize: 20,
+    marginBottom: 10,
   },
   title: {
     color: "#fff",
     fontWeight: "800",
-    fontSize: 32,
+    fontSize: 42,
     textTransform: "uppercase",
     // textDecorationLine: "underline",
     // textDecorationStyle: "dashed",
