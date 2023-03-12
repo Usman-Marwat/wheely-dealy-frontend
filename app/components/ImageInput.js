@@ -1,13 +1,12 @@
 import {
   Alert,
   StyleSheet,
-  Text,
+  Image,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 import React, { useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 import colors from "../config/colors";
@@ -38,7 +37,7 @@ export default function ImageInput({ imageUri, onChangeImage }) {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
       });
-      if (!result.cancelled) onChangeImage(result.uri);
+      if (!result.canceled) onChangeImage(result.assets[0].uri);
     } catch (error) {
       console.log(error.message);
     }

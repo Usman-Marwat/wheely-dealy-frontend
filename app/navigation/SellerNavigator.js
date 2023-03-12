@@ -59,7 +59,7 @@ const CustomerNavigator = () => {
               name="Received"
               component={ReceivedContractNavigator}
             />
-            <DrawerNavigator.Screen name="AdsList" component={AdsNavigator} />
+            <DrawerNavigator.Screen name="All Ads" component={AdsNavigator} />
             <DrawerNavigator.Screen
               name="Stockpile"
               component={StockpileNavigator}

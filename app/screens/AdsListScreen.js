@@ -13,6 +13,8 @@ import { SharedElement } from "react-navigation-shared-element";
 import Screen from "../components/Screen";
 import routes from "../navigation/routes";
 import MenuFoldButton from "../navigation/MenuFoldButton";
+import { Button } from "react-native";
+import colors from "../config/colors";
 
 faker.seed(1);
 
@@ -67,6 +69,12 @@ const AdsListScreen = ({ navigation }) => {
   return (
     <View>
       <MenuFoldButton />
+      <Button
+        title="Add"
+        color={colors.medium}
+        onPress={() => navigation.navigate(routes.ADS_EDIT)}
+      />
+
       <FlatList
         contentContainerStyle={{ padding: SPACING }}
         data={fakerData}
@@ -75,7 +83,7 @@ const AdsListScreen = ({ navigation }) => {
           return (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate(routes.ONGOING_CONTRACTS_DETAILS, { item })
+                navigation.navigate(routes.ADS_LIST_DETAIL, { item })
               }
             >
               <View style={styles.item}>
