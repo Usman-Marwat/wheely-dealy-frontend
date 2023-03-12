@@ -4,6 +4,7 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 import AdsEditScreen from "../screens/AdsEditScreen";
 import AdsListDetailsScreen from "../screens/AdsListDetailsScreen";
 import AdsListScreen from "../screens/AdsListScreen";
+import BidsListScreen from "../screens/BidsListScreen";
 import { options } from "./navigationOptions";
 import routes from "./routes";
 
@@ -28,6 +29,7 @@ const AdsNavigator = () => {
         options={options}
       />
       <Stack.Screen name={routes.ADS_EDIT} component={AdsEditScreen} />
+      <Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
     </Stack.Navigator>
   );
 };

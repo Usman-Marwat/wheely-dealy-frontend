@@ -4,16 +4,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import ActivityIndicator from "../components/ActivityIndicator";
+import AccountNavigator from "./AccountNavigator";
+import AdsNavigator from "./AdsNavigator";
 import CustomDrawer from "./CustomDrawer";
+import DealersListNavigator from "./DealersListNavigator";
 import DrawerAnimationContext from "../contexts/drawerAnimationContext";
 import navigationTheme from "./navigationTheme";
 import RootNavigator from "../chat/RootNavigator";
-import DealersListNavigator from "./DealersListNavigator";
-import useNotifications from "../hooks/useNotifications";
 import ReceivedContractNavigator from "./ReceivedContractNavigator";
-import AdsNavigator from "./AdsNavigator";
 import StockpileNavigator from "./StockpileNavigator";
-import AccountNavigator from "./AccountNavigator";
+import useNotifications from "../hooks/useNotifications";
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get("screen");
@@ -51,6 +51,7 @@ const CustomerNavigator = () => {
               );
             }}
           >
+            <DrawerNavigator.Screen name="All Ads" component={AdsNavigator} />
             <DrawerNavigator.Screen
               name="Dealers"
               component={DealersListNavigator}
@@ -59,7 +60,6 @@ const CustomerNavigator = () => {
               name="Received"
               component={ReceivedContractNavigator}
             />
-            <DrawerNavigator.Screen name="All Ads" component={AdsNavigator} />
             <DrawerNavigator.Screen
               name="Stockpile"
               component={StockpileNavigator}

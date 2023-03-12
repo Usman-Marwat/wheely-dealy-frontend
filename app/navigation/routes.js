@@ -11,4 +11,5 @@ export default Object.freeze({
   ADS_LIST_DETAIL: "AdsListDetail",
   ADS_EDIT: "AdsEdit",
   BLOG_EDIT: "BlogEdit",
+  BIDS_LIST: "BidsList",
 });
