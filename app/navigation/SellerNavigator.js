@@ -13,6 +13,7 @@ import useNotifications from "../hooks/useNotifications";
 import ReceivedContractNavigator from "./ReceivedContractNavigator";
 import AdsNavigator from "./AdsNavigator";
 import StockpileNavigator from "./StockpileNavigator";
+import AccountNavigator from "./AccountNavigator";
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get("screen");
@@ -64,6 +65,10 @@ const CustomerNavigator = () => {
               component={StockpileNavigator}
             />
             <DrawerNavigator.Screen name="Chat" component={RootNavigator} />
+            <DrawerNavigator.Screen
+              name="Account"
+              component={AccountNavigator}
+            />
           </DrawerNavigator.Navigator>
         </NavigationContainer>
       </DrawerAnimationContext.Provider>

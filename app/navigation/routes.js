@@ -5,6 +5,7 @@ export default Object.freeze({
   PROFILE: "Profile",
   TODOS: "Todos",
   HOUSE_PRICE: "HousePrice",
+  ACCOUNT: "Accounts",
 
   //Supplier
   SHOP_DETAILS: "ShopDetails",
