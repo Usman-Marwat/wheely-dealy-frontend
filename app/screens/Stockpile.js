@@ -1,5 +1,6 @@
 import {
   Animated,
+  Button,
   Dimensions,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { SharedElement } from "react-navigation-shared-element";
 
 import MenuFoldButton from "../navigation/MenuFoldButton";
+import AppModal from "../components/AppModal";
 
 const data = [
   {
@@ -58,6 +60,7 @@ const FULL_SIZE = s + SPACING * 2;
 
 const Stockpile = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
@@ -147,6 +150,12 @@ const Stockpile = ({ navigation }) => {
           }}
         />
       </View>
+      <Button title="Car Requriment" onPress={() => setVisible(true)} />
+      <AppModal
+        visible={visible}
+        heading="Add Your Car Requirements"
+        onVisible={() => setVisible(false)}
+      ></AppModal>
     </>
   );
 };

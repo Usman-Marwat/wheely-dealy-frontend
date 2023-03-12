@@ -4,6 +4,8 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 import ReceivedContracts from "../screens/ReceivedContracts";
 import ReceivedContractDetails from "../screens/ReceivedContractDetails";
 import { options } from "./navigationOptions";
+import BlogEditScreen from "../screens/BlogEditScreen";
+import routes from "./routes";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -24,6 +26,7 @@ export default function ReceivedContractNavigator() {
         }}
         options={options}
       />
+      <Stack.Screen name={routes.BLOG_EDIT} component={BlogEditScreen} />
     </Stack.Navigator>
   );
 }

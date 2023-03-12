@@ -9,5 +9,6 @@ export default Object.freeze({
   DEALERSLISTDETAILS: "DealersListDetails",
 
   ADS_LIST_DETAIL: "AdsListDetail",
-  ADS_EDIT: "AdsEditScreen",
+  ADS_EDIT: "AdsEdit",
+  BLOG_EDIT: "BlogEdit",
 });

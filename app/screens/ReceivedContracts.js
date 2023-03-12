@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import niceColors from "nice-color-palettes";
@@ -13,8 +14,6 @@ import { faker } from "@faker-js/faker";
 import { SharedElement } from "react-navigation-shared-element";
 
 import MenuFoldButton from "../navigation/MenuFoldButton";
-import { translateMenuFold } from "../navigation/navigationAnimations";
-import DrawerAnimationContext from "../contexts/drawerAnimationContext";
 import Screen from "../components/Screen";
 import routes from "../navigation/routes";
 
@@ -67,13 +66,15 @@ const FULL_SIZE = CELL_WIDTH + SPACING * 2;
 const ReceivedContracts = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
-  const { animatedValue } = useContext(DrawerAnimationContext);
-  const translateX = translateMenuFold(animatedValue);
-
   return (
     <>
-      <MenuFoldButton translateX={translateX} navigation={navigation} />
+      <MenuFoldButton />
+
       <Screen style={{ paddingTop: 40 }}>
+        <Button
+          title="Add Blog"
+          onPress={() => navigation.navigate(routes.BLOG_EDIT)}
+        />
         <View>
           <FlatList
             data={tabs}
