@@ -1,4 +1,4 @@
-import client from "./client";
+import client from "./httpClient";
 
 const send = (actor, id, title, subtitle, body) =>
   client.post(`/messages/${actor}`, {

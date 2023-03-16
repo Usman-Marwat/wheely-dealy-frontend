@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   Dimensions,
   Image,
   StyleSheet,
@@ -21,8 +20,11 @@ import {
   SubmitButton,
 } from "../components/forms";
 import ActivityIndicator from "../components/ActivityIndicator";
+import AppPhoneInput from "../components/forms/AppPhoneInput";
+import authApi from "../api/auth";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
+import useApi from "../hooks/useApi";
 
 const images = [
   "https://cdn-icons-png.flaticon.com/256/4105/4105443.png",
@@ -109,6 +111,7 @@ const DURATION = 400;
 const schemaFunction = (isValid) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required().label("Name"),
+    username: Yup.string().required().label("Username"),
     email: Yup.string().required().email().label("Email"),
     password: Yup.string().required().min(4).label("Password"),
     phone: Yup.string()
@@ -123,15 +126,17 @@ const schemaFunction = (isValid) => {
 };
 
 function RegisterScreen({ navigation, route }) {
-  const { item, bg } = route.params;
+  const { item, bg, AccounTypeId = "abc" } = route.params;
   const [otpVisible, setOtpVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const [formData, setFormData] = useState({ role: item.role });
+  const [formData, setFormData] = useState({ AccounTypeId });
   const [error, setError] = useState();
 
+  const registerApi = useApi(authApi.register);
+
   const handleSubmit = async (userInfo, { resetForm }) => {
-    console.log(userInfo);
-    setFormData({ ...formData, ...userInfo });
+    console.log({ ...formData, ...userInfo });
+    // setFormData({ ...formData, ...userInfo });
     // resetForm();
   };
 
@@ -160,6 +165,14 @@ function RegisterScreen({ navigation, route }) {
                 icon="account"
                 name="name"
                 placeholder="Name"
+                width="80%"
+              />
+              <FormField
+                autoCorrect={false}
+                icon="account"
+                name="username"
+                placeholder="Username"
+                width="50%"
               />
               <FormField
                 autoCapitalize="none"
@@ -169,6 +182,7 @@ function RegisterScreen({ navigation, route }) {
                 name="email"
                 placeholder="Email"
                 textContentType="emailAddress"
+                width="95%"
               />
               <FormField
                 autoCapitalize="none"
@@ -178,7 +192,9 @@ function RegisterScreen({ navigation, route }) {
                 placeholder="Password"
                 secureTextEntry
                 textContentType="password"
+                width="95%"
               />
+              <AppPhoneInput name="phone" onCheck={(val) => setIsValid(val)} />
               <SubmitButton title="Register" bg={bg} />
             </Form>
             <TouchableOpacity
@@ -195,7 +211,6 @@ function RegisterScreen({ navigation, route }) {
             </TouchableOpacity>
           </Animatable.View>
         </View>
-        {/* <Button title="open" onPress={() => setOtpVisible(!otpVisible)} /> */}
       </KeyboardAwareScrollView>
     </>
   );
@@ -211,7 +226,7 @@ const styles = StyleSheet.create({
 
   container: {
     padding: 10,
-    paddingTop: 10,
+    paddingTop: 0,
   },
   headingConatiner: {
     alignItems: "center",
@@ -220,7 +235,6 @@ const styles = StyleSheet.create({
   image: {
     width: width / 2,
     height: width / 2.5,
-    marginTop: 30,
     resizeMode: "contain",
     zIndex: 1,
   },
@@ -230,31 +244,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     textTransform: "uppercase",
     color: colors.medium,
-    marginVertical: 20,
   },
 });
 
 export default RegisterScreen;
-
-/* 
-Comments in handleSubmit before - if (!result.ok) 
-
-if (!result.ok) returns true that means the result failed
-    //if result has data that means the server properly processed our request and sent us an error
-    // else if the server did not send us the data that means something unexpected happen
-    // maybe the server is offline or we do not have internet connection; we have offline notice
-    // to care of this but its good to show a generic error message
-    if (!result.ok) {
-*/
-
-/* 
-"console.log(data)"
-this gives us "null" when printed directly after setData()
-
-"setData({ ...data, otp });
-console.log(data);"
-In handleOTP(), doing this above "const result = await registerApi.request(data)" sends the previous data without otp
-The reason is because the component rerenders which redefines the handleotp() but the previous handleOtp 
-funtion is executed. May be becasue its an asynchronous function because of logic of react.
-
-*/

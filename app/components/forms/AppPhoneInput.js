@@ -1,11 +1,10 @@
-import React, { useState, useRef } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useRef } from "react";
+import { StyleSheet, View } from "react-native";
 import PhoneInput from "react-native-phone-number-input";
 import { useFormikContext } from "formik";
 
 import colors from "../../config/colors";
 import ErrorMessage from "./ErrorMessage";
-import AppButton from "../AppButton";
 
 const AppPhoneInput = ({ name, onCheck }) => {
   const phoneInput = useRef(null);
@@ -51,6 +50,7 @@ export default AppPhoneInput;
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
+    width: "80%",
   },
   code: {
     color: colors.medium,
