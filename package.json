@@ -29,7 +29,7 @@
     "expo-image-picker": "~14.1.1",
     "expo-local-authentication": "~13.2.1",
     "expo-location": "~15.1.1",
-    "expo-media-library": "~15.2.2",
+    "expo-media-library": "~15.2.3",
     "expo-notifications": "~0.18.1",
     "expo-secure-store": "~12.1.1",
     "expo-sharing": "~11.2.2",

@@ -5,14 +5,9 @@ const endpoint = "/ad";
 export const addCarAd = (carAd, onUploadProgress) => {
   const data = new FormData();
   data.append("title", carAd.title);
-  data.append("description", carAd.description);
-  data.append("location", carAd.location);
   data.append("contactNo", carAd.contactNo);
   data.append("price", carAd.price);
   data.append("model", carAd.model);
-  data.append("mileage", carAd.mileage);
-  data.append("longitude", carAd.longitude);
-  data.append("latitude", carAd.latitude);
   data.append("engineCapacity", carAd.engineCapacity);
   data.append("dateTime", JSON.stringify(carAd.date));
   data.append("feulType", JSON.stringify(carAd.feultype));
@@ -24,6 +19,11 @@ export const addCarAd = (carAd, onUploadProgress) => {
   data.append("registerationCity", JSON.stringify(carAd.registerationCity));
   data.append("user", JSON.stringify(carAd.user));
   data.append("status", JSON.stringify(carAd.status));
+  data.append("description", carAd.description); //
+  data.append("mileage", carAd.mileage); //
+  data.append("location", carAd.location); //
+  data.append("longitude", carAd.longitude); //
+  data.append("latitude", carAd.latitude); //
 
   carAd.images.forEach((image, index) =>
     data.append("images", {
@@ -39,12 +39,30 @@ export const addCarAd = (carAd, onUploadProgress) => {
   });
 };
 
-const getSingleAd = (adId) => client.get(`${endpoint}/getadbyid?adId=${adId}`);
+const getSingleAd = (adId) =>
+  client.get(`${endpoint}/getadbyid`, {
+    params: {
+      adId,
+    },
+  });
 
 const getAds = (userId, pageNumber, pageSize) =>
-  client.get(
-    `${endpoint}/getuseradspaginated?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-  );
+  client.get(`${endpoint}/getuseradspaginated`, {
+    params: {
+      userId,
+      pageNumber,
+      pageSize,
+    },
+  });
+
+//?userId=${userId}&pageNumber=${pageNumber}&pageSize=${pageSize}
+
+const check = () =>
+  client.get("/games", {
+    params: {
+      ordering: "-released",
+    },
+  });
 
 export default {
   addCarAd,
