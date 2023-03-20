@@ -13,6 +13,7 @@ export default Object.freeze({
   BLOG_LIST: "BlogsList",
   BLOG_LIST_DETAILS: "BlogsListDetails",
   BLOG_EDIT: "BlogEdit",
+  POST_EDIT: "PostEdit",
   BIDS_LIST: "BidsList",
   RECEIVED: "ReceivedS",
   RECEIVED_DETAILS: "RecievedDetails",

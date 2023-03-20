@@ -6,6 +6,7 @@ import BlogsList from "../screens/BlogsList";
 import BlogsListDetails from "../screens/BlogsListDetails";
 import routes from "./routes";
 import BlogEditScreen from "../screens/BlogEditScreen";
+import PostEditScreen from "../screens/PostEditScreen";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -26,6 +27,7 @@ const BlogsNavigator = () => {
         options={options}
       />
       <Stack.Screen name={routes.BLOG_EDIT} component={BlogEditScreen} />
+      <Stack.Screen name={routes.POST_EDIT} component={PostEditScreen} />
     </Stack.Navigator>
   );
 };
