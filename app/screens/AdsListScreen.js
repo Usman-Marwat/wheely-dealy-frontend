@@ -10,7 +10,6 @@ import React, { useEffect } from "react";
 import { faker } from "@faker-js/faker";
 import { SharedElement } from "react-navigation-shared-element";
 
-import Screen from "../components/Screen";
 import routes from "../navigation/routes";
 import MenuFoldButton from "../navigation/MenuFoldButton";
 import { Button } from "react-native";
@@ -56,11 +55,12 @@ const data = [
 const fakerData = data.map((item, index) => ({
   ...item,
   key: faker.datatype.uuid(),
-  model: faker.commerce.product(),
+  model: faker.vehicle.manufacturer(),
+  price: faker.commerce.price(),
   description: [...Array(2).keys()]
-    .map(faker.commerce.productDescription)
+    .map(faker.vehicle.vehicle)
     .join(". ")
-    .substring(0, 20),
+    .substring(0, 30),
 }));
 const ITEM_SIZE = 120;
 const BG_COLOR = "#C1CEE077";
@@ -93,6 +93,9 @@ const AdsListScreen = ({ navigation }) => {
                   </SharedElement>
                   <SharedElement id={`item.${item.key}.description`}>
                     <Text style={styles.description}>{item.description}</Text>
+                  </SharedElement>
+                  <SharedElement>
+                    <Text style={styles.price}>$ {item.price}</Text>
                   </SharedElement>
                 </View>
                 <SharedElement
@@ -141,5 +144,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     position: "absolute",
+  },
+  price: {
+    fontSize: 12,
+    fontWeight: "700",
+    opacity: 0.7,
+    position: "absolute",
+    top: SPACING + 37,
   },
 });

@@ -23,6 +23,7 @@ const AdsNavigator = () => {
             { id: `item.${item.key}.modal` },
             { id: `item.${item.key}.image` },
             { id: `item.${item.key}.description` },
+            { id: `item.${item.key}.price` },
             { id: `item.${item.key}.team` },
           ];
         }}

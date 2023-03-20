@@ -33,12 +33,13 @@ const data = [
 
 const tabs = [
   "All",
-  "Building",
-  "Plumbing",
-  "Electrician",
-  "Painting",
-  "Cleaning",
-  "Something",
+  "Filter-1",
+  "Filter-2",
+  "Filter-3",
+  "Filter-4",
+  "Filter-5",
+  "Filter-6",
+  "Filter-7",
 ];
 const fakerData = data.map((item, index) => ({
   ...item,

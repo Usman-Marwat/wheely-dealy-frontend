@@ -18,7 +18,6 @@ import AppModal from "../components/AppModal";
 import BackButton from "../navigation/BackButton";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
-import Screen from "../components/Screen";
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -57,6 +56,9 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
           </SharedElement>
           <SharedElement id={`item.${item.key}.description`}>
             <Text style={styles.description}>{item.description}</Text>
+          </SharedElement>
+          <SharedElement>
+            <Text style={styles.price}>$ {item.price}</Text>
           </SharedElement>
         </View>
         <AnimatableScrollview
@@ -126,6 +128,13 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "700",
     position: "absolute",
+  },
+  price: {
+    fontSize: 18,
+    fontWeight: "700",
+    opacity: 0.7,
+    position: "absolute",
+    top: SPACING + 57,
   },
   swatch: {
     height: 56,
