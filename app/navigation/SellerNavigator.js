@@ -62,7 +62,7 @@ const CustomerNavigator = () => {
               component={ReceivedNavigator}
             />
             <DrawerNavigator.Screen
-              name="Blog List"
+              name="Blogs & Posts"
               component={BlogsNavigator}
             />
             <DrawerNavigator.Screen name="Chat" component={RootNavigator} />

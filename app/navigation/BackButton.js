@@ -4,7 +4,11 @@ import { useNavigation } from "@react-navigation/native";
 
 import Icon from "../components/Icon";
 
-const BackButton = ({ iconName = "chevron-left", containerStyle }) => {
+const BackButton = ({
+  iconName = "chevron-left",
+  iconBg = "#fff",
+  containerStyle,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -15,7 +19,7 @@ const BackButton = ({ iconName = "chevron-left", containerStyle }) => {
       <Icon
         family="mci"
         name={iconName}
-        backgroundColor="#fff"
+        backgroundColor={iconBg}
         iconColor="#222"
         size={34}
       />

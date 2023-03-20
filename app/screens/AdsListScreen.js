@@ -14,6 +14,7 @@ import { SharedElement } from "react-navigation-shared-element";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
 import MenuFoldButton from "../navigation/MenuFoldButton";
+import TouchableIcon from "../components/TouchableIcon";
 
 faker.seed(1);
 
@@ -81,11 +82,7 @@ const AdsListScreen = ({ navigation }) => {
   return (
     <View style={{ paddingBottom: 10 }}>
       <MenuFoldButton />
-      <Button
-        title="Add"
-        color={colors.medium}
-        onPress={() => navigation.navigate(routes.ADS_EDIT)}
-      />
+
       {/* <View>
         <FlatList
           data={tabs}
@@ -159,6 +156,14 @@ const AdsListScreen = ({ navigation }) => {
           );
         }}
       />
+      <View style={styles.plusButton}>
+        <TouchableIcon
+          name="plus"
+          size={50}
+          iconColor="black"
+          onPress={() => navigation.navigate(routes.ADS_EDIT)}
+        ></TouchableIcon>
+      </View>
     </View>
   );
 };
@@ -206,5 +211,12 @@ const styles = StyleSheet.create({
   },
   pillText: {
     fontWeight: "700",
+  },
+  plusButton: {
+    position: "absolute",
+    bottom: 10,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });

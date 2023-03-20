@@ -14,6 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { SharedElement } from "react-navigation-shared-element";
 import * as Animatable from "react-native-animatable";
 
+import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import AppModal from "../components/AppModal";
 import BackButton from "../navigation/BackButton";
 import colors from "../config/colors";
@@ -36,7 +37,13 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <BackButton />
+      <BackButton
+        iconBg={colors.medium}
+        containerStyle={{
+          width: "100%",
+          padding: 5,
+        }}
+      />
       <View>
         <SharedElement id={`item.${item.key}.image`} style={styles.image}>
           <Image
@@ -100,7 +107,24 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
         visible={visible}
         heading="Give Your bid"
         onVisible={() => setVisible(false)}
-      ></AppModal>
+      >
+        <AppForm
+          initialValues={{
+            bid: "",
+          }}
+          onSubmit={() => console.log("hi")}
+        >
+          <AppFormField
+            width={"70%"}
+            icon="money"
+            family="fontawesome"
+            name="bid"
+            placeholder="Bid Amount"
+            // backgroundColor={colors.light}
+          />
+          <SubmitButton title="Submit" />
+        </AppForm>
+      </AppModal>
     </>
   );
 };
