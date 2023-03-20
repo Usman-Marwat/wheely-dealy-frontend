@@ -10,6 +10,10 @@ export default Object.freeze({
 
   ADS_LIST_DETAIL: "AdsListDetail",
   ADS_EDIT: "AdsEdit",
+  BLOG_LIST: "BlogsList",
+  BLOG_LIST_DETAILS: "BlogsListDetails",
   BLOG_EDIT: "BlogEdit",
   BIDS_LIST: "BidsList",
+  RECEIVED: "ReceivedS",
+  RECEIVED_DETAILS: "RecievedDetails",
 });

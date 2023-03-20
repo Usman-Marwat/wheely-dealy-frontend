@@ -16,6 +16,7 @@ import { SharedElement } from "react-navigation-shared-element";
 import MenuFoldButton from "../navigation/MenuFoldButton";
 import Screen from "../components/Screen";
 import routes from "../navigation/routes";
+import AppModal from "../components/AppModal";
 
 faker.seed(1);
 const colors = niceColors[1];
@@ -31,16 +32,6 @@ const data = [
   { image: "https://cdn-icons-png.flaticon.com/512/4982/4982394.png" },
 ];
 
-const tabs = [
-  "All",
-  "Filter-1",
-  "Filter-2",
-  "Filter-3",
-  "Filter-4",
-  "Filter-5",
-  "Filter-6",
-  "Filter-7",
-];
 const fakerData = data.map((item, index) => ({
   ...item,
   key: faker.datatype.uuid(),
@@ -64,52 +55,14 @@ const CELL_WIDTH = width * 0.64;
 const CELL_HEIGHT = CELL_WIDTH * 1.4;
 const FULL_SIZE = CELL_WIDTH + SPACING * 2;
 
-const ReceivedContracts = ({ navigation }) => {
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+const Received = ({ navigation }) => {
+  const [visible, setVisible] = useState(false);
 
   return (
     <>
       <MenuFoldButton />
 
       <Screen style={{ paddingTop: 40 }}>
-        <Button
-          title="Add Blog"
-          onPress={() => navigation.navigate(routes.BLOG_EDIT)}
-        />
-        <View>
-          <FlatList
-            data={tabs}
-            horizontal
-            style={{ flexGrow: 1, marginHorizontal: 50 }}
-            contentContainerStyle={{ padding: SPACING }}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => `${item}-${index}`}
-            renderItem={({ item: tab }) => {
-              return (
-                <TouchableOpacity onPress={() => setSelectedTab(tab)}>
-                  <View
-                    style={[
-                      styles.pill,
-                      {
-                        backgroundColor:
-                          selectedTab === tab ? ORANGE : "transparent",
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.pillText,
-                        { color: selectedTab === tab ? "white" : "#000" },
-                      ]}
-                    >
-                      {tab}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </View>
         <View>
           <FlatList
             data={fakerData}
@@ -163,6 +116,9 @@ const ReceivedContracts = ({ navigation }) => {
             }}
           />
         </View>
+
+        <Button title="Add Car Requirement" onPress={() => setVisible(true)} />
+
         <View>
           <FlatList
             data={[...Array(20).keys()]}
@@ -175,7 +131,7 @@ const ReceivedContracts = ({ navigation }) => {
                     height: 50,
                     width: "80%",
                     marginVertical: 30,
-                    backgroundColor: "coral",
+                    backgroundColor: "orange",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
@@ -187,11 +143,16 @@ const ReceivedContracts = ({ navigation }) => {
           />
         </View>
       </Screen>
+      <AppModal
+        visible={visible}
+        heading="Add Your Car Requirements"
+        onVisible={() => setVisible(false)}
+      ></AppModal>
     </>
   );
 };
 
-export default ReceivedContracts;
+export default Received;
 
 const styles = StyleSheet.create({
   itemCell: {
@@ -213,14 +174,7 @@ const styles = StyleSheet.create({
     right: 7,
     bottom: 20,
   },
-  pill: {
-    paddingHorizontal: SPACING,
-    paddingVertical: SPACING / 2,
-    borderRadius: 12,
-  },
-  pillText: {
-    fontWeight: "700",
-  },
+
   subType: {
     color: "grey",
   },

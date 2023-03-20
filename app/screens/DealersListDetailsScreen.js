@@ -12,7 +12,7 @@ import { SharedElement } from "react-navigation-shared-element";
 
 import Icon from "../components/Icon";
 import colors from "../config/colors";
-import BackButton from "../navigation/BackButton";
+import Header from "../components/Header";
 
 const { height, width } = Dimensions.get("window");
 const ITEM_HEIGHT = height * 0.18;
@@ -30,7 +30,7 @@ const DealersListDetailsScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <BackButton />
+      <Header />
       <View style={styles.container}>
         <SharedElement
           id={`item.${item.key}.bg`}

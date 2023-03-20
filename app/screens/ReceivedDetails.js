@@ -4,6 +4,7 @@ import * as Animatable from "react-native-animatable";
 import { SharedElement } from "react-navigation-shared-element";
 
 import Screen from "../components/Screen";
+import Header from "../components/Header";
 
 const { height, width } = Dimensions.get("window");
 const SPACING = 10;
@@ -24,11 +25,12 @@ const animations = [
   createAnimation(-100),
 ];
 
-const ReceivedContractDetails = ({ navigation, route }) => {
+const ReceivedDetails = ({ navigation, route }) => {
   const { item } = route.params;
 
   return (
     <Screen>
+      <Header />
       <SharedElement
         id={`item.${item.key}.bg`}
         style={[
@@ -94,7 +96,7 @@ const ReceivedContractDetails = ({ navigation, route }) => {
   );
 };
 
-export default ReceivedContractDetails;
+export default ReceivedDetails;
 
 const styles = StyleSheet.create({
   description: {

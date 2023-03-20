@@ -11,7 +11,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { SharedElement } from "react-navigation-shared-element";
 
 import MenuFoldButton from "../navigation/MenuFoldButton";
-import AppModal from "../components/AppModal";
+import routes from "../navigation/routes";
 
 const data = [
   {
@@ -58,9 +58,8 @@ const ITEM_HEIGHT = s * 1.5;
 const RADIUS = 18;
 const FULL_SIZE = s + SPACING * 2;
 
-const Stockpile = ({ navigation }) => {
+const BlogsList = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [visible, setVisible] = useState(false);
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
@@ -73,7 +72,6 @@ const Stockpile = ({ navigation }) => {
   const viewabilityConfigCallbackPairs = useRef([
     { viewabilityConfig, onViewableItemsChanged },
   ]);
-  console.log(currentIndex);
   return (
     <>
       <MenuFoldButton />
@@ -110,7 +108,7 @@ const Stockpile = ({ navigation }) => {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("StockpileDetailsScreen", { item });
+                  navigation.navigate(routes.BLOG_LIST_DETAILS, { item });
                 }}
                 style={styles.itemContainer}
               >
@@ -150,17 +148,15 @@ const Stockpile = ({ navigation }) => {
           }}
         />
       </View>
-      <Button title="Car Requriment" onPress={() => setVisible(true)} />
-      <AppModal
-        visible={visible}
-        heading="Add Your Car Requirements"
-        onVisible={() => setVisible(false)}
-      ></AppModal>
+      <Button
+        title="Write blog"
+        onPress={() => navigation.navigate(routes.BLOG_EDIT)}
+      />
     </>
   );
 };
 
-export default Stockpile;
+export default BlogsList;
 
 const styles = StyleSheet.create({
   itemContainer: {

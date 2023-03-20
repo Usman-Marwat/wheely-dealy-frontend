@@ -1,4 +1,5 @@
 import {
+  Button,
   FlatList,
   Image,
   StyleSheet,
@@ -6,18 +7,27 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { SharedElement } from "react-navigation-shared-element";
 
+import colors from "../config/colors";
 import routes from "../navigation/routes";
 import MenuFoldButton from "../navigation/MenuFoldButton";
-import { Button } from "react-native";
-import colors from "../config/colors";
 
 faker.seed(1);
 
 const SPACING = 10;
+const tabs = [
+  "All",
+  "Filter-1",
+  "Filter-2",
+  "Filter-3",
+  "Filter-4",
+  "Filter-5",
+  "Filter-6",
+  "Filter-7",
+];
 const data = [
   {
     image:
@@ -66,16 +76,53 @@ const ITEM_SIZE = 120;
 const BG_COLOR = "#C1CEE077";
 
 const AdsListScreen = ({ navigation }) => {
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+
   return (
-    <View>
+    <View style={{ paddingBottom: 10 }}>
       <MenuFoldButton />
       <Button
         title="Add"
         color={colors.medium}
         onPress={() => navigation.navigate(routes.ADS_EDIT)}
       />
+      {/* <View>
+        <FlatList
+          data={tabs}
+          horizontal
+          style={{ flexGrow: 1, marginHorizontal: 30 }}
+          contentContainerStyle={{ padding: SPACING }}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => `${item}-${index}`}
+          renderItem={({ item: tab }) => {
+            return (
+              <TouchableOpacity onPress={() => setSelectedTab(tab)}>
+                <View
+                  style={[
+                    styles.pill,
+                    {
+                      backgroundColor:
+                        selectedTab === tab ? "grey" : "transparent",
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.pillText,
+                      { color: selectedTab === tab ? "white" : "#000" },
+                    ]}
+                  >
+                    {tab}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View> */}
 
       <FlatList
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ padding: SPACING }}
         data={fakerData}
         keyExtractor={(item) => item.key}
@@ -150,6 +197,14 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     opacity: 0.7,
     position: "absolute",
-    top: SPACING + 37,
+    top: SPACING + 47,
+  },
+  pill: {
+    paddingHorizontal: SPACING,
+    paddingVertical: SPACING / 2,
+    borderRadius: 12,
+  },
+  pillText: {
+    fontWeight: "700",
   },
 });

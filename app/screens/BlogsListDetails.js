@@ -29,7 +29,7 @@ const zoomIn = {
   },
 };
 
-const StockpileDetails = ({ navigation, route }) => {
+const BlogsListDetails = ({ navigation, route }) => {
   const { item } = route.params;
 
   return (
@@ -79,7 +79,7 @@ const StockpileDetails = ({ navigation, route }) => {
   );
 };
 
-export default StockpileDetails;
+export default BlogsListDetails;
 
 const styles = StyleSheet.create({
   shopName: {

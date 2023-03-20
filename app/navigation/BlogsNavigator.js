@@ -1,27 +1,26 @@
 import React from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import ReceivedContracts from "../screens/ReceivedContracts";
-import ReceivedContractDetails from "../screens/ReceivedContractDetails";
 import { options } from "./navigationOptions";
-import BlogEditScreen from "../screens/BlogEditScreen";
+import BlogsList from "../screens/BlogsList";
+import BlogsListDetails from "../screens/BlogsListDetails";
 import routes from "./routes";
+import BlogEditScreen from "../screens/BlogEditScreen";
 
 const Stack = createSharedElementStackNavigator();
 
-export default function ReceivedContractNavigator() {
+const BlogsNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="RecievedContracts" component={ReceivedContracts} />
+      <Stack.Screen name={routes.BLOG_LIST} component={BlogsList} />
       <Stack.Screen
-        name="RecievedContractDetails"
-        component={ReceivedContractDetails}
+        name={routes.BLOG_LIST_DETAILS}
+        component={BlogsListDetails}
         sharedElements={(route) => {
           const { item } = route.params;
           return [
-            { id: `item.${item._id}.image` },
-            { id: `item.${item._id}.bg` },
-            { id: `item.${item._id}.meta` },
+            { id: `item.${item.key}.photo` },
+            { id: `item.${item.key}.shopName` },
           ];
         }}
         options={options}
@@ -29,4 +28,6 @@ export default function ReceivedContractNavigator() {
       <Stack.Screen name={routes.BLOG_EDIT} component={BlogEditScreen} />
     </Stack.Navigator>
   );
-}
+};
+
+export default BlogsNavigator;
