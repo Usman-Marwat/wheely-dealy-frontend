@@ -1,10 +1,10 @@
-import client from "./httpClient";
+import client from './httpClient';
 
-const endpoint = "/seller";
+const endpoint = '/seller';
 
 const getAccountTypes = () => client.get(`${endpoint}/getTypes`);
 
 export default {
-  getAccountTypes,
-  rateSeller,
+	getAccountTypes,
+	rateSeller,
 };
