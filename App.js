@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import AuthNavigator from './app/navigation/AuthNavigator';
 import AuthContext from './app/auth/context';
 import AppStarter from './app/start/AppStarter';
-// import authStorage from "./app/auth/storage";
+import authStorage from './app/auth/storage';
 import OfflineNotice from './app/components/OfflineNotice';
 
 SplashScreen.preventAutoHideAsync();
@@ -17,14 +17,21 @@ const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
 
 	const restoreUser = async () => {
-		// const user = await authStorage.getUser();
+		// await authStorage.removeToken();
+		const user = await authStorage.getUser();
 		// const user = {
 		//   name: "aman",
 		//   role: "Seller",
 		//   user_id: "63390ba766243cb0ff33ecd5",
 		//   image: "https://cdn-icons-png.flaticon.com/256/8662/8662305.png",
 		// };
-		if (user) setUser(user);
+		if (user)
+			setUser({
+				...user,
+				name: user[
+					'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+				],
+			});
 
 		setAppIsReady(true);
 	};

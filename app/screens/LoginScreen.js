@@ -33,7 +33,7 @@ const { width, height } = Dimensions.get('screen');
 const DURATION = 400;
 
 const validationSchema = Yup.object().shape({
-	email: Yup.string().required().email().label('Email'),
+	username: Yup.string().required().label('Username'),
 	password: Yup.string().required().min(4).label('Password'),
 });
 
@@ -44,15 +44,11 @@ function LoginScreen({ navigation, route }) {
 	const loginApi = useApi(authApi.login);
 	const { logIn } = useAuth();
 
-	const handleSubmit = async (userInfo) => {
-		// console.log(userInfo);
-		const user = {
-			name: 'aman',
-			role: 'Seller',
-			user_id: '63390ba766243cb0ff33ecd5',
-			image: 'https://cdn-icons-png.flaticon.com/256/8662/8662305.png',
-		};
-		setUser(user);
+	const handleSubmit = async (formData) => {
+		const { data } = await loginApi.request({ ...formData });
+		// authStorage.storeToken(data.token);
+		// setUser(data.user);
+		logIn(data.token);
 	};
 
 	return (
@@ -70,19 +66,16 @@ function LoginScreen({ navigation, route }) {
 					</View>
 					<Animatable.View animation="fadeInUp" delay={DURATION}>
 						<AppForm
-							initialValues={{ email: '', password: '' }}
+							initialValues={{ username: '', password: '' }}
 							onSubmit={handleSubmit}
 							validationSchema={validationSchema}
 						>
 							<ErrorMessage error={error} visible={error} />
 							<AppFormField
-								autoCapitalize="none"
 								autoCorrect={false}
-								icon="email"
-								keyboardType="email-address"
-								name="email"
-								placeholder="Email"
-								textContentType="emailAddress"
+								icon="account"
+								name="username"
+								placeholder="Username"
 							/>
 							<AppFormField
 								autoCapitalize="none"
@@ -147,3 +140,11 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
+
+// const user = {
+// 	name: 'aman',
+// 	role: 'Seller',
+// 	user_id: '63390ba766243cb0ff33ecd5',
+// 	image: 'https://cdn-icons-png.flaticon.com/256/8662/8662305.png',
+// };
+// setUser(user);

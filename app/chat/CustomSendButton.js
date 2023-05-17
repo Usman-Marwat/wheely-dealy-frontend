@@ -1,20 +1,20 @@
-import React from "react";
-import { SendButton, useMessageInputContext } from "stream-chat-expo";
+import React from 'react';
+import { SendButton, useMessageInputContext } from 'stream-chat-expo';
 
-import messagesApi from "../api/messages";
+import messagesApi from '../api/messages';
 
 export const CustomSendButton = ({ sender, targetIds }) => {
-  const { sendMessage, text } = useMessageInputContext();
+	const { sendMessage, text } = useMessageInputContext();
 
-  const handleMessage = async () => {
-    messagesApi.send(
-      "ExponentPushToken[xp6616HRvXwaFCf9cs2lSA]",
-      "Chat Notification",
-      `From the sender ${sender}`,
-      text
-    );
-    sendMessage();
-  };
+	const handleMessage = () => {
+		// messagesApi.send(
+		//   "ExponentPushToken[xp6616HRvXwaFCf9cs2lSA]",
+		//   "Chat Notification",
+		//   `From the sender ${sender}`,
+		//   text
+		// );
+		sendMessage();
+	};
 
-  return <SendButton sendMessage={handleMessage} />;
+	return <SendButton sendMessage={handleMessage} />;
 };
