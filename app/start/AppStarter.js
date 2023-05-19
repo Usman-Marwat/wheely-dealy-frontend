@@ -91,7 +91,6 @@ const images = [
 
 const AppStarter = ({ user }) => {
 	const randomImage = images[Math.floor(Math.random() * images.length)];
-	console.log(randomImage);
 
 	const connectUser = async (id, name, image = randomImage) => {
 		await client.connectUser({ id, name, image }, client.devToken(id));

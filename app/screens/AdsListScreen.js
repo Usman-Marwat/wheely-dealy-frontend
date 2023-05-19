@@ -17,6 +17,9 @@ import MenuFoldButton from '../navigation/MenuFoldButton';
 import TouchableIcon from '../components/TouchableIcon';
 import useApi from '../hooks/useApi';
 import dashboard from '../api/dashboard';
+import userAds from '../api/ad';
+import FilterTabs from '../components/FilterTabs';
+import useAuth from '../auth/useAuth';
 
 faker.seed(1);
 
@@ -81,52 +84,27 @@ const BG_COLOR = '#C1CEE077';
 const AdsListScreen = ({ navigation }) => {
 	const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
+	const { user } = useAuth();
+
 	const homeContentApi = useApi(dashboard.getHomeContent);
+	const userAdsApi = useApi(userAds.getAds);
 
 	useEffect(() => {
-		homeContentApi.request('H');
+		homeContentApi.request();
+		userAdsApi.request(user.user_id);
 	}, []);
 
-	console.log(homeContentApi.data);
+	console.log(userAdsApi.data?.items[0].imageUrls);
 
 	return (
 		<View style={{ paddingBottom: 10 }}>
 			<MenuFoldButton />
 
-			{/* <View>
-        <FlatList
-          data={tabs}
-          horizontal
-          style={{ flexGrow: 1, marginHorizontal: 30 }}
-          contentContainerStyle={{ padding: SPACING }}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => `${item}-${index}`}
-          renderItem={({ item: tab }) => {
-            return (
-              <TouchableOpacity onPress={() => setSelectedTab(tab)}>
-                <View
-                  style={[
-                    styles.pill,
-                    {
-                      backgroundColor:
-                        selectedTab === tab ? "grey" : "transparent",
-                    },
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.pillText,
-                      { color: selectedTab === tab ? "white" : "#000" },
-                    ]}
-                  >
-                    {tab}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View> */}
+			<FilterTabs
+				tabs={tabs}
+				selectedTab={selectedTab}
+				onSelectTab={(tab) => setSelectedTab(tab)}
+			/>
 
 			<FlatList
 				showsVerticalScrollIndicator={false}
@@ -166,14 +144,14 @@ const AdsListScreen = ({ navigation }) => {
 					);
 				}}
 			/>
-			<View style={styles.plusButton}>
+			{/* <View style={styles.plusButton}>
 				<TouchableIcon
 					name="plus"
 					size={50}
 					iconColor="black"
 					onPress={() => navigation.navigate(routes.ADS_EDIT)}
 				></TouchableIcon>
-			</View>
+			</View> */}
 		</View>
 	);
 };
@@ -214,14 +192,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		top: SPACING + 47,
 	},
-	pill: {
-		paddingHorizontal: SPACING,
-		paddingVertical: SPACING / 2,
-		borderRadius: 12,
-	},
-	pillText: {
-		fontWeight: '700',
-	},
+
 	plusButton: {
 		position: 'absolute',
 		bottom: 10,
