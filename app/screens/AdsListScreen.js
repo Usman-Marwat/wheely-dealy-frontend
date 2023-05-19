@@ -15,6 +15,8 @@ import colors from '../config/colors';
 import routes from '../navigation/routes';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import TouchableIcon from '../components/TouchableIcon';
+import useApi from '../hooks/useApi';
+import dashboard from '../api/dashboard';
 
 faker.seed(1);
 
@@ -78,6 +80,14 @@ const BG_COLOR = '#C1CEE077';
 
 const AdsListScreen = ({ navigation }) => {
 	const [selectedTab, setSelectedTab] = useState(tabs[0]);
+
+	const homeContentApi = useApi(dashboard.getHomeContent);
+
+	useEffect(() => {
+		homeContentApi.request('H');
+	}, []);
+
+	console.log(homeContentApi.data);
 
 	return (
 		<View style={{ paddingBottom: 10 }}>
