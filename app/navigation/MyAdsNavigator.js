@@ -1,18 +1,18 @@
 import React from 'react';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
+import AdsEditScreen from '../screens/AdsEditScreen';
+import MyAdsListScreen from '../screens/MyAdsListScreen';
 import AdsListDetailsScreen from '../screens/AdsListDetailsScreen';
-import AdsListScreen from '../screens/AdsListScreen';
-import BidsListScreen from '../screens/BidsListScreen';
 import { options } from './navigationOptions';
 import routes from './routes';
 
 const Stack = createSharedElementStackNavigator();
 
-const HomeNavigator = () => {
+const MyAdsNavigator = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="AdsList" component={AdsListScreen} />
+			<Stack.Screen name="MyAdsList" component={MyAdsListScreen} />
 			<Stack.Screen
 				name={routes.ADS_LIST_DETAIL}
 				component={AdsListDetailsScreen}
@@ -23,14 +23,13 @@ const HomeNavigator = () => {
 						{ id: `item.${item.key}.image` },
 						{ id: `item.${item.key}.description` },
 						{ id: `item.${item.key}.price` },
-						{ id: `item.${item.key}.team` },
 					];
 				}}
 				options={options}
 			/>
-			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
+			<Stack.Screen name={routes.ADS_EDIT} component={AdsEditScreen} />
 		</Stack.Navigator>
 	);
 };
 
-export default HomeNavigator;
+export default MyAdsNavigator;

@@ -15,7 +15,7 @@ import ReceivedContractNavigator from './ReceivedNavigator';
 import useNotifications from '../hooks/useNotifications';
 import BlogsNavigator from './BlogsNavigator';
 import ReceivedNavigator from './ReceivedNavigator';
-import PostAdNavigator from './PostAdNavigator';
+import MyAdsNavigator from './MyAdsNavigator';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -55,10 +55,7 @@ const CustomerNavigator = () => {
 					>
 						<DrawerNavigator.Screen name="Home" component={HomeNavigator} />
 
-						<DrawerNavigator.Screen
-							name="Post Ad"
-							component={PostAdNavigator}
-						/>
+						<DrawerNavigator.Screen name="My Ads" component={MyAdsNavigator} />
 						<DrawerNavigator.Screen
 							name="Dealers"
 							component={DealersListNavigator}

@@ -27,6 +27,7 @@ import generalApi from '../api/general';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import useAuth from '../auth/useAuth';
+import Header from '../components/Header';
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required().min(1).label('Title'),
@@ -128,14 +129,17 @@ function AdsEditScreen() {
 
 	if (!adsDataApi.data)
 		return (
-			<View style={styles.noTypes}>
-				<Text>Fetching Types data</Text>
-			</View>
+			<>
+				<Header heading="Create Ad" />
+				<View style={styles.noTypes}>
+					<Text>Fetching Types data</Text>
+				</View>
+			</>
 		);
 
 	return (
 		<>
-			<MenuFoldButton />
+			<Header heading="Create Ad" />
 			<View style={styles.container}>
 				<KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
 					<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
