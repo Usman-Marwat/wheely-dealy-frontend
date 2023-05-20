@@ -1,5 +1,6 @@
+import { faker } from '@faker-js/faker';
+import { useEffect, useState } from 'react';
 import {
-	Button,
 	FlatList,
 	Image,
 	StyleSheet,
@@ -7,33 +8,18 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { faker } from '@faker-js/faker';
 import { SharedElement } from 'react-navigation-shared-element';
 
-import colors from '../config/colors';
-import routes from '../navigation/routes';
-import MenuFoldButton from '../navigation/MenuFoldButton';
-import TouchableIcon from '../components/TouchableIcon';
-import useApi from '../hooks/useApi';
 import dashboard from '../api/dashboard';
-import userAds from '../api/ad';
 import FilterTabs from '../components/FilterTabs';
-import useAuth from '../auth/useAuth';
+import useApi from '../hooks/useApi';
+import MenuFoldButton from '../navigation/MenuFoldButton';
+import routes from '../navigation/routes';
 
 faker.seed(1);
 
 const SPACING = 10;
-const tabs = [
-	'All',
-	'Filter-1',
-	'Filter-2',
-	'Filter-3',
-	'Filter-4',
-	'Filter-5',
-	'Filter-6',
-	'Filter-7',
-];
+const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 const data = [
 	{
 		image:
@@ -81,20 +67,14 @@ const fakerData = data.map((item, index) => ({
 const ITEM_SIZE = 120;
 const BG_COLOR = '#C1CEE077';
 
-const AdsListScreen = ({ navigation }) => {
+const HomeDashboardScreen = ({ navigation }) => {
 	const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
-	const { user } = useAuth();
-
 	const homeContentApi = useApi(dashboard.getHomeContent);
-	const userAdsApi = useApi(userAds.getAds);
 
 	useEffect(() => {
 		homeContentApi.request();
-		userAdsApi.request(user.user_id);
 	}, []);
-
-	console.log(userAdsApi.data?.items[0].imageUrls);
 
 	return (
 		<View style={{ paddingBottom: 10 }}>
@@ -106,57 +86,51 @@ const AdsListScreen = ({ navigation }) => {
 				onSelectTab={(tab) => setSelectedTab(tab)}
 			/>
 
-			<FlatList
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ padding: SPACING }}
-				data={fakerData}
-				keyExtractor={(item) => item.key}
-				renderItem={({ item }) => {
-					return (
-						<TouchableOpacity
-							onPress={() =>
-								navigation.navigate(routes.ADS_LIST_DETAIL, { item })
-							}
-						>
-							<View style={styles.item}>
-								<View>
-									<SharedElement id={`item.${item.key}.modal`}>
-										<Text style={styles.model}>{item.model}</Text>
-									</SharedElement>
-									<SharedElement id={`item.${item.key}.description`}>
-										<Text style={styles.description}>{item.description}</Text>
-									</SharedElement>
-									<SharedElement>
-										<Text style={styles.price}>$ {item.price}</Text>
+			{selectedTab === 'Vehicles' && (
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{ padding: SPACING }}
+					data={fakerData}
+					keyExtractor={(item) => item.key}
+					renderItem={({ item }) => {
+						return (
+							<TouchableOpacity
+								onPress={() =>
+									navigation.navigate(routes.ADS_LIST_DETAIL, { item })
+								}
+							>
+								<View style={styles.item}>
+									<View>
+										<SharedElement id={`item.${item.key}.modal`}>
+											<Text style={styles.model}>{item.model}</Text>
+										</SharedElement>
+										<SharedElement id={`item.${item.key}.description`}>
+											<Text style={styles.description}>{item.description}</Text>
+										</SharedElement>
+										<SharedElement>
+											<Text style={styles.price}>$ {item.price}</Text>
+										</SharedElement>
+									</View>
+									<SharedElement
+										id={`item.${item.key}.image`}
+										style={styles.image}
+									>
+										<Image
+											source={{ uri: item.image }}
+											style={{ flex: 1, resizeMode: 'contain' }}
+										/>
 									</SharedElement>
 								</View>
-								<SharedElement
-									id={`item.${item.key}.image`}
-									style={styles.image}
-								>
-									<Image
-										source={{ uri: item.image }}
-										style={{ flex: 1, resizeMode: 'contain' }}
-									/>
-								</SharedElement>
-							</View>
-						</TouchableOpacity>
-					);
-				}}
-			/>
-			{/* <View style={styles.plusButton}>
-				<TouchableIcon
-					name="plus"
-					size={50}
-					iconColor="black"
-					onPress={() => navigation.navigate(routes.ADS_EDIT)}
-				></TouchableIcon>
-			</View> */}
+							</TouchableOpacity>
+						);
+					}}
+				/>
+			)}
 		</View>
 	);
 };
 
-export default AdsListScreen;
+export default HomeDashboardScreen;
 
 const styles = StyleSheet.create({
 	description: {
@@ -191,13 +165,5 @@ const styles = StyleSheet.create({
 		opacity: 0.7,
 		position: 'absolute',
 		top: SPACING + 47,
-	},
-
-	plusButton: {
-		position: 'absolute',
-		bottom: 10,
-		width: '100%',
-		flexDirection: 'row',
-		justifyContent: 'center',
 	},
 });

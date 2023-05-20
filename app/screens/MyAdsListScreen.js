@@ -15,6 +15,7 @@ import TouchableIcon from '../components/TouchableIcon';
 import useApi from '../hooks/useApi';
 import userAds from '../api/ad';
 import useAuth from '../auth/useAuth';
+import ActivityIndicator from '../components/ActivityIndicator';
 
 const SPACING = 10;
 const ITEM_SIZE = 120;
@@ -29,17 +30,15 @@ const MyAdsListScreen = ({ navigation }) => {
 		userAdsApi.request(user.user_id);
 	}, []);
 
-	if (!userAdsApi.data) return;
-
 	return (
 		<>
+			<ActivityIndicator visible={userAdsApi.loading}></ActivityIndicator>
+			<MenuFoldButton />
 			<View style={styles.container}>
-				<MenuFoldButton />
-
 				<FlatList
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={{ padding: SPACING }}
-					data={userAdsApi.data.items}
+					data={userAdsApi.data?.items}
 					keyExtractor={(item) => item.alternateKey}
 					renderItem={({ item }) => {
 						return (

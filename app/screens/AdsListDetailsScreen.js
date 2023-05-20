@@ -1,23 +1,23 @@
+import { AntDesign } from '@expo/vector-icons';
+import niceColors from 'nice-color-palettes';
+import { useState } from 'react';
 import {
+	Button,
+	Dimensions,
 	Image,
+	ScrollView,
 	StyleSheet,
 	Text,
-	View,
-	Dimensions,
-	ScrollView,
 	TouchableOpacity,
-	Button,
+	View,
 } from 'react-native';
-import React, { useState } from 'react';
-import niceColors from 'nice-color-palettes';
-import { AntDesign } from '@expo/vector-icons';
-import { SharedElement } from 'react-navigation-shared-element';
 import * as Animatable from 'react-native-animatable';
+import { SharedElement } from 'react-navigation-shared-element';
 
-import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import AppModal from '../components/AppModal';
-import BackButton from '../navigation/BackButton';
+import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
+import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);

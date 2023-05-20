@@ -1,18 +1,17 @@
-import React from 'react';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
 import AdsListDetailsScreen from '../screens/AdsListDetailsScreen';
-import HomeDashboardScreen from '../screens/HomeDashboardScreen';
 import BidsListScreen from '../screens/BidsListScreen';
+import ExploreDashboardScreen from '../screens/ExploreDashboardScreen';
 import { options } from './navigationOptions';
 import routes from './routes';
 
 const Stack = createSharedElementStackNavigator();
 
-const HomeNavigator = () => {
+const ExploreNavigator = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="AdsList" component={HomeDashboardScreen} />
+			<Stack.Screen name="AdsList" component={ExploreDashboardScreen} />
 			<Stack.Screen
 				name={routes.ADS_LIST_DETAIL}
 				component={AdsListDetailsScreen}
@@ -33,4 +32,4 @@ const HomeNavigator = () => {
 	);
 };
 
-export default HomeNavigator;
+export default ExploreNavigator;
