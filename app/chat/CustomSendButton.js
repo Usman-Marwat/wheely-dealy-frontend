@@ -7,12 +7,12 @@ export const CustomSendButton = ({ sender, targetIds }) => {
 	const { sendMessage, text } = useMessageInputContext();
 
 	const handleMessage = () => {
-		// messagesApi.send(
-		//   "ExponentPushToken[xp6616HRvXwaFCf9cs2lSA]",
-		//   "Chat Notification",
-		//   `From the sender ${sender}`,
-		//   text
-		// );
+		messagesApi.send(
+			'ExponentPushToken[xp6616HRvXwaFCf9cs2lSA]',
+			'Chat Notification',
+			`From the sender ${sender}`,
+			text
+		);
 		sendMessage();
 	};
 
