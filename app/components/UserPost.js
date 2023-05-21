@@ -6,7 +6,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { AppForm, AppFormField, SubmitButton } from './forms';
 
-const UserPost = ({ post, selected, onSelected }) => {
+const UserPost = ({ post, selected, onSelected, onLike }) => {
 	const handlePayment = () => {};
 
 	return (
@@ -17,13 +17,22 @@ const UserPost = ({ post, selected, onSelected }) => {
 					<Text style={styles.icon}>👤</Text>
 				</View>
 				<Text style={styles.username}>{post.user.name}</Text>
-				<Text style={styles.date}>date</Text>
+				<Text style={styles.date}>
+					{new Date(post.postedDateTime).toDateString()}
+				</Text>
 			</View>
 			<Text style={styles.content}>{post.text}</Text>
 
 			<View style={styles.actionsContainer}>
-				<TouchableOpacity style={styles.action}>
-					<AntDesign name="like2" size={20} color="#888" />
+				<TouchableOpacity
+					style={styles.action}
+					onPress={() => onLike(post.alternateKey)}
+				>
+					<AntDesign
+						name={post.likedByCurrentuser ? 'like1' : 'like2'}
+						size={20}
+						color="#888"
+					/>
 					<Text style={styles.actionText}>{post.likeCount}</Text>
 				</TouchableOpacity>
 				<TouchableOpacity

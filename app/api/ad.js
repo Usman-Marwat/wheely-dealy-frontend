@@ -18,8 +18,11 @@ const getServiceAds = (userId, pageNumber = 1, pageSize = 10) =>
 		pageSize,
 	});
 
+const likePost = (postId) => client.post(`${endpoint}/like-post`, { postId });
+
 export default {
 	getAds,
 	getSingleAd,
 	getServiceAds,
+	likePost,
 };

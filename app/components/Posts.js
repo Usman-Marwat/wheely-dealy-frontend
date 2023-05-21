@@ -5,7 +5,7 @@ import UserPost from './UserPost';
 import Screen from './Screen';
 import { useState } from 'react';
 
-const Posts = ({ posts }) => {
+const Posts = ({ posts, onLike }) => {
 	const [selected, setSelected] = useState(null);
 
 	const handlePostDetails = (post) => {
@@ -26,6 +26,7 @@ const Posts = ({ posts }) => {
 							post={item}
 							selected={selected}
 							onSelected={(post) => handlePostDetails(post)}
+							onLike={onLike}
 						/>
 					);
 				}}
