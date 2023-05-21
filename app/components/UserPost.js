@@ -1,14 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import * as Animatable from 'react-native-animatable';
 
 import { AppForm, AppFormField, SubmitButton } from './forms';
 
-const UserPost = ({ post, selected, onSelected, onLike }) => {
-	const handlePayment = () => {};
-
+const UserPost = ({
+	post,
+	selected,
+	onSelected,
+	onLike,
+	onShare,
+	onComment,
+}) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -42,8 +47,11 @@ const UserPost = ({ post, selected, onSelected, onLike }) => {
 					<Ionicons name="md-chatbubble-outline" size={20} color="#888" />
 					<Text style={styles.actionText}>{post.commentCount}</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.action}>
-					<Feather name="share" size={20} color="#888" />
+				<TouchableOpacity
+					style={styles.action}
+					onPress={() => onShare(post.alternateKey)}
+				>
+					<Ionicons name="share-outline" size={20} color="#888" />
 					<Text style={styles.actionText}>{post.shareCount}</Text>
 				</TouchableOpacity>
 			</View>
@@ -51,20 +59,25 @@ const UserPost = ({ post, selected, onSelected, onLike }) => {
 				<Animatable.View
 					animation="fadeInLeft"
 					delay={100}
-					style={styles.paymentForm}
+					style={styles.commentForm}
 				>
 					<Text>Current Payment: {'item.payment' || 'Not made'}</Text>
+					{post.comments.map((comment, index) => (
+						<Text>
+							comment:{index}
+							{comment}
+						</Text>
+					))}
 					<AppForm
 						initialValues={{ comment: '' }}
-						onSubmit={handlePayment}
+						onSubmit={(text) => onComment(post.alternateKey, text.comment)}
 						validationSchema={Yup.object().shape({
-							comment: Yup.number().required().min(10000).label('Quantity'),
+							comment: Yup.string().required().label('Comment'),
 						})}
 					>
 						<View style={{ flexDirection: 'row' }}>
 							<AppFormField
 								width="80%"
-								keyboardType="numeric"
 								name="comment"
 								placeholder="Comment on the post"
 							/>
@@ -126,7 +139,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: '#888',
 	},
-	paymentForm: {
+	commentForm: {
 		alignItems: 'center',
 		paddingTop: 17,
 	},

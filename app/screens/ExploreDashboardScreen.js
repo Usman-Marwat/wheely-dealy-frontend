@@ -19,6 +19,8 @@ const ExploreDashboardScreen = ({ navigation }) => {
 
 	const exploreContentApi = useApi(dashboard.getExploreContent);
 	const postLikeApi = useApi(userAds.likePost);
+	const postShareApi = useApi(userAds.sharePost);
+	const postCommentApi = useApi(userAds.commentOnPost);
 
 	const getExploreData = () => {
 		exploreContentApi.request();
@@ -28,15 +30,31 @@ const ExploreDashboardScreen = ({ navigation }) => {
 		getExploreData();
 	}, []);
 
+	console.log(exploreContentApi.data);
+
 	const handlePostLike = async (postId) => {
 		const result = await postLikeApi.request(postId);
+		if (result.ok) getExploreData();
+	};
+
+	const handlePostShare = async (postId) => {
+		const result = await postShareApi.request(postId);
+		if (result.ok) getExploreData();
+	};
+
+	const handlePostComment = async (postId, text) => {
+		const result = await postCommentApi.request(postId, text);
 		if (result.ok) getExploreData();
 	};
 
 	return (
 		<>
 			<ActivityIndicator
-				visible={exploreContentApi.loading || postLikeApi.loading}
+				visible={
+					exploreContentApi.loading ||
+					postLikeApi.loading ||
+					postShareApi.loading
+				}
 			/>
 			<MenuFoldButton />
 
@@ -59,6 +77,8 @@ const ExploreDashboardScreen = ({ navigation }) => {
 				<Posts
 					posts={exploreContentApi.data?.posts}
 					onLike={(postId) => handlePostLike(postId)}
+					onShare={(postId) => handlePostShare(postId)}
+					onComment={(postId, text) => handlePostComment(postId, text)}
 				/>
 			)}
 			{selectedTab === 'Profiles' && (

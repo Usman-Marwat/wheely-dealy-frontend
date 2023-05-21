@@ -20,9 +20,16 @@ const getServiceAds = (userId, pageNumber = 1, pageSize = 10) =>
 
 const likePost = (postId) => client.post(`${endpoint}/like-post`, { postId });
 
+const sharePost = (postId) => client.post(`${endpoint}/share-post`, { postId });
+
+const commentOnPost = (postGId, text) =>
+	client.post(`${endpoint}/comment-on-post`, { postGId, text });
+
 export default {
 	getAds,
 	getSingleAd,
 	getServiceAds,
 	likePost,
+	sharePost,
+	commentOnPost,
 };
