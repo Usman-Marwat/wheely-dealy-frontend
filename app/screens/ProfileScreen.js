@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-	View,
-	Text,
+	Button,
 	Image,
 	StyleSheet,
+	Text,
 	TouchableOpacity,
-	Button,
+	View,
 } from 'react-native';
 import * as Yup from 'yup';
 
-import { AppForm, AppFormField, SubmitButton } from '../components/forms';
+import authApi from '../api/auth';
 import AppModal from '../components/AppModal';
-import colors from '../config/colors';
+import Empty from '../components/Empty';
 import Header from '../components/Header';
-import ImageInput from '../components/ImageInput';
 import Icon from '../components/Icon';
-import useAuth from '../auth/useAuth';
+import ImageInput from '../components/ImageInput';
+import { AppForm, AppFormField, SubmitButton } from '../components/forms';
+import colors from '../config/colors';
+import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().required().min(1).label('Name'),
@@ -25,11 +27,20 @@ const validationSchema = Yup.object().shape({
 function ProfileScreen({ navigation }) {
 	const [visible, setVisible] = useState(false);
 	const [imageUri, setImageUri] = useState();
-	const { user } = useAuth();
+
+	const myAccountApi = useApi(authApi.getMyAccount);
 
 	const updateProfile = () => {
 		console.log('hi');
 	};
+
+	useEffect(() => {
+		myAccountApi.request();
+	}, []);
+
+	if (!myAccountApi.data) return <Empty title="Could not fetch profile" />;
+
+	const user = myAccountApi.data;
 
 	return (
 		<View style={styles.container}>
@@ -38,8 +49,8 @@ function ProfileScreen({ navigation }) {
 			<View style={styles.profileDetailsSection}>
 				<View style={styles.row}>
 					<View style={styles.statisticsContainer}>
-						<Text style={styles.statisticsText}>135</Text>
-						<Text style={styles.statisticsTitle}>Completed Tasks</Text>
+						<Text style={styles.statisticsText}>{user.followersCount}</Text>
+						<Text style={styles.statisticsTitle}>Followers Count</Text>
 					</View>
 					<Image
 						style={styles.profilePhoto}
@@ -48,13 +59,13 @@ function ProfileScreen({ navigation }) {
 						}}
 					/>
 					<View style={styles.statisticsContainer}>
-						<Text style={styles.statisticsText}>20</Text>
-						<Text style={styles.statisticsTitle}>Ongoing Tasks</Text>
+						<Text style={styles.statisticsText}>{user.adsCount}</Text>
+						<Text style={styles.statisticsTitle}>Ads Count</Text>
 					</View>
 				</View>
 				<View style={styles.profileCenterSection}>
 					<Text style={styles.name}>{user.name}</Text>
-					<Text style={styles.designationText}>{user.account_type}</Text>
+					<Text style={styles.designationText}>{user.accountType.type}</Text>
 					<Button
 						color={colors.medium}
 						title="change"

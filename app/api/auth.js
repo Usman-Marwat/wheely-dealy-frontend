@@ -22,20 +22,19 @@ const verifyEmail = (userInfo) =>
 
 const login = (userInfo) => client.post(`${endpoint}/login`, userInfo);
 
+const getMyAccount = () => client.get(`${endpoint}/getmyaccount`);
+
 const getUserData = (user_id) => client.get(`users/profile/${user_id}`);
 
 const updateProfile = (user_id, profileData) =>
 	client.put(`users/profile/${user_id}`, profileData);
 
-const refreshUserToken = (user_id, actor) =>
-	client.get(`/auth/${user_id}/${actor}/refreshToken`);
-
 export default {
 	getAccountTypes,
 	getUserData,
 	login,
+	getMyAccount,
 	verifyEmail,
-	refreshUserToken,
 	register,
 	updateProfile,
 };

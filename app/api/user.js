@@ -1,10 +1,14 @@
-import client from "./httpClient";
+import client from './httpClient';
 
-const endpoint = "/user";
+const endpoint = '/User';
 
 const followUser = (followData) =>
-  client.post(`${endpoint}/follow`, followData);
+	client.post(`${endpoint}/follow`, followData);
+
+const updateProfile = (userInfo) =>
+	client.post(`${endpoint}/updateProfile`, userInfo);
 
 export default {
-  followUser,
+	followUser,
+	updateProfile,
 };
