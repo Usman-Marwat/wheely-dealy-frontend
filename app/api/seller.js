@@ -4,6 +4,8 @@ const endpoint = '/Seller';
 
 const getTypes = () => client.get(`${endpoint}/gettypes`);
 
+const getServiceTypes = () => client.get(`${endpoint}/getServiceTypes`);
+
 const postAd = (carAd, onUploadProgress) => {
 	const data = new FormData();
 	data.append('title', carAd.title);
@@ -38,8 +40,35 @@ const postAd = (carAd, onUploadProgress) => {
 			onUploadProgress(progress.loaded / progress.total),
 	});
 };
+const postServiceAd = (ad, onUploadProgress) => {
+	const data = new FormData();
+	data.append('title', ad.title);
+	data.append('contactNo', ad.contactNo);
+	data.append('price', Number(ad.price));
+	data.append('description', ad.description);
+	data.append('serviceTypeGId', ad.serviceType.alternateKey);
+	data.append('latitude', ad.latitude.toString());
+	data.append('longitude', ad.longitude.toString());
+	data.append('otp', Number(ad.otp));
+	data.append('userGId', ad.userGId);
+
+	ad.images.forEach((image, index) =>
+		data.append('images', {
+			name: 'image' + index,
+			type: 'image/jpeg',
+			uri: image,
+		})
+	);
+
+	return client.post(`${endpoint}/postservicead`, data, {
+		onUploadProgress: (progress) =>
+			onUploadProgress(progress.loaded / progress.total),
+	});
+};
 
 export default {
 	getTypes,
+	getServiceTypes,
 	postAd,
+	postServiceAd,
 };

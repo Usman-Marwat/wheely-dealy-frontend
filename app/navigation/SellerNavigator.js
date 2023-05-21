@@ -17,6 +17,7 @@ import BlogsNavigator from './BlogsNavigator';
 import ReceivedNavigator from './ReceivedNavigator';
 import MyAdsNavigator from './MyAdsNavigator';
 import ExploreNavigator from './ExploreNavigator';
+import MyServicesNavigator from './MyServicesNavigator';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -61,6 +62,12 @@ const CustomerNavigator = () => {
 						/>
 
 						<DrawerNavigator.Screen name="My Ads" component={MyAdsNavigator} />
+
+						<DrawerNavigator.Screen
+							name="My Services"
+							component={MyServicesNavigator}
+						/>
+
 						{/* <DrawerNavigator.Screen
 							name="Dealers"
 							component={DealersListNavigator}

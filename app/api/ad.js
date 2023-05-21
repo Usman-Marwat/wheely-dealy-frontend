@@ -11,7 +11,15 @@ const getAds = (userId, pageNumber = 1, pageSize = 10) =>
 		pageSize,
 	});
 
+const getServiceAds = (userId, pageNumber = 1, pageSize = 10) =>
+	client.get(`${endpoint}/getuserserviceadspaginated`, {
+		userId,
+		pageNumber,
+		pageSize,
+	});
+
 export default {
 	getAds,
 	getSingleAd,
+	getServiceAds,
 };

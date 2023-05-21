@@ -10,6 +10,7 @@ export default Object.freeze({
 
 	ADS_LIST_DETAIL: 'AdsListDetail',
 	ADS_EDIT: 'AdsEdit',
+	SERVICE_EDIT: 'ServiceEdit',
 	BLOG_LIST: 'BlogsList',
 	BLOG_LIST_DETAILS: 'BlogsListDetails',
 	BLOG_EDIT: 'BlogEdit',
