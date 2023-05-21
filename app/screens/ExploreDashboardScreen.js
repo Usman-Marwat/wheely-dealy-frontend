@@ -9,6 +9,8 @@ import Services from '../components/Services';
 import Vehicles from '../components/Vehicles';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
+import UserPost from '../components/UserPost';
+import Posts from '../components/Posts';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 
@@ -41,7 +43,9 @@ const ExploreDashboardScreen = ({ navigation }) => {
 			{selectedTab === 'Services' && (
 				<Services services={exploreContentApi.data?.serviceAds} />
 			)}
-			{selectedTab === 'Posts' && <Text>Posts</Text>}
+			{selectedTab === 'Posts' && (
+				<Posts posts={exploreContentApi.data?.posts} />
+			)}
 			{selectedTab === 'Profiles' && (
 				<Profiles
 					navigation={navigation}
