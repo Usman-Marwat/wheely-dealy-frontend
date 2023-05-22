@@ -36,6 +36,9 @@ const getMyBidOnAd = (adId) =>
 const bidOnAd = (bidAmount, vehicleAdId) =>
 	client.post(`${endpoint}/bid-on-ad`, { bidAmount, vehicleAdId });
 
+const getBidsOnMyAd = (adId) =>
+	client.get(`${endpoint}/get-bids-on-my-ad`, { adId });
+
 export default {
 	getAds,
 	getSingleAd,
@@ -46,4 +49,5 @@ export default {
 	getPostById,
 	getMyBidOnAd,
 	bidOnAd,
+	getBidsOnMyAd,
 };

@@ -101,7 +101,11 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					<Animatable.View useNativeDriver animation={animation} delay={700}>
 						<TouchableOpacity
 							style={styles.rowButton}
-							onPress={() => navigation.navigate(routes.BIDS_LIST)}
+							onPress={() =>
+								navigation.navigate(routes.BIDS_LIST, {
+									adId: item.alternateKey,
+								})
+							}
 						>
 							<Text>See all the bids</Text>
 							<AntDesign name="arrowright" color="rgba(0,0,0,0.8)" size={17} />
