@@ -6,13 +6,14 @@ import {
 	StyleSheet,
 	Text,
 	View,
+	RefreshControl,
 } from 'react-native';
 import React, { useState } from 'react';
 
 import colors from '../config/colors';
 import TouchableIcon from './TouchableIcon';
 
-const Services = ({ services }) => {
+const Services = ({ services, onRefresh }) => {
 	const [visible, setVisible] = useState(false);
 	const [service, setService] = useState(null);
 
@@ -23,6 +24,7 @@ const Services = ({ services }) => {
 				keyExtractor={(item) => item.alternateKey}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{ paddingTop: 60 }}
+				refreshControl={<RefreshControl onRefresh={onRefresh} />}
 				renderItem={({ item, index }) => {
 					return (
 						<>

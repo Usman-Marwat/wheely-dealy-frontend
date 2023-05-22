@@ -5,6 +5,7 @@ import {
 	View,
 	FlatList,
 	TouchableOpacity,
+	RefreshControl,
 } from 'react-native';
 import React from 'react';
 import { SharedElement } from 'react-navigation-shared-element';
@@ -14,13 +15,14 @@ const SPACING = 10;
 const ITEM_SIZE = 120;
 const BG_COLOR = '#C1CEE077';
 
-const Vehicles = ({ navigation, vehicles }) => {
+const Vehicles = ({ navigation, vehicles, onRefresh }) => {
 	return (
 		<FlatList
 			showsVerticalScrollIndicator={false}
 			contentContainerStyle={{ padding: SPACING }}
 			data={vehicles}
 			keyExtractor={(item) => item.alternateKey}
+			refreshControl={<RefreshControl onRefresh={onRefresh} />}
 			renderItem={({ item }) => {
 				return (
 					<TouchableOpacity

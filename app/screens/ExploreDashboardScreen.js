@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
 
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -64,10 +63,14 @@ const ExploreDashboardScreen = ({ navigation }) => {
 				<Vehicles
 					navigation={navigation}
 					vehicles={exploreContentApi.data?.ads}
+					onRefresh={getExploreData}
 				/>
 			)}
 			{selectedTab === 'Services' && (
-				<Services services={exploreContentApi.data?.serviceAds} />
+				<Services
+					services={exploreContentApi.data?.serviceAds}
+					onRefresh={getExploreData}
+				/>
 			)}
 			{selectedTab === 'Posts' && (
 				<>
@@ -76,6 +79,7 @@ const ExploreDashboardScreen = ({ navigation }) => {
 						onLike={(postId) => handlePostLike(postId)}
 						onShare={(postId) => handlePostShare(postId)}
 						onComment={(postId, text) => handlePostComment(postId, text)}
+						onRefresh={getExploreData}
 					/>
 				</>
 			)}
@@ -83,6 +87,7 @@ const ExploreDashboardScreen = ({ navigation }) => {
 				<Profiles
 					navigation={navigation}
 					profiles={exploreContentApi.data?.profiles}
+					onRefresh={getExploreData}
 				/>
 			)}
 		</>
@@ -90,5 +95,3 @@ const ExploreDashboardScreen = ({ navigation }) => {
 };
 
 export default ExploreDashboardScreen;
-
-const styles = StyleSheet.create({});

@@ -6,6 +6,7 @@ import {
 	View,
 	FlatList,
 	TouchableOpacity,
+	RefreshControl,
 } from 'react-native';
 import React from 'react';
 import { SharedElement } from 'react-navigation-shared-element';
@@ -102,13 +103,14 @@ const images = [
 const { height, width } = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.18;
 
-const Profiles = ({ navigation, profiles }) => {
+const Profiles = ({ navigation, profiles, onRefresh }) => {
 	return (
 		<Screen>
 			<FlatList
 				contentContainerStyle={{ padding: SPACING }}
 				data={profiles}
 				keyExtractor={(item) => item.alternateKey}
+				refreshControl={<RefreshControl onRefresh={onRefresh} />}
 				renderItem={({ item }) => {
 					const color = colors[Math.floor(Math.random() * colors.length)];
 					const image = images[Math.floor(Math.random() * images.length - 1)];

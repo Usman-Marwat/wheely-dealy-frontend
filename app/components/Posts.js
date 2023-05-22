@@ -1,11 +1,11 @@
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, RefreshControl } from 'react-native';
 import React from 'react';
 
 import UserPost from './UserPost';
 import Screen from './Screen';
 import { useState } from 'react';
 
-const Posts = ({ posts, onLike, onShare, onComment }) => {
+const Posts = ({ posts, onLike, onShare, onComment, onRefresh }) => {
 	const [selected, setSelected] = useState(null);
 
 	const handlePostDetails = (post) => {
@@ -20,6 +20,7 @@ const Posts = ({ posts, onLike, onShare, onComment }) => {
 				contentContainerStyle={{ padding: 10 }}
 				data={posts}
 				keyExtractor={(item) => item.alternateKey}
+				refreshControl={<RefreshControl onRefresh={onRefresh} />}
 				renderItem={({ item }) => {
 					return (
 						<UserPost
