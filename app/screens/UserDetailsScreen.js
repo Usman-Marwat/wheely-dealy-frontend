@@ -5,32 +5,50 @@ import {
 	View,
 	Image,
 	ScrollView,
+	TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import { SharedElement } from 'react-navigation-shared-element';
+import { AntDesign } from '@expo/vector-icons';
 
-import Icon from '../components/Icon';
 import colors from '../config/colors';
 import BackButton from '../navigation/BackButton';
+import userApi from '../api/user';
+import useApi from '../hooks/useApi';
+import { useState } from 'react';
+import ActivityIndicator from '../components/ActivityIndicator';
 
 const { height, width } = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.18;
 const SPACING = 10;
 const TOP_HEADER_HEIGHT = height * 0.3;
 const detailsIcons = [
-	{ color: '#9FD7F1', icon: 'chat-outline' },
-	{ color: '#F3B000', icon: 'trophy-outline' },
-	{ color: '#F2988F', icon: 'account-edit' },
+	{ color: '#9FD7F1', icon: 'wechat' },
+	{ color: '#F3B000', icon: 'heart' },
+	{ color: '#F2988F', icon: 'infocirlce' },
 ];
 const DURATION = 400;
 
 const UserDetailsScreen = ({ navigation, route }) => {
-	const { item } = route.params;
+	const [item, setItem] = useState(route.params.item);
+
+	const followUserApi = useApi(userApi.followUser);
+
+	const handleDetails = (icon) => {
+		if (icon === 'heart') handleFollowUser(item.alternateKey);
+	};
+
+	const handleFollowUser = async (followedId) => {
+		const result = await followUserApi.request(followedId);
+		if (result.data.statusCode === 200)
+			setItem({ ...item, followedByCurrentUser: !item.followedByCurrentUser });
+	};
 
 	return (
 		<>
 			<BackButton />
+			<ActivityIndicator visible={followUserApi.loading} />
 			<View style={styles.container}>
 				<SharedElement
 					id={`item.${item.key}.bg`}
@@ -50,21 +68,32 @@ const UserDetailsScreen = ({ navigation, route }) => {
 						<ScrollView>
 							<View style={styles.iconRow}>
 								{detailsIcons.map((detail, index) => {
+									const iconName =
+										detail.icon === 'heart'
+											? item.followedByCurrentUser
+												? 'heart'
+												: 'hearto'
+											: detail.icon;
 									return (
 										<Animatable.View
 											animation="bounceIn"
 											delay={DURATION + index * 100}
 											key={`${detail.icon}-${index}`}
 										>
-											<Icon
-												size={64}
-												backgroundColor={detail.color}
-												name={detail.icon}
-											></Icon>
+											<TouchableOpacity
+												onPress={() => handleDetails(detail.icon)}
+											>
+												<AntDesign
+													name={iconName}
+													size={40}
+													color={detail.color}
+												/>
+											</TouchableOpacity>
 										</Animatable.View>
 									);
 								})}
 							</View>
+
 							<View style={{ flex: 1 }}>
 								<Animatable.View
 									animation="fadeInUp"
@@ -72,7 +101,6 @@ const UserDetailsScreen = ({ navigation, route }) => {
 									style={{ marginVertical: SPACING }}
 								>
 									<Text style={styles.title}>{item.email}</Text>
-
 									<View style={styles.list}>
 										<View
 											style={[
@@ -84,7 +112,6 @@ const UserDetailsScreen = ({ navigation, route }) => {
 											username: {item.username}
 										</Text>
 									</View>
-
 									<View style={styles.list}>
 										<View
 											style={[

@@ -11,7 +11,10 @@ import React from 'react';
 import { SharedElement } from 'react-navigation-shared-element';
 import niceColors from 'nice-color-palettes';
 import Screen from './Screen';
+import { AntDesign } from '@expo/vector-icons';
+
 import routes from '../navigation/routes';
+import { useState } from 'react';
 
 const SPACING = 10;
 const colors = [
@@ -108,7 +111,7 @@ const Profiles = ({ navigation, profiles }) => {
 				keyExtractor={(item) => item.alternateKey}
 				renderItem={({ item }) => {
 					const color = colors[Math.floor(Math.random() * colors.length)];
-					const image = images[Math.floor(Math.random() * images.length)];
+					const image = images[Math.floor(Math.random() * images.length - 1)];
 					return (
 						<TouchableOpacity
 							onPress={() => {
@@ -135,6 +138,13 @@ const Profiles = ({ navigation, profiles }) => {
 								>
 									<Image source={{ uri: image }} style={styles.profileImage} />
 								</SharedElement>
+								<View style={styles.action}>
+									<AntDesign
+										name={item.followedByCurrentUser ? 'heart' : 'hearto'}
+										size={25}
+										color="#fc5c65"
+									/>
+								</View>
 							</View>
 						</TouchableOpacity>
 					);
@@ -181,5 +191,15 @@ const styles = StyleSheet.create({
 		backgroundColor: 'red',
 		transform: [{ translateY: height }],
 		borderRadius: 32,
+	},
+	action: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginTop: 20,
+	},
+	actionText: {
+		marginLeft: 4,
+		fontSize: 12,
+		color: '#fc5c65',
 	},
 });

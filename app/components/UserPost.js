@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import * as Animatable from 'react-native-animatable';
 
 import { AppForm, AppFormField, SubmitButton } from './forms';
+import Comment from './Comment';
 
 const UserPost = ({
 	post,
@@ -61,12 +62,9 @@ const UserPost = ({
 					delay={100}
 					style={styles.commentForm}
 				>
-					<Text>Current Payment: {'item.payment' || 'Not made'}</Text>
+					<Text>No# of Comments {post.commentCount}</Text>
 					{post.comments.map((comment, index) => (
-						<Text>
-							comment:{index}
-							{comment}
-						</Text>
+						<Comment content="Hey your comment is awesome" username="Usman" />
 					))}
 					<AppForm
 						initialValues={{ comment: '' }}

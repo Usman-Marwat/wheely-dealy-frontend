@@ -10,7 +10,7 @@ import Services from '../components/Services';
 import Vehicles from '../components/Vehicles';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
-import userAds from '../api/ad';
+import userAdsApi from '../api/ad';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 
@@ -18,9 +18,9 @@ const ExploreDashboardScreen = ({ navigation }) => {
 	const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
 	const exploreContentApi = useApi(dashboard.getExploreContent);
-	const postLikeApi = useApi(userAds.likePost);
-	const postShareApi = useApi(userAds.sharePost);
-	const postCommentApi = useApi(userAds.commentOnPost);
+	const postLikeApi = useApi(userAdsApi.likePost);
+	const postShareApi = useApi(userAdsApi.sharePost);
+	const postCommentApi = useApi(userAdsApi.commentOnPost);
 
 	const getExploreData = () => {
 		exploreContentApi.request();
@@ -30,18 +30,14 @@ const ExploreDashboardScreen = ({ navigation }) => {
 		getExploreData();
 	}, []);
 
-	console.log(exploreContentApi.data);
-
 	const handlePostLike = async (postId) => {
 		const result = await postLikeApi.request(postId);
 		if (result.ok) getExploreData();
 	};
-
 	const handlePostShare = async (postId) => {
 		const result = await postShareApi.request(postId);
 		if (result.ok) getExploreData();
 	};
-
 	const handlePostComment = async (postId, text) => {
 		const result = await postCommentApi.request(postId, text);
 		if (result.ok) getExploreData();
@@ -74,12 +70,14 @@ const ExploreDashboardScreen = ({ navigation }) => {
 				<Services services={exploreContentApi.data?.serviceAds} />
 			)}
 			{selectedTab === 'Posts' && (
-				<Posts
-					posts={exploreContentApi.data?.posts}
-					onLike={(postId) => handlePostLike(postId)}
-					onShare={(postId) => handlePostShare(postId)}
-					onComment={(postId, text) => handlePostComment(postId, text)}
-				/>
+				<>
+					<Posts
+						posts={exploreContentApi.data?.posts}
+						onLike={(postId) => handlePostLike(postId)}
+						onShare={(postId) => handlePostShare(postId)}
+						onComment={(postId, text) => handlePostComment(postId, text)}
+					/>
+				</>
 			)}
 			{selectedTab === 'Profiles' && (
 				<Profiles
