@@ -1,20 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
-import * as Yup from 'yup';
-import * as Animatable from 'react-native-animatable';
 
-import { AppForm, AppFormField, SubmitButton } from './forms';
-import Comment from './Comment';
-
-const UserPost = ({
-	post,
-	selected,
-	onSelected,
-	onLike,
-	onShare,
-	onComment,
-}) => {
+const UserPost = ({ post, onSelected, onLike, onShare }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -56,36 +44,6 @@ const UserPost = ({
 					<Text style={styles.actionText}>{post.shareCount}</Text>
 				</TouchableOpacity>
 			</View>
-			{selected?.alternateKey === post.alternateKey && (
-				<Animatable.View
-					animation="fadeInLeft"
-					delay={100}
-					style={styles.commentForm}
-				>
-					<Text>No# of Comments {post.commentCount}</Text>
-					{post.comments.map((comment, index) => (
-						<Comment content="Hey your comment is awesome" username="Usman" />
-					))}
-					<AppForm
-						initialValues={{ comment: '' }}
-						onSubmit={(text) => onComment(post.alternateKey, text.comment)}
-						validationSchema={Yup.object().shape({
-							comment: Yup.string().required().label('Comment'),
-						})}
-					>
-						<View style={{ flexDirection: 'row' }}>
-							<AppFormField
-								width="80%"
-								name="comment"
-								placeholder="Comment on the post"
-							/>
-							<View style={{ marginLeft: 10 }}>
-								<SubmitButton title="send" bg="silver" />
-							</View>
-						</View>
-					</AppForm>
-				</Animatable.View>
-			)}
 		</View>
 	);
 };

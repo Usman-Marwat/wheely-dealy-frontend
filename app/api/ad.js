@@ -25,6 +25,11 @@ const sharePost = (postId) => client.post(`${endpoint}/share-post`, { postId });
 const commentOnPost = (postGId, text) =>
 	client.post(`${endpoint}/comment-on-post`, { postGId, text });
 
+const getPostById = (postId) =>
+	client.get(`${endpoint}/getpostbyid`, {
+		postId,
+	});
+
 export default {
 	getAds,
 	getSingleAd,
@@ -32,4 +37,5 @@ export default {
 	likePost,
 	sharePost,
 	commentOnPost,
+	getPostById,
 };
