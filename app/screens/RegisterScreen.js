@@ -27,6 +27,7 @@ import colors from '../config/colors';
 import Icon from '../components/Icon';
 import useApi from '../hooks/useApi';
 import OtpInput from '../components/forms/OtpInput';
+import routes from '../navigation/routes';
 
 const { width } = Dimensions.get('screen');
 const DURATION = 400;
@@ -60,7 +61,6 @@ function RegisterScreen({ navigation, route }) {
 
 	const registerApi = useApi(authApi.register);
 	const verifyEmailApi = useApi(authApi.verifyEmail);
-	const loginApi = useApi(authApi.login);
 
 	const handleOtp = async (otp) => {
 		setOtpVisible(!otpVisible);
@@ -73,7 +73,7 @@ function RegisterScreen({ navigation, route }) {
 		console.log(result.data);
 		if (!result.data?.statusCode === 200) return setError(result.data.message);
 		console.log('hi');
-		// handleLogin();
+		navigation.goBack();
 	};
 
 	const handleSubmit = async (userInfo, { resetForm }) => {
@@ -85,12 +85,14 @@ function RegisterScreen({ navigation, route }) {
 
 		setOtpVisible(!otpVisible);
 		setFormData({ ...formData, ...userInfo });
-		// resetForm();
+		resetForm();
 	};
 
 	return (
 		<>
-			{/* <ActivityIndicator visible={registerApi.loading || otpApi.loading} /> */}
+			<ActivityIndicator
+				visible={registerApi.loading || verifyEmailApi.loading}
+			/>
 			<KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
 				<View style={styles.container}>
 					<View style={styles.headingConatiner}>

@@ -14,11 +14,16 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { SharedElement } from 'react-navigation-shared-element';
 
+import useAuth from '../auth/useAuth';
 import AppModal from '../components/AppModal';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
+import useApi from '../hooks/useApi';
+import userAds from '../api/ad';
+import { useEffect } from 'react';
+import ActivityIndicator from '../components/ActivityIndicator';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -34,10 +39,28 @@ const buttons = ['See all the bids', 'Give your bid'];
 const AdsListDetailsScreen = ({ navigation, route }) => {
 	const { item } = route.params;
 	const [visible, setVisible] = useState(false);
+	const { user } = useAuth();
+
+	const myBidApi = useApi(userAds.getMyBidOnAd);
+	const addBidApi = useApi(userAds.bidOnAd);
+
+	const getBids = async () => {
+		await myBidApi.request(item.alternateKey);
+	};
+
+	const postBid = async (bidAmount) => {
+		await addBidApi.request(bidAmount, item.alternateKey);
+		getBids();
+	};
+
+	useEffect(() => {
+		if (user.account_type === 'Client') getBids();
+	}, []);
 
 	return (
 		<>
 			<BackButton />
+			<ActivityIndicator visible={myBidApi.loading || addBidApi.loading} />
 			<View>
 				<SharedElement id={`item.${item.key}.image`} style={styles.image}>
 					<Image source={{ uri: item.imageUrls[0].url }} style={styles.image} />
@@ -52,7 +75,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 						<Text style={styles.description}>{item.description}</Text>
 					</SharedElement>
 					<SharedElement>
-						<Text style={styles.price}>$ {item.price}</Text>
+						<Text style={styles.price}>Rs {item.price}</Text>
 					</SharedElement>
 				</View>
 				<AnimatableScrollview
@@ -74,23 +97,28 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					})}
 				</AnimatableScrollview>
 
-				<Animatable.View useNativeDriver animation={animation} delay={700}>
-					<TouchableOpacity
-						style={styles.rowButton}
-						onPress={() => navigation.navigate(routes.BIDS_LIST)}
-					>
-						<Text>See all the bids</Text>
-						<AntDesign name="arrowright" color="rgba(0,0,0,0.8)" size={17} />
-					</TouchableOpacity>
+				{user.account_type === 'Seller' && (
+					<Animatable.View useNativeDriver animation={animation} delay={700}>
+						<TouchableOpacity
+							style={styles.rowButton}
+							onPress={() => navigation.navigate(routes.BIDS_LIST)}
+						>
+							<Text>See all the bids</Text>
+							<AntDesign name="arrowright" color="rgba(0,0,0,0.8)" size={17} />
+						</TouchableOpacity>
+					</Animatable.View>
+				)}
 
-					{!item.myAd && (
+				{user.account_type === 'Client' && (
+					<>
+						<Text>Your current bid:{myBidApi.data?.obj.bidAmount} </Text>
 						<Button
 							title="Give your bid"
 							color={colors.medium}
 							onPress={() => setVisible(true)}
 						/>
-					)}
-				</Animatable.View>
+					</>
+				)}
 			</View>
 
 			<AppModal
@@ -102,9 +130,13 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					initialValues={{
 						bid: '',
 					}}
-					onSubmit={() => console.log('hi')}
+					onSubmit={(formData) => {
+						setVisible(false);
+						postBid(formData.bid);
+					}}
 				>
 					<AppFormField
+						keyboardType="numeric"
 						width={'70%'}
 						icon="money"
 						family="fontawesome"
