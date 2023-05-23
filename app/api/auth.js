@@ -24,17 +24,18 @@ const login = (userInfo) => client.post(`${endpoint}/login`, userInfo);
 
 const getMyAccount = () => client.get(`${endpoint}/getmyaccount`);
 
-const getUserData = (user_id) => client.get(`users/profile/${user_id}`);
+const getProfileById = (userId) =>
+	client.get(`${endpoint}/get-profile-by-id`, { userId });
 
 const updateProfile = (user_id, profileData) =>
 	client.put(`users/profile/${user_id}`, profileData);
 
 export default {
 	getAccountTypes,
-	getUserData,
 	login,
 	getMyAccount,
 	verifyEmail,
 	register,
 	updateProfile,
+	getProfileById,
 };

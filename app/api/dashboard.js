@@ -26,6 +26,14 @@ const getSavedContent = (pageNumber = 0, pageSize = 10) =>
 		pageSize,
 	});
 
+const getProfileView = (pageNumber = 0, pageSize = 10, userid) =>
+	client.get(`${endpoint}/getContent`, {
+		sectionType: 'PV',
+		pageNumber,
+		pageSize,
+		userid,
+	});
+
 const saveAnItem = (itemId, itemType) =>
 	client.post(`${endpoint}/save-item`, { itemId, itemType });
 
@@ -34,4 +42,5 @@ export default {
 	getExploreContent,
 	saveAnItem,
 	getSavedContent,
+	getProfileView,
 };

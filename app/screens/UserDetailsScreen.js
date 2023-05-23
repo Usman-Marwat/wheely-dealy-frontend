@@ -15,9 +15,11 @@ import { AntDesign } from '@expo/vector-icons';
 import colors from '../config/colors';
 import BackButton from '../navigation/BackButton';
 import userApi from '../api/user';
+import authApi from '../api/auth';
 import useApi from '../hooks/useApi';
 import { useState } from 'react';
 import ActivityIndicator from '../components/ActivityIndicator';
+import dashboard from '../api/dashboard';
 
 const { height, width } = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.18;
@@ -30,25 +32,36 @@ const detailsIcons = [
 ];
 const DURATION = 400;
 
-const UserDetailsScreen = ({ navigation, route }) => {
+const UserDetailsScreen = ({ route }) => {
 	const [item, setItem] = useState(route.params.item);
 
 	const followUserApi = useApi(userApi.followUser);
+	const profileByIdApi = useApi(authApi.getProfileById);
+	const profileViewApi = useApi(dashboard.getProfileView);
 
 	const handleDetails = (icon) => {
 		if (icon === 'heart') handleFollowUser(item.alternateKey);
+		if (icon === 'infocirlce') getSingleProfile(item.alternateKey);
 	};
-
 	const handleFollowUser = async (followedId) => {
 		const result = await followUserApi.request(followedId);
 		if (result.data.statusCode === 200)
 			setItem({ ...item, followedByCurrentUser: !item.followedByCurrentUser });
 	};
+	const getSingleProfile = async (userId) => {
+		// const { data } = await profileByIdApi.request(userId);
+		const { data } = await profileViewApi.request(userId);
+	};
 
+	`
+       "profilePictureURL": "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp",
+   `;
 	return (
 		<>
 			<BackButton />
-			<ActivityIndicator visible={followUserApi.loading} />
+			<ActivityIndicator
+				visible={followUserApi.loading || profileViewApi.loading}
+			/>
 			<View style={styles.container}>
 				<SharedElement
 					id={`item.${item.key}.bg`}
