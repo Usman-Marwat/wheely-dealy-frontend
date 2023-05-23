@@ -28,7 +28,7 @@ const MyServicesListScreen = ({ navigation }) => {
 				{!userAdsApi.data?.items.length > 0 && (
 					<Empty title="No Services added yet" />
 				)}
-				<Services services={userAdsApi.data?.items} />
+				<Services services={userAdsApi.data?.items} navigation={navigation} />
 			</View>
 
 			<View style={styles.plusButton}>

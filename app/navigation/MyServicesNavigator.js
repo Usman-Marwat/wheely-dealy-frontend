@@ -3,6 +3,7 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import MyServicesListScreen from '../screens/MyServicesListScreen';
 import ServicesEditScreen from '../screens/ServicesEditScreen';
 import routes from './routes';
+import ServiceDetails from '../screens/ServiceDetails';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -11,6 +12,7 @@ const MyServicesNavigator = () => {
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="MyServicesList" component={MyServicesListScreen} />
 			<Stack.Screen name={routes.SERVICE_EDIT} component={ServicesEditScreen} />
+			<Stack.Screen name={routes.SERVICE_DETAIL} component={ServiceDetails} />
 		</Stack.Navigator>
 	);
 };

@@ -66,9 +66,26 @@ const postServiceAd = (ad, onUploadProgress) => {
 	});
 };
 
+const updateServiceAd = (ad) => {
+	const data = new FormData();
+	data.append('title', ad.title);
+	data.append('contactNo', ad.contactNo);
+	data.append('price', Number(ad.price));
+	data.append('description', ad.description);
+	data.append('serviceTypeGId', ad.serviceType.alternateKey);
+	data.append('latitude', ad.latitude.toString());
+	data.append('longitude', ad.longitude.toString());
+	data.append('userGId', ad.userGId);
+	data.append('AdId', ad.alternateKey);
+	data.append('images', ['']);
+
+	return client.put(`${endpoint}/modifyservicead`, data);
+};
+
 export default {
 	getTypes,
 	getServiceTypes,
 	postAd,
 	postServiceAd,
+	updateServiceAd,
 };

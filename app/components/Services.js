@@ -5,11 +5,11 @@ import {
 	StyleSheet,
 	Text,
 	View,
+	TouchableOpacity,
 } from 'react-native';
 
-import colors from '../config/colors';
 import routes from '../navigation/routes';
-import TouchableIcon from './TouchableIcon';
+import { FontAwesome } from '@expo/vector-icons';
 
 const Services = ({ navigation, services, onRefresh, saveAble }) => {
 	return (
@@ -21,32 +21,26 @@ const Services = ({ navigation, services, onRefresh, saveAble }) => {
 				contentContainerStyle={{ paddingTop: 60 }}
 				refreshControl={<RefreshControl onRefresh={onRefresh} />}
 				renderItem={({ item, index }) => {
+					const uri = item.imageUrls[0]?.url;
 					return (
 						<>
 							<View style={[styles.itemContainer]}>
 								<View style={styles.itemWrapper}>
-									<Image
-										source={{ uri: item.imageUrls[0]?.url }}
-										style={styles.image}
-									/>
+									{uri && <Image source={{ uri }} style={styles.image} />}
 									<View style={{ flexShrink: 1 }}>
 										<Text style={styles.category}>{item.title}</Text>
 										<Text style={styles.memberText}>{item.description}</Text>
 									</View>
-									<View style={styles.orderDetails}>
-										<TouchableIcon
-											name="details"
-											size={44}
-											iconColor={colors.primary}
-											backgroundColor="transparent"
-											onPress={() =>
-												navigation.navigate(routes.SERVICE_DETAIL, {
-													service: item,
-													saveAble,
-												})
-											}
-										/>
-									</View>
+									<TouchableOpacity
+										onPress={() =>
+											navigation.navigate(routes.SERVICE_DETAIL, {
+												service: item,
+												saveAble,
+											})
+										}
+									>
+										<FontAwesome name={'chevron-circle-right'} size={30} />
+									</TouchableOpacity>
 								</View>
 							</View>
 						</>
@@ -88,10 +82,7 @@ const styles = StyleSheet.create({
 	itemWrapper: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'space-between',
 		padding: 20,
-	},
-	orderDetails: {
-		position: 'absolute',
-		right: 17,
 	},
 });
