@@ -11,7 +11,13 @@ import {
 import routes from '../navigation/routes';
 import { FontAwesome } from '@expo/vector-icons';
 
-const Services = ({ navigation, services, onRefresh, saveAble }) => {
+const Services = ({
+	navigation,
+	services,
+	onRefresh,
+	saveAble,
+	updateAble,
+}) => {
 	return (
 		<View style={{ flex: 1 }}>
 			<FlatList
@@ -36,6 +42,7 @@ const Services = ({ navigation, services, onRefresh, saveAble }) => {
 											navigation.navigate(routes.SERVICE_DETAIL, {
 												service: item,
 												saveAble,
+												updateAble,
 											})
 										}
 									>

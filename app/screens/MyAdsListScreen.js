@@ -31,6 +31,7 @@ const MyAdsListScreen = ({ navigation }) => {
 				navigation={navigation}
 				vehicles={userAdsApi.data?.items}
 				onRefresh={getMyAds}
+				updateAble
 			/>
 			<View style={styles.plusButton}>
 				<TouchableIcon

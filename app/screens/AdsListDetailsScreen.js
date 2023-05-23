@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SharedElement } from 'react-navigation-shared-element';
+import * as Yup from 'yup';
 
 import { useEffect } from 'react';
 import userAds from '../api/ad';
@@ -25,6 +26,7 @@ import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
+import seller from '../api/seller';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -32,20 +34,28 @@ const animation = {
 	1: { opacity: 1, translateX: 0 },
 };
 
+const validationSchema = Yup.object().shape({
+	title: Yup.string().required().label('Title'),
+	price: Yup.number().required().min(1).label('Price'),
+	description: Yup.string().required().label('Description'),
+});
+
 const { height, width } = Dimensions.get('window');
 const SPACING = 10;
 const colorsPallete = [...niceColors[1], ...niceColors[2]];
 const buttons = ['See all the bids', 'Give your bid'];
 
 const AdsListDetailsScreen = ({ navigation, route }) => {
-	const { item, saveAble } = route.params;
+	const { item, saveAble, updateAble } = route.params;
 	const [saved, setSaved] = useState(item.savedByCurrentUser);
-	const [visible, setVisible] = useState(false);
+	const [bidVisible, setBidVisible] = useState(false);
+	const [updateVisible, setUpdateVisible] = useState(false);
 	const { user } = useAuth();
 
 	const myBidApi = useApi(userAds.getMyBidOnAd);
 	const addBidApi = useApi(userAds.bidOnAd);
 	const saveItemApi = useApi(dashboard.saveAnItem);
+	const updateAdApi = useApi(seller.updateAd);
 
 	const getBids = async () => {
 		await myBidApi.request(item.alternateKey);
@@ -58,6 +68,17 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		const { data } = await saveItemApi.request(item.alternateKey, 'VA');
 		if (data.statusCode === 200) setSaved(!saved);
 	};
+	const updateDetails = async (adsData) => {
+		console.log(adsData);
+		setUpdateVisible(false);
+		const { data } = await updateAdApi.request({
+			...item,
+			...adsData,
+			userGId: user.user_id,
+		});
+		console.log(data);
+		if (data?.statusCode === 200) alert('Add updated successfully');
+	};
 
 	useEffect(() => {
 		if (user.account_type === 'Client') getBids();
@@ -67,7 +88,12 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		<>
 			<BackButton />
 			<ActivityIndicator
-				visible={myBidApi.loading || addBidApi.loading || saveItemApi.loading}
+				visible={
+					myBidApi.loading ||
+					addBidApi.loading ||
+					saveItemApi.loading ||
+					updateAdApi.loading
+				}
 			/>
 			<View>
 				<SharedElement id={`item.${item.key}.image`} style={styles.image}>
@@ -127,32 +153,36 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 						<Button
 							title="Give your bid"
 							color={colors.medium}
-							onPress={() => setVisible(true)}
+							onPress={() => setBidVisible(true)}
 						/>
 					</>
 				)}
+				<View style={styles.rowButton}>
+					{updateAble && (
+						<TouchableOpacity onPress={() => setUpdateVisible(true)}>
+							<FontAwesome name={'edit'} size={30} />
+						</TouchableOpacity>
+					)}
 
-				{saveAble && (
-					<TouchableOpacity
-						style={{ marginTop: 30, alignItems: 'center' }}
-						onPress={saveItem}
-					>
-						<FontAwesome name={saved ? 'bookmark' : 'bookmark-o'} size={40} />
-					</TouchableOpacity>
-				)}
+					{saveAble && (
+						<TouchableOpacity onPress={saveItem}>
+							<FontAwesome name={saved ? 'bookmark' : 'bookmark-o'} size={30} />
+						</TouchableOpacity>
+					)}
+				</View>
 			</View>
 
 			<AppModal
-				visible={visible}
+				visible={bidVisible}
 				heading="Give Your bid"
-				onVisible={() => setVisible(false)}
+				onVisible={() => setBidVisible(false)}
 			>
 				<AppForm
 					initialValues={{
 						bid: '',
 					}}
 					onSubmit={(formData) => {
-						setVisible(false);
+						setBidVisible(false);
 						postBid(formData.bid);
 					}}
 				>
@@ -166,6 +196,32 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 						// backgroundColor={colors.light}
 					/>
 					<SubmitButton title="Submit" />
+				</AppForm>
+			</AppModal>
+
+			<AppModal
+				heading="Update Ad"
+				visible={updateVisible}
+				onVisible={() => setUpdateVisible(false)}
+			>
+				<AppForm
+					initialValues={{
+						title: item.title,
+						price: item.price.toString(),
+						description: item.description,
+					}}
+					onSubmit={updateDetails}
+					validationSchema={validationSchema}
+				>
+					<AppFormField name="title" placeholder="Title" />
+					<AppFormField
+						keyboardType="numeric"
+						width={'70%'}
+						name="price"
+						placeholder="Price"
+					/>
+					<AppFormField name="description" placeholder="Description" />
+					<SubmitButton title="Update" />
 				</AppForm>
 			</AppModal>
 		</>

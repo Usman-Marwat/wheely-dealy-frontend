@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ServiceDetails = ({ route }) => {
-	const { service, saveAble } = route.params;
+	const { service, saveAble, updateAble } = route.params;
 	const [saved, setSaved] = useState(service.savedByCurrentUser);
 	const [visible, setVisible] = useState(false);
 	const { user } = useAuth();
@@ -56,9 +56,11 @@ const ServiceDetails = ({ route }) => {
 
 			<View style={{ padding: 10 }}>
 				<View style={styles.rowButtons}>
-					<TouchableOpacity onPress={() => setVisible(true)}>
-						<FontAwesome name={'edit'} size={30} />
-					</TouchableOpacity>
+					{updateAble && (
+						<TouchableOpacity onPress={() => setVisible(true)}>
+							<FontAwesome name={'edit'} size={30} />
+						</TouchableOpacity>
+					)}
 
 					{saveAble && (
 						<TouchableOpacity onPress={saveItem}>

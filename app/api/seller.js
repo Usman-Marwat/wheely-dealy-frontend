@@ -40,6 +40,32 @@ const postAd = (carAd, onUploadProgress) => {
 			onUploadProgress(progress.loaded / progress.total),
 	});
 };
+
+const updateAd = (carAd) => {
+	const data = new FormData();
+	data.append('Title', carAd.title);
+	data.append('ContactNo', carAd.contactNo);
+	data.append('Price', Number(carAd.price));
+	data.append('Model', Number(carAd.model));
+	data.append('EngineCapacity', Number(carAd.engineCapacity));
+	data.append('AssemblyTypeGId', carAd.assemblyType.alternateKey);
+	data.append('FuelTypeGId', carAd.fuelType.alternateKey);
+	data.append('TransmissionTypeGId', carAd.transmissionType.alternateKey);
+	data.append('BodyTypeGId', carAd.bodyType.alternateKey);
+	data.append('ExteriorColorGId', carAd.exteriorColor.alternateKey);
+	data.append('VehicleTypeGId', carAd.vehicleType.alternateKey);
+	data.append('RegistrationCityGId', carAd.registrationCity.alternateKey);
+	data.append('Description', carAd.description); //
+	data.append('Mileage', Number(carAd.mileage)); //
+	data.append('Latitude', carAd.latitude.toString()); //
+	data.append('Longitude', carAd.longitude.toString()); //
+	data.append('UserGId', carAd.userGId);
+	data.append('AdId', carAd.alternateKey);
+	data.append('OTP', Number('12345'));
+	data.append('Images', []);
+
+	return client.put(`${endpoint}/modifyad`, data);
+};
 const postServiceAd = (ad, onUploadProgress) => {
 	const data = new FormData();
 	data.append('title', ad.title);
@@ -87,5 +113,6 @@ export default {
 	getServiceTypes,
 	postAd,
 	postServiceAd,
+	updateAd,
 	updateServiceAd,
 };
