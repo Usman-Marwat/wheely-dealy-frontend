@@ -12,6 +12,7 @@ import CustomDrawer from './CustomDrawer';
 import ExploreNavigator from './ExploreNavigator';
 import HomeNavigator from './HomeNavigator';
 import navigationTheme from './navigationTheme';
+import MyBidsNavigator from './MyBidsNavigator';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -49,11 +50,12 @@ const CustomerNavigator = () => {
 							);
 						}}
 					>
-						<DrawerNavigator.Screen name="Home" component={HomeNavigator} />
 						<DrawerNavigator.Screen
 							name="Explore"
 							component={ExploreNavigator}
 						/>
+						<DrawerNavigator.Screen name="Home" component={HomeNavigator} />
+						<DrawerNavigator.Screen name="Bids" component={MyBidsNavigator} />
 						<DrawerNavigator.Screen name="Chat" component={RootNavigator} />
 						<DrawerNavigator.Screen
 							name="Account"
