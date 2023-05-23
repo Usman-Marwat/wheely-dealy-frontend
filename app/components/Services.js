@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 		marginHorizontal: 10,
 		borderRadius: 12,
-		backgroundColor: 'rgba(255,255,255,0.8)',
+		backgroundColor: 'white',
 
 		shadowColor: '#000',
 		shadowOffset: {
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.3,
 		shadowRadius: 20,
+		borderWidth: 0.5,
 	},
 	itemWrapper: {
 		flexDirection: 'row',

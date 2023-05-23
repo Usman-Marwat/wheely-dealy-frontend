@@ -8,7 +8,6 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import React, { useRef } from 'react';
-import { faker } from '@faker-js/faker';
 
 import Screen from '../components/Screen';
 import useApi from '../hooks/useApi';
@@ -24,16 +23,6 @@ const BG_IMG =
 const SPACING = 20;
 const AVATAR_SIZE = 70;
 const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
-faker.seed(10);
-const DATA = [...Array(10).keys()].map((_, i) => {
-	return {
-		key: faker.datatype.uuid(),
-		image: faker.image.people(640, 480, true),
-		name: faker.name.firstName(),
-		jobTitle: faker.name.jobTitle(),
-		email: faker.internet.email(),
-	};
-});
 
 const BidsListScreen = ({ route }) => {
 	const { adId } = route.params;

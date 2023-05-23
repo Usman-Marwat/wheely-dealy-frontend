@@ -7,14 +7,11 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import AccountNavigator from './AccountNavigator';
 import HomeNavigator from './HomeNavigator';
 import CustomDrawer from './CustomDrawer';
-// import DealersListNavigator from './DealersListNavigator';
 import DrawerAnimationContext from '../contexts/drawerAnimationContext';
 import navigationTheme from './navigationTheme';
 import RootNavigator from '../chat/RootNavigator';
-// import ReceivedContractNavigator from './ReceivedNavigator';
 import useNotifications from '../hooks/useNotifications';
 import BlogsNavigator from './BlogsNavigator';
-import ReceivedNavigator from './ReceivedNavigator';
 import MyAdsNavigator from './MyAdsNavigator';
 import ExploreNavigator from './ExploreNavigator';
 import MyServicesNavigator from './MyServicesNavigator';
@@ -55,11 +52,11 @@ const CustomerNavigator = () => {
 							);
 						}}
 					>
-						<DrawerNavigator.Screen name="Home" component={HomeNavigator} />
 						<DrawerNavigator.Screen
 							name="Explore"
 							component={ExploreNavigator}
 						/>
+						<DrawerNavigator.Screen name="Home" component={HomeNavigator} />
 
 						<DrawerNavigator.Screen name="My Ads" component={MyAdsNavigator} />
 
@@ -68,18 +65,7 @@ const CustomerNavigator = () => {
 							component={MyServicesNavigator}
 						/>
 
-						{/* <DrawerNavigator.Screen
-							name="Dealers"
-							component={DealersListNavigator}
-						/> */}
-						<DrawerNavigator.Screen
-							name="Received"
-							component={ReceivedNavigator}
-						/>
-						<DrawerNavigator.Screen
-							name="Blogs & Posts"
-							component={BlogsNavigator}
-						/>
+						<DrawerNavigator.Screen name="Blogs" component={BlogsNavigator} />
 						<DrawerNavigator.Screen name="Chat" component={RootNavigator} />
 						<DrawerNavigator.Screen
 							name="Account"

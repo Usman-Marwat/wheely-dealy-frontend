@@ -19,8 +19,6 @@ const MyServicesListScreen = ({ navigation }) => {
 		userAdsApi.request(user.user_id);
 	}, []);
 
-	console.log(userAdsApi.data);
-
 	return (
 		<>
 			<MenuFoldButton />
@@ -32,6 +30,7 @@ const MyServicesListScreen = ({ navigation }) => {
 				)}
 				<Services services={userAdsApi.data?.items} />
 			</View>
+
 			<View style={styles.plusButton}>
 				<TouchableIcon
 					name="plus"
