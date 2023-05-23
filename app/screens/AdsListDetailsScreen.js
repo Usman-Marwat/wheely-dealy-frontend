@@ -1,4 +1,4 @@
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import niceColors from 'nice-color-palettes';
 import { useState } from 'react';
 import {
@@ -14,16 +14,17 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { SharedElement } from 'react-navigation-shared-element';
 
+import { useEffect } from 'react';
+import userAds from '../api/ad';
+import dashboard from '../api/dashboard';
 import useAuth from '../auth/useAuth';
+import ActivityIndicator from '../components/ActivityIndicator';
 import AppModal from '../components/AppModal';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
+import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
-import useApi from '../hooks/useApi';
-import userAds from '../api/ad';
-import { useEffect } from 'react';
-import ActivityIndicator from '../components/ActivityIndicator';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -37,20 +38,25 @@ const colorsPallete = [...niceColors[1], ...niceColors[2]];
 const buttons = ['See all the bids', 'Give your bid'];
 
 const AdsListDetailsScreen = ({ navigation, route }) => {
-	const { item } = route.params;
+	const { item, saveAble } = route.params;
+	const [saved, setSaved] = useState(item.savedByCurrentUser);
 	const [visible, setVisible] = useState(false);
 	const { user } = useAuth();
 
 	const myBidApi = useApi(userAds.getMyBidOnAd);
 	const addBidApi = useApi(userAds.bidOnAd);
+	const saveItemApi = useApi(dashboard.saveAnItem);
 
 	const getBids = async () => {
 		await myBidApi.request(item.alternateKey);
 	};
-
 	const postBid = async (bidAmount) => {
 		await addBidApi.request(bidAmount, item.alternateKey);
 		getBids();
+	};
+	const saveItem = async () => {
+		const { data } = await saveItemApi.request(item.alternateKey, 'VA');
+		if (data.statusCode === 200) setSaved(!saved);
 	};
 
 	useEffect(() => {
@@ -60,7 +66,9 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	return (
 		<>
 			<BackButton />
-			<ActivityIndicator visible={myBidApi.loading || addBidApi.loading} />
+			<ActivityIndicator
+				visible={myBidApi.loading || addBidApi.loading || saveItemApi.loading}
+			/>
 			<View>
 				<SharedElement id={`item.${item.key}.image`} style={styles.image}>
 					<Image source={{ uri: item.imageUrls[0].url }} style={styles.image} />
@@ -122,6 +130,15 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 							onPress={() => setVisible(true)}
 						/>
 					</>
+				)}
+
+				{saveAble && (
+					<TouchableOpacity
+						style={{ marginTop: 30, alignItems: 'center' }}
+						onPress={saveItem}
+					>
+						<FontAwesome name={saved ? 'bookmark' : 'bookmark-o'} size={40} />
+					</TouchableOpacity>
 				)}
 			</View>
 

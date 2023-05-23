@@ -5,7 +5,16 @@ import PostDetails from './PostDetails';
 import Screen from './Screen';
 import UserPost from './UserPost';
 
-const Posts = ({ posts, onLike, onShare, onComment, onRefresh, onDetails }) => {
+const Posts = ({
+	posts,
+	onLike,
+	onShare,
+	onComment,
+	onRefresh,
+	onDetails,
+	saveAble,
+	onSave,
+}) => {
 	const [selected, setSelected] = useState(null);
 	const [visible, setVisible] = useState(false);
 
@@ -33,6 +42,8 @@ const Posts = ({ posts, onLike, onShare, onComment, onRefresh, onDetails }) => {
 								onSelected={(post) => handlePostDetails(post)}
 								onLike={onLike}
 								onShare={onShare}
+								saveAble
+								onSave={onSave}
 							/>
 						);
 					}}

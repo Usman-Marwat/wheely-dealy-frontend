@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
 
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -11,11 +10,7 @@ import Vehicles from '../components/Vehicles';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 
-const SPACING = 10;
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
-
-const ITEM_SIZE = 120;
-const BG_COLOR = '#C1CEE077';
 
 const HomeDashboardScreen = ({ navigation }) => {
 	const [selectedTab, setSelectedTab] = useState(tabs[0]);
@@ -46,6 +41,7 @@ const HomeDashboardScreen = ({ navigation }) => {
 					navigation={navigation}
 					vehicles={homeContentApi.data?.ads}
 					onRefresh={getHomeData}
+					saveAble
 				/>
 			)}
 			{selectedTab === 'Services' && (
@@ -78,39 +74,3 @@ const HomeDashboardScreen = ({ navigation }) => {
 };
 
 export default HomeDashboardScreen;
-
-const styles = StyleSheet.create({
-	description: {
-		fontSize: 12,
-		opacity: 0.7,
-		position: 'absolute',
-		top: SPACING + 17,
-	},
-	item: {
-		height: ITEM_SIZE * 1.7,
-		borderRadius: 12,
-		marginBottom: SPACING,
-		padding: SPACING,
-		backgroundColor: BG_COLOR,
-		overflow: 'hidden',
-	},
-	image: {
-		height: ITEM_SIZE * 1.2,
-		width: '100%',
-		position: 'absolute',
-		bottom: 10,
-		right: '-30%',
-	},
-	model: {
-		fontSize: 18,
-		fontWeight: '700',
-		position: 'absolute',
-	},
-	price: {
-		fontSize: 12,
-		fontWeight: '700',
-		opacity: 0.7,
-		position: 'absolute',
-		top: SPACING + 47,
-	},
-});

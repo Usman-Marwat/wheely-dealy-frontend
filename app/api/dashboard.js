@@ -1,6 +1,6 @@
 import client from './httpClient';
 
-const endpoint = '/dashboard';
+const endpoint = 'Dashboard';
 
 // const getHomeContent = () =>
 // 	client.get(`${endpoint}/getContent?sectionType=H&pageNumber=0&pageSize=10`);
@@ -19,7 +19,11 @@ const getExploreContent = (pageNumber = 0, pageSize = 10) =>
 		pageSize,
 	});
 
+const saveAnItem = (itemId, itemType) =>
+	client.post(`${endpoint}/save-item`, { itemId, itemType });
+
 export default {
 	getHomeContent,
 	getExploreContent,
+	saveAnItem,
 };

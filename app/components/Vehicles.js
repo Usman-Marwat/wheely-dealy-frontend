@@ -15,7 +15,7 @@ const SPACING = 10;
 const ITEM_SIZE = 120;
 const BG_COLOR = '#C1CEE077';
 
-const Vehicles = ({ navigation, vehicles, onRefresh }) => {
+const Vehicles = ({ navigation, vehicles, onRefresh, saveAble }) => {
 	return (
 		<FlatList
 			showsVerticalScrollIndicator={false}
@@ -27,7 +27,7 @@ const Vehicles = ({ navigation, vehicles, onRefresh }) => {
 				return (
 					<TouchableOpacity
 						onPress={() =>
-							navigation.navigate(routes.ADS_LIST_DETAIL, { item })
+							navigation.navigate(routes.ADS_LIST_DETAIL, { item, saveAble })
 						}
 					>
 						<View style={styles.item}>

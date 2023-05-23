@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 
-const UserPost = ({ post, onSelected, onLike, onShare }) => {
+const UserPost = ({ post, onSelected, onLike, onShare, saveAble, onSave }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -14,7 +14,19 @@ const UserPost = ({ post, onSelected, onLike, onShare }) => {
 				<Text style={styles.date}>
 					{new Date(post.postedDateTime).toDateString()}
 				</Text>
+				{saveAble && (
+					<TouchableOpacity
+						style={{ marginLeft: 17 }}
+						onPress={() => onSave(post.alternateKey)}
+					>
+						<FontAwesome
+							name={post.savedByCurrentUser ? 'bookmark' : 'bookmark-o'}
+							size={20}
+						/>
+					</TouchableOpacity>
+				)}
 			</View>
+
 			<Text style={styles.content}>{post.text}</Text>
 
 			<View style={styles.actionsContainer}>

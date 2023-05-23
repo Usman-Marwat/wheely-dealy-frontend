@@ -1,22 +1,17 @@
 import {
-	Button,
 	FlatList,
 	Image,
-	Modal,
+	RefreshControl,
 	StyleSheet,
 	Text,
 	View,
-	RefreshControl,
 } from 'react-native';
-import React, { useState } from 'react';
 
 import colors from '../config/colors';
+import routes from '../navigation/routes';
 import TouchableIcon from './TouchableIcon';
 
-const Services = ({ services, onRefresh }) => {
-	const [visible, setVisible] = useState(false);
-	const [service, setService] = useState(null);
-
+const Services = ({ navigation, services, onRefresh, saveAble }) => {
 	return (
 		<View style={{ flex: 1 }}>
 			<FlatList
@@ -44,10 +39,12 @@ const Services = ({ services, onRefresh }) => {
 											size={44}
 											iconColor={colors.primary}
 											backgroundColor="transparent"
-											onPress={() => {
-												setService(item);
-												setVisible(true);
-											}}
+											onPress={() =>
+												navigation.navigate(routes.SERVICE_DETAIL, {
+													service: item,
+													saveAble,
+												})
+											}
 										/>
 									</View>
 								</View>
@@ -56,30 +53,6 @@ const Services = ({ services, onRefresh }) => {
 					);
 				}}
 			/>
-
-			{service && (
-				<Modal visible={visible} animationType="slide">
-					<Button title="X" onPress={() => setVisible(false)} />
-					<Text style={{ fontWeight: '700' }}>Service Data:</Text>
-					<Text>{service.title}</Text>
-					<Text>{service.price}</Text>
-					<Text>{service.description}</Text>
-					<Text style={{ fontWeight: '700' }}>User Data:</Text>
-					<Text> {service.user.name}</Text>
-					<Text> {service.user.phoneNo}</Text>
-					<Text> {service.user.email}</Text>
-					<FlatList
-						data={service.imageUrls}
-						keyExtractor={(url) => url.alternateKey}
-						renderItem={({ image, index }) => (
-							<Image
-								style={{ width: 70, height: 70 }}
-								source={{ uri: image.url }}
-							/>
-						)}
-					/>
-				</Modal>
-			)}
 		</View>
 	);
 };

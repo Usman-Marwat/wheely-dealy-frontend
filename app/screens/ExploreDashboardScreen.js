@@ -21,6 +21,7 @@ const ExploreDashboardScreen = ({ navigation }) => {
 	const postShareApi = useApi(userAdsApi.sharePost);
 	const postCommentApi = useApi(userAdsApi.commentOnPost);
 	const singlePostApi = useApi(userAdsApi.getPostById);
+	const saveItemApi = useApi(dashboard.saveAnItem);
 
 	const getExploreData = () => {
 		exploreContentApi.request();
@@ -58,6 +59,10 @@ const ExploreDashboardScreen = ({ navigation }) => {
 			});
 		}
 	};
+	const savePost = async (postId) => {
+		const { data } = await saveItemApi.request(postId, 'P');
+		if (data.statusCode === 200) getExploreData();
+	};
 
 	return (
 		<>
@@ -66,7 +71,8 @@ const ExploreDashboardScreen = ({ navigation }) => {
 					exploreContentApi.loading ||
 					postLikeApi.loading ||
 					postShareApi.loading ||
-					singlePostApi.loading
+					singlePostApi.loading ||
+					saveItemApi.loading
 				}
 			/>
 			<MenuFoldButton />
@@ -82,12 +88,15 @@ const ExploreDashboardScreen = ({ navigation }) => {
 					navigation={navigation}
 					vehicles={exploreContentApi.data?.ads}
 					onRefresh={getExploreData}
+					saveAble
 				/>
 			)}
 			{selectedTab === 'Services' && (
 				<Services
+					navigation={navigation}
 					services={exploreContentApi.data?.serviceAds}
 					onRefresh={getExploreData}
+					saveAble
 				/>
 			)}
 			{selectedTab === 'Posts' && (
@@ -99,6 +108,8 @@ const ExploreDashboardScreen = ({ navigation }) => {
 						onComment={(postId, text) => handlePostComment(postId, text)}
 						onRefresh={getExploreData}
 						onDetails={handlePostDetails}
+						saveAble
+						onSave={savePost}
 					/>
 				</>
 			)}

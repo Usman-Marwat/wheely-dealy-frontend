@@ -6,6 +6,7 @@ import ExploreDashboardScreen from '../screens/ExploreDashboardScreen';
 import { options } from './navigationOptions';
 import routes from './routes';
 import UserDetailsScreen from '../screens/UserDetailsScreen';
+import ServiceDetails from '../screens/ServiceDetails';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -46,6 +47,7 @@ const ExploreNavigator = () => {
 				options={options}
 			/>
 			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
+			<Stack.Screen name={routes.SERVICE_DETAIL} component={ServiceDetails} />
 		</Stack.Navigator>
 	);
 };
