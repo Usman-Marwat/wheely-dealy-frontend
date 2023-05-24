@@ -137,7 +137,7 @@ const UserDetailsScreen = ({ route }) => {
 							</Animatable.View>
 							{/* </View> */}
 							{profileViewApi.data?.ads.map((ad, i) => (
-								<>
+								<View key={i}>
 									{i === 0 && <Text style={styles.heading}>Car ads</Text>}
 									<CarAd
 										title={ad.title}
@@ -145,22 +145,22 @@ const UserDetailsScreen = ({ route }) => {
 										price={ad.price}
 										image={ad.imageUrls[0].url}
 									/>
-								</>
+								</View>
 							))}
 
 							{profileViewApi.data?.serviceAds.map((ad, i) => (
-								<>
+								<View key={i}>
 									{i === 0 && <Text style={styles.heading}>Service ads</Text>}
 									<CarAd
 										title={ad.title}
 										model={ad.contactNo}
 										price={ad.price}
-										image={ad.imageUrls[0].url}
+										// image={ad.imageUrls[0].url}
 									/>
-								</>
+								</View>
 							))}
 
-							{profileViewApi.data?.posts.map((post, i) => (
+							{/* {profileViewApi.data?.posts.map((post, i) => (
 								<>
 									{i === 0 && <Text style={styles.heading}>Posts </Text>}
 									<CarAd
@@ -169,7 +169,7 @@ const UserDetailsScreen = ({ route }) => {
 										price={`no of comments ${post.comments.length}`}
 									/>
 								</>
-							))}
+							))} */}
 						</ScrollView>
 					</View>
 				</SharedElement>

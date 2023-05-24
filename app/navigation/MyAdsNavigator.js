@@ -6,6 +6,7 @@ import MyAdsListScreen from '../screens/MyAdsListScreen';
 import AdsListDetailsScreen from '../screens/AdsListDetailsScreen';
 import { options } from './navigationOptions';
 import routes from './routes';
+import BidsListScreen from '../screens/BidsListScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -28,6 +29,7 @@ const MyAdsNavigator = () => {
 				options={options}
 			/>
 			<Stack.Screen name={routes.ADS_EDIT} component={AdsEditScreen} />
+			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
 		</Stack.Navigator>
 	);
 };
