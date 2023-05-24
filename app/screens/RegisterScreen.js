@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useState } from 'react';
 import {
-	Button,
 	Dimensions,
 	Image,
 	StyleSheet,
@@ -8,26 +8,25 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import * as Yup from 'yup';
-import { SharedElement } from 'react-navigation-shared-element';
+
 import * as Animatable from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import _ from 'lodash';
+import { SharedElement } from 'react-navigation-shared-element';
+import * as Yup from 'yup';
 
+import authApi from '../api/auth';
+import ActivityIndicator from '../components/ActivityIndicator';
+import Icon from '../components/Icon';
 import {
 	ErrorMessage,
 	AppForm as Form,
 	AppFormField as FormField,
 	SubmitButton,
 } from '../components/forms';
-import ActivityIndicator from '../components/ActivityIndicator';
 import AppPhoneInput from '../components/forms/AppPhoneInput';
-import authApi from '../api/auth';
-import colors from '../config/colors';
-import Icon from '../components/Icon';
-import useApi from '../hooks/useApi';
 import OtpInput from '../components/forms/OtpInput';
-import routes from '../navigation/routes';
+import colors from '../config/colors';
+import useApi from '../hooks/useApi';
 
 const { width } = Dimensions.get('screen');
 const DURATION = 400;
@@ -64,24 +63,20 @@ function RegisterScreen({ navigation, route }) {
 
 	const handleOtp = async (otp) => {
 		setOtpVisible(!otpVisible);
-		//is email a string
-		console.log(otp);
+
 		const result = await verifyEmailApi.request({
 			email: formData.email,
 			otp,
 		});
-		console.log(result.data);
-		if (!result.data?.statusCode === 200) return setError(result.data.message);
-		console.log('hi');
-		navigation.goBack();
+		if (result.data?.statusCode !== 200) return setError(result.data.message);
+		setError(null);
+		alert('User registered successfully!!');
 	};
 
 	const handleSubmit = async (userInfo, { resetForm }) => {
-		const result = await registerApi.request({ ...formData, ...userInfo });
+		const { data } = await registerApi.request({ ...formData, ...userInfo });
 
-		console.log(result.data);
-
-		if (!result.data.statusCode === 200) return setError(result.data.message);
+		if (data?.statusCode !== 200) return setError(data.message);
 
 		setOtpVisible(!otpVisible);
 		setFormData({ ...formData, ...userInfo });
@@ -155,6 +150,16 @@ function RegisterScreen({ navigation, route }) {
 								numberOfLines={3}
 								placeholder="About"
 							/>
+							{registerApi.data?.statusCode === 200 && (
+								<TouchableOpacity
+									style={styles.otpInput}
+									onPress={() => setOtpVisible(true)}
+								>
+									<Text>OTP:{'  '}</Text>
+									<MaterialIcons name="input" size={30} />
+								</TouchableOpacity>
+							)}
+
 							<SubmitButton title="Register" bg={bg} />
 						</Form>
 						<TouchableOpacity
@@ -208,6 +213,12 @@ const styles = StyleSheet.create({
 		fontSize: 32,
 		textTransform: 'uppercase',
 		color: colors.medium,
+	},
+	otpInput: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginVertical: 20,
 	},
 });
 
