@@ -30,6 +30,12 @@ const getProfileById = (userId) =>
 const updateProfile = (user_id, profileData) =>
 	client.put(`users/profile/${user_id}`, profileData);
 
+const getPasswordOtp = (email) =>
+	client.get(`${endpoint}/forgot-password`, { email });
+
+const resetPassword = (userInfo) =>
+	client.post(`${endpoint}/reset-password`, userInfo);
+
 export default {
 	getAccountTypes,
 	login,
@@ -38,4 +44,6 @@ export default {
 	register,
 	updateProfile,
 	getProfileById,
+	getPasswordOtp,
+	resetPassword,
 };

@@ -1,35 +1,32 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import {
 	Dimensions,
-	StyleSheet,
 	Image,
+	StyleSheet,
 	Text,
-	View,
 	TouchableOpacity,
+	View,
 } from 'react-native';
-import * as Yup from 'yup';
-import { SharedElement } from 'react-navigation-shared-element';
 import * as Animatable from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { SharedElement } from 'react-navigation-shared-element';
+import * as Yup from 'yup';
 
 import ActivityIndicator from '../components/ActivityIndicator';
 
-import AuthContext from '../auth/context';
-import authStorage from '../auth/storage';
-
-import {
-	ErrorMessage,
-	AppForm,
-	AppFormField,
-	SubmitButton,
-} from '../components/forms';
 import authApi from '../api/auth';
 import useAuth from '../auth/useAuth';
-import useApi from '../hooks/useApi';
 import Icon from '../components/Icon';
+import {
+	AppForm,
+	AppFormField,
+	ErrorMessage,
+	SubmitButton,
+} from '../components/forms';
 import colors from '../config/colors';
+import useApi from '../hooks/useApi';
 
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 const DURATION = 400;
 
 const validationSchema = Yup.object().shape({
@@ -40,14 +37,12 @@ const validationSchema = Yup.object().shape({
 function LoginScreen({ navigation, route }) {
 	const { item, bg } = route.params;
 	const [error, setError] = useState();
-	const { user, setUser } = useContext(AuthContext);
 	const loginApi = useApi(authApi.login);
 	const { logIn } = useAuth();
 
 	const handleSubmit = async (formData) => {
 		const { data } = await loginApi.request({ ...formData });
-		// authStorage.storeToken(data.token);
-		// setUser(data.user);
+		if (data?.statusCode !== 200) return setError(data.message);
 		logIn(data.token);
 	};
 

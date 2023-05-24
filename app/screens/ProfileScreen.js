@@ -18,6 +18,7 @@ import ImageInput from '../components/ImageInput';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
 import useApi from '../hooks/useApi';
+import ActivityIndicator from '../components/ActivityIndicator';
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().required().min(1).label('Name'),
@@ -26,12 +27,26 @@ const validationSchema = Yup.object().shape({
 
 function ProfileScreen({ navigation }) {
 	const [visible, setVisible] = useState(false);
+	const [passwordVisible, setPasswordVisble] = useState(false);
+	const [otpDisable, setOtpDisable] = useState(false);
 	const [imageUri, setImageUri] = useState();
 
 	const myAccountApi = useApi(authApi.getMyAccount);
+	const passwordOtpApi = useApi(authApi.getPasswordOtp);
+	const resetPasswordApi = useApi(authApi.resetPassword);
 
-	const updateProfile = () => {
-		console.log('hi');
+	const updateProfile = (formData) => {
+		console.log(formData);
+	};
+	const changePassword = async (formData) => {
+		const { data } = await resetPasswordApi.request({
+			email: myAccountApi.data.email,
+			...formData,
+		});
+		if (data?.statusCode === 200) alert(data.message);
+	};
+	const generateOtp = () => {
+		passwordOtpApi.request(myAccountApi.data.email);
 	};
 
 	useEffect(() => {
@@ -45,6 +60,9 @@ function ProfileScreen({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Header />
+			<ActivityIndicator
+				visible={myAccountApi.loading || resetPasswordApi.loading}
+			/>
 
 			<View style={styles.profileDetailsSection}>
 				<View style={styles.row}>
@@ -85,7 +103,7 @@ function ProfileScreen({ navigation }) {
 							iconColor={colors.secondary}
 							size={44}
 						/>
-						<Text style={styles.exploreText}>Members</Text>
+						<Text style={styles.exploreText}>Check</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.singleExplore}
@@ -100,17 +118,11 @@ function ProfileScreen({ navigation }) {
 						/>
 						<Text style={styles.exploreText}>My-Todos</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.singleExplore}>
-						<Icon
-							family="fontisto"
-							name="pie-chart-1"
-							backgroundColor="transparent"
-							iconColor={colors.primary}
-							size={44}
-						/>
-						<Text style={styles.exploreText}>Report</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.singleExplore}>
+
+					<TouchableOpacity
+						style={styles.singleExplore}
+						onPress={() => setPasswordVisble(true)}
+					>
 						<Icon
 							family="antDesign"
 							name="setting"
@@ -118,7 +130,7 @@ function ProfileScreen({ navigation }) {
 							iconColor={colors.secondary}
 							size={44}
 						/>
-						<Text style={styles.exploreText}>Settings</Text>
+						<Text style={styles.exploreText}> Password</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -157,6 +169,47 @@ function ProfileScreen({ navigation }) {
 						onChangeImage={(uri) => setImageUri(uri)}
 					/>
 					<SubmitButton title="Update" />
+				</AppForm>
+			</AppModal>
+
+			<AppModal
+				heading="Change Password"
+				visible={passwordVisible}
+				onVisible={() => setPasswordVisble(false)}
+			>
+				<AppForm
+					initialValues={{
+						otp: '',
+						password: '',
+					}}
+					onSubmit={() => {
+						setPasswordVisble(false);
+						changePassword();
+					}}
+				>
+					<View style={styles.otpField}>
+						<AppFormField
+							width="60%"
+							name="otp"
+							maxLength={6}
+							placeholder="OTP"
+							keyboardType="numeric"
+						/>
+						<Button
+							title="generate"
+							onPress={() => {
+								setOtpDisable(true);
+								generateOtp();
+							}}
+							disabled={otpDisable}
+						/>
+					</View>
+					<AppFormField
+						autoCapitalize="none"
+						name="password"
+						placeholder="New Password"
+					/>
+					<SubmitButton title="Change " />
 				</AppForm>
 			</AppModal>
 		</View>
@@ -276,5 +329,10 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 14,
 		color: colors.medium,
+	},
+	otpField: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 });
