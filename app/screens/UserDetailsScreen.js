@@ -111,7 +111,7 @@ const UserDetailsScreen = ({ route }) => {
 							<Animatable.View
 								animation="fadeInUp"
 								delay={DURATION}
-								style={{ marginVertical: SPACING }}
+								style={{ marginVertical: SPACING, flex: 1 }}
 							>
 								<Text style={styles.title}>{item.email}</Text>
 								<View style={styles.list}>
@@ -160,16 +160,17 @@ const UserDetailsScreen = ({ route }) => {
 								</View>
 							))}
 
-							{/* {profileViewApi.data?.posts.map((post, i) => (
-								<>
+							{profileViewApi.data?.posts.map((post, i) => (
+								<View key={i}>
 									{i === 0 && <Text style={styles.heading}>Posts </Text>}
 									<CarAd
-										title={`post ${i}`}
+										title={`post ${i + 1}`}
 										model={post.text}
-										price={`no of comments ${post.comments.length}`}
+										// price={`no of comments ${post.comments.length}`}
 									/>
-								</>
-							))} */}
+								</View>
+							))}
+							<View style={{ height: 300 }} />
 						</ScrollView>
 					</View>
 				</SharedElement>

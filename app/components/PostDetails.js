@@ -27,16 +27,8 @@ const PostDetails = ({ post, onComment }) => {
 						comment: Yup.string().required().label('Comment'),
 					})}
 				>
-					<View style={{ flexDirection: 'row' }}>
-						<AppFormField
-							width="80%"
-							name="comment"
-							placeholder="Comment on the post"
-						/>
-						<View style={{ marginLeft: 10 }}>
-							<SubmitButton title="send" bg="silver" />
-						</View>
-					</View>
+					<AppFormField name="comment" placeholder="Comment on the post" />
+					<SubmitButton title="send" bg="silver" />
 				</AppForm>
 			</View>
 		</KeyboardAwareScrollView>
