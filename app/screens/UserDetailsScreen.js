@@ -51,6 +51,7 @@ const UserDetailsScreen = ({ route }) => {
 	const getSingleProfile = async (userId) => {
 		// const { data } = await profileByIdApi.request(userId);
 		const { data } = await profileViewApi.request(userId);
+		console.log(data.serviceAds[0].imageUrls);
 	};
 
 	`
@@ -78,66 +79,97 @@ const UserDetailsScreen = ({ route }) => {
 
 				<SharedElement id="general.bg">
 					<View style={styles.overlay}>
-						<ScrollView>
-							<View style={styles.iconRow}>
-								{detailsIcons.map((detail, index) => {
-									const iconName =
-										detail.icon === 'heart'
-											? item.followedByCurrentUser
-												? 'heart'
-												: 'hearto'
-											: detail.icon;
-									return (
-										<Animatable.View
-											animation="bounceIn"
-											delay={DURATION + index * 100}
-											key={`${detail.icon}-${index}`}
+						<View style={styles.iconRow}>
+							{detailsIcons.map((detail, index) => {
+								const iconName =
+									detail.icon === 'heart'
+										? item.followedByCurrentUser
+											? 'heart'
+											: 'hearto'
+										: detail.icon;
+								return (
+									<Animatable.View
+										animation="bounceIn"
+										delay={DURATION + index * 100}
+										key={`${detail.icon}-${index}`}
+									>
+										<TouchableOpacity
+											onPress={() => handleDetails(detail.icon)}
 										>
-											<TouchableOpacity
-												onPress={() => handleDetails(detail.icon)}
-											>
-												<AntDesign
-													name={iconName}
-													size={40}
-													color={detail.color}
-												/>
-											</TouchableOpacity>
-										</Animatable.View>
-									);
-								})}
-							</View>
+											<AntDesign
+												name={iconName}
+												size={40}
+												color={detail.color}
+											/>
+										</TouchableOpacity>
+									</Animatable.View>
+								);
+							})}
+						</View>
+						<ScrollView>
+							{/* <View style={{ flex: 1 }}> */}
+							<Animatable.View
+								animation="fadeInUp"
+								delay={DURATION}
+								style={{ marginVertical: SPACING }}
+							>
+								<Text style={styles.title}>{item.email}</Text>
+								<View style={styles.list}>
+									<View
+										style={[
+											styles.listItemDot,
+											{ backgroundColor: item.color },
+										]}
+									/>
+									<Text style={styles.subTitle}>username: {item.username}</Text>
+								</View>
+								<View style={styles.list}>
+									<View
+										style={[
+											styles.listItemDot,
+											{ backgroundColor: item.color },
+										]}
+									/>
+									<Text style={styles.subTitle}>
+										ratingScore: {item.ratingScore}
+									</Text>
+								</View>
+							</Animatable.View>
+							{/* </View> */}
+							{profileViewApi.data?.ads.map((ad, i) => (
+								<>
+									{i === 0 && <Text style={styles.heading}>Car ads</Text>}
+									<CarAd
+										title={ad.title}
+										model={ad.model}
+										price={ad.price}
+										image={ad.imageUrls[0].url}
+									/>
+								</>
+							))}
 
-							<View style={{ flex: 1 }}>
-								<Animatable.View
-									animation="fadeInUp"
-									delay={DURATION}
-									style={{ marginVertical: SPACING }}
-								>
-									<Text style={styles.title}>{item.email}</Text>
-									<View style={styles.list}>
-										<View
-											style={[
-												styles.listItemDot,
-												{ backgroundColor: item.color },
-											]}
-										/>
-										<Text style={styles.subTitle}>
-											username: {item.username}
-										</Text>
-									</View>
-									<View style={styles.list}>
-										<View
-											style={[
-												styles.listItemDot,
-												{ backgroundColor: item.color },
-											]}
-										/>
-										<Text style={styles.subTitle}>
-											ratingScore: {item.ratingScore}
-										</Text>
-									</View>
-								</Animatable.View>
-							</View>
+							{profileViewApi.data?.serviceAds.map((ad, i) => (
+								<>
+									{i === 0 && <Text style={styles.heading}>Service ads</Text>}
+									<CarAd
+										title={ad.title}
+										model={ad.contactNo}
+										price={ad.price}
+										image={ad.imageUrls[0].url}
+									/>
+								</>
+							))}
+
+							{profileViewApi.data?.posts.map((post, i) => (
+								<>
+									{i === 0 && <Text style={styles.heading}>Posts </Text>}
+									<CarAd
+										title={`post ${i}`}
+										model={post.text}
+										price={`no of comments ${post.comments.length}`}
+									/>
+								</>
+							))}
 						</ScrollView>
 					</View>
 				</SharedElement>
@@ -145,6 +177,50 @@ const UserDetailsScreen = ({ route }) => {
 		</>
 	);
 };
+
+const CarAd = ({ title, model, price, image }) => {
+	return (
+		<View style={styles2.container}>
+			{image && <Image source={{ uri: image }} style={styles2.image} />}
+			<View style={styles2.detailsContainer}>
+				<Text style={styles2.title}>{title}</Text>
+				<Text style={styles2.model}>{model}</Text>
+				<Text style={styles2.price}>{price}</Text>
+			</View>
+		</View>
+	);
+};
+
+const styles2 = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 16,
+	},
+	image: {
+		width: 100,
+		height: 100,
+		borderRadius: 8,
+		marginRight: 16,
+	},
+	detailsContainer: {
+		flex: 1,
+	},
+	title: {
+		fontSize: 16,
+		fontWeight: '500',
+		marginBottom: 4,
+	},
+	model: {
+		fontSize: 14,
+		color: '#888',
+		marginBottom: 4,
+	},
+	price: {
+		fontSize: 18,
+		fontWeight: '300',
+	},
+});
 
 const styles = StyleSheet.create({
 	bg: {
@@ -210,6 +286,12 @@ const styles = StyleSheet.create({
 		fontWeight: '700',
 		fontSize: 20,
 		marginBottom: SPACING,
+	},
+	heading: {
+		textAlign: 'center',
+		marginTop: 20,
+		marginBottom: 10,
+		fontWeight: '700',
 	},
 });
 

@@ -41,7 +41,11 @@ function LoginScreen({ navigation, route }) {
 	const { logIn } = useAuth();
 
 	const handleSubmit = async (formData) => {
-		const { data } = await loginApi.request({ ...formData });
+		const result = await loginApi.request({ ...formData });
+
+		if (!result.ok) return setError(`Unexpected ${result.problem}`);
+
+		const data = result.data;
 		if (data?.statusCode !== 200) return setError(data.message);
 		logIn(data.token);
 	};

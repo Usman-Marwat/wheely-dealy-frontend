@@ -26,7 +26,7 @@ const getSavedContent = (pageNumber = 0, pageSize = 10) =>
 		pageSize,
 	});
 
-const getProfileView = (pageNumber = 0, pageSize = 10, userid) =>
+const getProfileView = (userid, pageNumber = 0, pageSize = 10) =>
 	client.get(`${endpoint}/getContent`, {
 		sectionType: 'PV',
 		pageNumber,
