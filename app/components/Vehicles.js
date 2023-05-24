@@ -21,6 +21,7 @@ const Vehicles = ({
 	onRefresh,
 	saveAble,
 	updateAble,
+	deleteAble,
 }) => {
 	return (
 		<FlatList
@@ -37,6 +38,7 @@ const Vehicles = ({
 								item,
 								saveAble,
 								updateAble,
+								deleteAble,
 							})
 						}
 					>

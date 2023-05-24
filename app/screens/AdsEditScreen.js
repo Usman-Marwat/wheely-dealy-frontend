@@ -255,6 +255,7 @@ function AdsEditScreen() {
 							<SubmitButton title="Post" />
 						</Form>
 					</TouchableWithoutFeedback>
+					<View style={{ height: 100 }} />
 				</KeyboardAwareScrollView>
 
 				<MapLocationPicker

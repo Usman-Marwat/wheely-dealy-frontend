@@ -1,4 +1,4 @@
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import niceColors from 'nice-color-palettes';
 import { useState } from 'react';
 import {
@@ -10,6 +10,7 @@ import {
 	Text,
 	TouchableOpacity,
 	View,
+	Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SharedElement } from 'react-navigation-shared-element';
@@ -18,7 +19,9 @@ import * as Yup from 'yup';
 import { useEffect } from 'react';
 import userAds from '../api/ad';
 import dashboard from '../api/dashboard';
+import seller from '../api/seller';
 import useAuth from '../auth/useAuth';
+import ActionButtons from '../components/ActionButtons';
 import ActivityIndicator from '../components/ActivityIndicator';
 import AppModal from '../components/AppModal';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
@@ -26,7 +29,7 @@ import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
-import seller from '../api/seller';
+import general from '../api/general';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -46,7 +49,7 @@ const colorsPallete = [...niceColors[1], ...niceColors[2]];
 const buttons = ['See all the bids', 'Give your bid'];
 
 const AdsListDetailsScreen = ({ navigation, route }) => {
-	const { item, saveAble, updateAble } = route.params;
+	const { item, saveAble, updateAble, deleteAble } = route.params;
 	const [saved, setSaved] = useState(item.savedByCurrentUser);
 	const [bidVisible, setBidVisible] = useState(false);
 	const [updateVisible, setUpdateVisible] = useState(false);
@@ -56,6 +59,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const addBidApi = useApi(userAds.bidOnAd);
 	const saveItemApi = useApi(dashboard.saveAnItem);
 	const updateAdApi = useApi(seller.updateAd);
+	const deleteApi = useApi(general.deleteOrMarkSold);
 
 	const getBids = async () => {
 		await myBidApi.request(item.alternateKey);
@@ -69,15 +73,24 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		if (data.statusCode === 200) setSaved(!saved);
 	};
 	const updateDetails = async (adsData) => {
-		console.log(adsData);
 		setUpdateVisible(false);
 		const { data } = await updateAdApi.request({
 			...item,
 			...adsData,
 			userGId: user.user_id,
 		});
-		console.log(data);
 		if (data?.statusCode === 200) alert('Add updated successfully');
+	};
+	const deleteAd = async () => {
+		const { data } = await deleteApi.request(item.alternateKey, 3);
+		console.log(data);
+		if (data?.statusCode === 200) alert('Ad was deleted successfully');
+	};
+	const handleAdDelete = () => {
+		Alert.alert('Delete', 'Are you sure?', [
+			{ text: 'Yes', onPress: () => deleteAd(), style: 'destructive' },
+			{ text: 'No' },
+		]);
 	};
 
 	useEffect(() => {
@@ -92,7 +105,8 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					myBidApi.loading ||
 					addBidApi.loading ||
 					saveItemApi.loading ||
-					updateAdApi.loading
+					updateAdApi.loading ||
+					deleteApi.loading
 				}
 			/>
 			<View>
@@ -157,19 +171,15 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 						/>
 					</>
 				)}
-				<View style={styles.rowButton}>
-					{updateAble && (
-						<TouchableOpacity onPress={() => setUpdateVisible(true)}>
-							<FontAwesome name={'edit'} size={30} />
-						</TouchableOpacity>
-					)}
-
-					{saveAble && (
-						<TouchableOpacity onPress={saveItem}>
-							<FontAwesome name={saved ? 'bookmark' : 'bookmark-o'} size={30} />
-						</TouchableOpacity>
-					)}
-				</View>
+				<ActionButtons
+					deleteAble={deleteAble}
+					saveAble={saveAble}
+					updateAble={updateAble}
+					saved={saved}
+					onSave={saveItem}
+					onUpdate={() => setUpdateVisible(true)}
+					onDelete={handleAdDelete}
+				/>
 			</View>
 
 			<AppModal
