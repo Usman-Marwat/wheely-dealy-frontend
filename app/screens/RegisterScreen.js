@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	image: {
-		width: width / 2,
-		height: width / 2.5,
+		width: width / 2.5,
+		height: width / 3,
 		resizeMode: 'contain',
 		zIndex: 1,
 	},

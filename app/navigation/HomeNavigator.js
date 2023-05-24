@@ -6,6 +6,9 @@ import HomeDashboardScreen from '../screens/HomeDashboardScreen';
 import BidsListScreen from '../screens/BidsListScreen';
 import { options } from './navigationOptions';
 import routes from './routes';
+import PostEditScreen from '../screens/PostEditScreen';
+import ServiceDetails from '../screens/ServiceDetails';
+import UserDetailsScreen from '../screens/UserDetailsScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -28,7 +31,26 @@ const HomeNavigator = () => {
 				}}
 				options={options}
 			/>
+			<Stack.Screen
+				name={routes.USER_DETAILS}
+				component={UserDetailsScreen}
+				sharedElements={(route) => {
+					const { item } = route.params;
+					return [
+						{ id: `item.${item.key}.bg` },
+						{ id: `item.${item._id}.bg` },
+						{ id: `item.${item.key}.name`, animation: 'fade' },
+						{ id: `item.${item._id}.name`, animation: 'fade' },
+						{ id: `item.${item.key}.image` },
+						{ id: `item.${item._id}.image` },
+						{ id: 'general.bg' },
+					];
+				}}
+				options={options}
+			/>
 			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
+			<Stack.Screen name={routes.SERVICE_DETAIL} component={ServiceDetails} />
+			<Stack.Screen name={routes.POST_EDIT} component={PostEditScreen} />
 		</Stack.Navigator>
 	);
 };

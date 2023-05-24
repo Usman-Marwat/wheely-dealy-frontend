@@ -17,7 +17,7 @@ import accounttypes from '../data/accountTypes';
 
 const { width, height } = Dimensions.get('screen');
 
-const bgs = ['#ff355e', '#ffa07a'];
+const bgs = ['#98AFC7', '#72A0C1'];
 
 const DATA = [
 	{
@@ -25,14 +25,14 @@ const DATA = [
 		key: '3571572',
 		title: 'Expand the realm of your business',
 		description: 'This is some random text for seller description',
-		image: 'https://cdn-icons-png.flaticon.com/512/7005/7005687.png',
+		image: 'https://cdn-icons-png.flaticon.com/128/6331/6331739.png',
 	},
 	{
 		role: 'Client',
 		key: '3571747',
 		title: 'Find the car of your choice here',
 		description: 'This is some random text for client description',
-		image: 'https://cdn-icons-png.flaticon.com/512/6101/6101650.png',
+		image: 'https://cdn-icons-png.flaticon.com/128/5673/5673231.png',
 	},
 ];
 
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		width: width,
-		height: width / 2,
+		height: width / 3,
 		resizeMode: 'contain',
 	},
 	itemWrapper: {

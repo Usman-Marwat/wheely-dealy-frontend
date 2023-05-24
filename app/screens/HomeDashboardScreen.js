@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -9,11 +10,15 @@ import Services from '../components/Services';
 import Vehicles from '../components/Vehicles';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
+import TouchableIcon from '../components/TouchableIcon';
+import useAuth from '../auth/useAuth';
+import routes from '../navigation/routes';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 
 const HomeDashboardScreen = ({ navigation }) => {
 	const [selectedTab, setSelectedTab] = useState(tabs[0]);
+	const { user } = useAuth();
 
 	const homeContentApi = useApi(dashboard.getHomeContent);
 
@@ -45,10 +50,12 @@ const HomeDashboardScreen = ({ navigation }) => {
 				/>
 			)}
 			{selectedTab === 'Services' && (
-				<Services
-					services={homeContentApi.data?.serviceAds}
-					onRefresh={getHomeData}
-				/>
+				<View>
+					<Services
+						services={homeContentApi.data?.serviceAds}
+						onRefresh={getHomeData}
+					/>
+				</View>
 			)}
 			{selectedTab === 'Posts' && (
 				<>
@@ -60,6 +67,17 @@ const HomeDashboardScreen = ({ navigation }) => {
 						onRefresh={getHomeData}
 						// onDetails={handlePostDetails}
 					/>
+
+					{user.account_type === 'Seller' && (
+						<View style={styles.plusButton}>
+							<TouchableIcon
+								name="plus"
+								size={50}
+								iconColor="black"
+								onPress={() => navigation.navigate(routes.POST_EDIT)}
+							></TouchableIcon>
+						</View>
+					)}
 				</>
 			)}
 			{selectedTab === 'Profiles' && (
@@ -74,3 +92,13 @@ const HomeDashboardScreen = ({ navigation }) => {
 };
 
 export default HomeDashboardScreen;
+
+const styles = StyleSheet.create({
+	plusButton: {
+		position: 'absolute',
+		bottom: 10,
+		width: '100%',
+		flexDirection: 'row',
+		justifyContent: 'center',
+	},
+});

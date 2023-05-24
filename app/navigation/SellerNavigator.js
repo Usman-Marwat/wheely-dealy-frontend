@@ -11,7 +11,6 @@ import DrawerAnimationContext from '../contexts/drawerAnimationContext';
 import navigationTheme from './navigationTheme';
 import RootNavigator from '../chat/RootNavigator';
 import useNotifications from '../hooks/useNotifications';
-import BlogsNavigator from './BlogsNavigator';
 import MyAdsNavigator from './MyAdsNavigator';
 import ExploreNavigator from './ExploreNavigator';
 import MyServicesNavigator from './MyServicesNavigator';
@@ -65,7 +64,6 @@ const CustomerNavigator = () => {
 							component={MyServicesNavigator}
 						/>
 
-						<DrawerNavigator.Screen name="Blogs" component={BlogsNavigator} />
 						<DrawerNavigator.Screen name="Chat" component={RootNavigator} />
 						<DrawerNavigator.Screen
 							name="Account"

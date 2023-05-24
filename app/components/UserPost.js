@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 		borderRadius: 8,
 		elevation: 2,
-		borderWidth: 1,
+		borderWidth: 0.3,
 	},
 	header: {
 		flexDirection: 'row',
