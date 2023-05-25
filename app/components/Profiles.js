@@ -138,7 +138,10 @@ const Profiles = ({ navigation, profiles, onRefresh }) => {
 									id={`item.${item.key}.image`}
 									style={styles.profileImage}
 								>
-									<Image source={{ uri: image }} style={styles.profileImage} />
+									<Image
+										source={{ uri: item.profilePictureURL || image }}
+										style={styles.profileImage}
+									/>
 								</SharedElement>
 								<View style={styles.action}>
 									<AntDesign

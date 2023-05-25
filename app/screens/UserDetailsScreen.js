@@ -74,7 +74,10 @@ const UserDetailsScreen = ({ route }) => {
 					<Text style={styles.name}>{item.name}</Text>
 				</SharedElement>
 				<SharedElement id={`item.${item.key}.image`}>
-					<Image source={{ uri: item.image }} style={styles.image} />
+					<Image
+						source={{ uri: item.profilePictureURL || item.image }}
+						style={styles.image}
+					/>
 				</SharedElement>
 
 				<SharedElement id="general.bg">

@@ -141,9 +141,9 @@ export default function WelcomeScreen({ navigation }) {
 							<View style={{ flex: 0.3 }}>
 								<Text style={styles.title}>{item.role}</Text>
 								<Text style={styles.tagline}>{item.title}</Text>
-								<View style={styles.description}>
+								{/* <View style={styles.description}>
 									<Text>{item.description}</Text>
-								</View>
+								</View> */}
 							</View>
 						</View>
 					);

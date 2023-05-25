@@ -46,9 +46,7 @@ const Vehicles = ({
 							<SharedElement id={`item.${item.key}.modal`}>
 								<Text style={styles.model}>{item.title}</Text>
 							</SharedElement>
-							<SharedElement id={`item.${item.key}.description`}>
-								<Text style={styles.description}>{item.description}</Text>
-							</SharedElement>
+
 							<SharedElement>
 								<Text style={styles.price}>Rs {item.price}</Text>
 							</SharedElement>
@@ -104,5 +102,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		fontWeight: '700',
 		opacity: 0.7,
+		marginTop: 10,
 	},
 });

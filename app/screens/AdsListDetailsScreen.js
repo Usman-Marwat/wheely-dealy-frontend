@@ -1,7 +1,8 @@
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 import niceColors from 'nice-color-palettes';
 import { useState } from 'react';
 import {
+	Alert,
 	Button,
 	Dimensions,
 	Image,
@@ -10,27 +11,27 @@ import {
 	Text,
 	TouchableOpacity,
 	View,
-	Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import ImageView from 'react-native-image-viewing';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as Yup from 'yup';
-import ImageView from 'react-native-image-viewing';
 
 import { useEffect } from 'react';
 import userAds from '../api/ad';
 import dashboard from '../api/dashboard';
+import general from '../api/general';
 import seller from '../api/seller';
 import useAuth from '../auth/useAuth';
 import ActionButtons from '../components/ActionButtons';
 import ActivityIndicator from '../components/ActivityIndicator';
 import AppModal from '../components/AppModal';
+import MapLocationPicker from '../components/MapLocationPicker';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
-import general from '../api/general';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -55,6 +56,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const [bidVisible, setBidVisible] = useState(false);
 	const [updateVisible, setUpdateVisible] = useState(false);
 	const [imagesVisible, setImagesVisible] = useState(false);
+	const [mapVisible, setMapVisible] = useState(false);
 	const { user } = useAuth();
 
 	const myBidApi = useApi(userAds.getMyBidOnAd);
@@ -103,6 +105,8 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		uri: image.url,
 	}));
 
+	console.log(item);
+
 	return (
 		<View>
 			<BackButton />
@@ -116,20 +120,30 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				}
 			/>
 
-			<View style={{ width: '100%', height: '30%' }}>
+			<View style={styles.dataContainer}>
 				<View style={styles.meta}>
 					<SharedElement id={`item.${item.key}.modal`}>
 						<Text numberOfLines={1} adjustsFontSizeToFit style={styles.model}>
 							{item.title}
 						</Text>
 					</SharedElement>
-					<SharedElement id={`item.${item.key}.description`}>
-						<Text style={styles.description}>{item.description}</Text>
-					</SharedElement>
+
 					<SharedElement>
 						<Text style={styles.price}>Rs {item.price}</Text>
 					</SharedElement>
+					<View style={{ marginLeft: -3 }}>
+						<Text> Body: {item.bodyType.title}</Text>
+						<Text> Fuel: {item.fuelType.title}</Text>
+						<Text> Registeration: {item.registrationCity.title}</Text>
+						<Text> Transmission: {item.transmissionType.title}</Text>
+					</View>
 				</View>
+				<TouchableOpacity
+					onPress={() => setMapVisible(true)}
+					style={styles.mapIcon}
+				>
+					<Entypo name="location-pin" size={30} color="#98AFC7" />
+				</TouchableOpacity>
 			</View>
 
 			<AnimatableScrollview
@@ -196,6 +210,19 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				onRequestClose={() => setImagesVisible(false)}
 			/>
 
+			<MapLocationPicker
+				visible={mapVisible}
+				onPress={() => setMapVisible(false)}
+				region={{
+					latitude: item.latitude,
+					longitude: item.longitude,
+					latitudeDelta: 0.09,
+					longitudeDelta: 0.09,
+				}}
+				onAddlocation={(coords) => {}}
+				buttonTitle="close"
+			/>
+
 			<AppModal
 				visible={bidVisible}
 				heading="Give Your bid"
@@ -255,11 +282,16 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 export default AdsListDetailsScreen;
 
 const styles = StyleSheet.create({
+	dataContainer: {
+		width: '100%',
+		height: '30%',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'flex-end',
+	},
 	description: {
 		fontSize: 12,
 		opacity: 0.7,
-		position: 'absolute',
-		top: SPACING + 30,
 	},
 	image: {
 		width: 120,
@@ -268,23 +300,19 @@ const styles = StyleSheet.create({
 		marginHorizontal: 10,
 	},
 	meta: {
-		// position: 'absolute',
-		top: SPACING * 4,
-		left: SPACING,
 		width: width * 0.6,
 		marginBottom: 10,
 	},
 	model: {
 		fontSize: 32,
 		fontWeight: '700',
-		position: 'absolute',
 	},
 	price: {
 		fontSize: 18,
 		fontWeight: '700',
 		opacity: 0.7,
-		position: 'absolute',
-		top: SPACING + 57,
+		// position: 'absolute',
+		// top: SPACING + 57,
 	},
 	swatch: {
 		height: 56,
@@ -299,5 +327,18 @@ const styles = StyleSheet.create({
 		borderColor: 'rgba(0,0,0,0.1)',
 		borderBottomWidth: 1,
 		borderTopWidth: 1,
+	},
+	location: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginVertical: 5,
+	},
+	mapIcon: {
+		marginRight: 40,
+		marginBottom: 20,
+		borderRadius: '50%',
+		borderWidth: 0.3,
+		borderColor: '#98AFC7',
 	},
 });
