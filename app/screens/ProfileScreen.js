@@ -95,7 +95,10 @@ function ProfileScreen({ navigation }) {
 			<View style={styles.exploreSection}>
 				<Text style={styles.exploreHeader}>Explore</Text>
 				<View style={styles.exploreContent}>
-					<TouchableOpacity style={styles.singleExplore}>
+					<TouchableOpacity
+						style={styles.singleExplore}
+						onPress={() => navigation.navigate('PostList')}
+					>
 						<Icon
 							family="ionicons"
 							name="people"
@@ -103,7 +106,7 @@ function ProfileScreen({ navigation }) {
 							iconColor={colors.secondary}
 							size={44}
 						/>
-						<Text style={styles.exploreText}>Check</Text>
+						<Text style={styles.exploreText}>Posts</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.singleExplore}

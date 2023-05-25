@@ -117,17 +117,6 @@ const HomeDashboardScreen = ({ navigation }) => {
 						saveAble
 						onSave={savePost}
 					/>
-
-					{user.account_type === 'Seller' && (
-						<View style={styles.plusButton}>
-							<TouchableIcon
-								name="plus"
-								size={50}
-								iconColor="black"
-								onPress={() => navigation.navigate(routes.POST_EDIT)}
-							></TouchableIcon>
-						</View>
-					)}
 				</>
 			)}
 			{selectedTab === 'Profiles' && (

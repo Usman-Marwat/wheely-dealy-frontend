@@ -51,7 +51,6 @@ const HomeNavigator = () => {
 			/>
 			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
 			<Stack.Screen name={routes.SERVICE_DETAIL} component={ServiceDetails} />
-			<Stack.Screen name={routes.POST_EDIT} component={PostEditScreen} />
 			<Stack.Screen
 				options={{ headerShadowVisible: true }}
 				name="Channel"

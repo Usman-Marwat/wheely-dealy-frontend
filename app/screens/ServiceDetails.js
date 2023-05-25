@@ -5,6 +5,7 @@ import {
 	View,
 	StyleSheet,
 	ScrollView,
+	Alert,
 } from 'react-native';
 import { useState } from 'react';
 import * as Yup from 'yup';
@@ -22,6 +23,7 @@ import seller from '../api/seller';
 import useAuth from '../auth/useAuth';
 import ActionButtons from '../components/ActionButtons';
 import MapLocationPicker from '../components/MapLocationPicker';
+import general from '../api/general';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -45,6 +47,7 @@ const ServiceDetails = ({ route }) => {
 
 	const saveItemApi = useApi(dashboard.saveAnItem);
 	const updateAdApi = useApi(seller.updateServiceAd);
+	const deleteApi = useApi(general.deleteOrMarkSold);
 
 	const saveItem = async () => {
 		const { data } = await saveItemApi.request(service.alternateKey, 'SA');
@@ -59,8 +62,16 @@ const ServiceDetails = ({ route }) => {
 		});
 		if (data?.statusCode === 200) alert('Add updated successfully');
 	};
+	const deleteAd = async () => {
+		const { data } = await deleteApi.request(service.alternateKey, 2);
+		if (data?.statusCode === 200) return alert('Ad was deleted successfully');
+		alert(data.message);
+	};
 	const handleAdDelete = () => {
-		console.log('hi');
+		Alert.alert('Delete', 'Are you sure?', [
+			{ text: 'Yes', onPress: () => deleteAd(), style: 'destructive' },
+			{ text: 'No' },
+		]);
 	};
 
 	const mappedImages = service.imageUrls?.map((image) => ({
@@ -70,7 +81,11 @@ const ServiceDetails = ({ route }) => {
 	return (
 		<>
 			<Header heading={service.title} />
-			<ActivityIndicator visible={saveItemApi.loading || updateAdApi.loading} />
+			<ActivityIndicator
+				visible={
+					saveItemApi.loading || updateAdApi.loading || deleteApi.loading
+				}
+			/>
 
 			<View style={styles.dataContainer}>
 				<View>

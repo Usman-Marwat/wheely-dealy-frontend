@@ -35,8 +35,8 @@ const PostEditScreen = ({ navigation }) => {
 			...formData,
 			userGId: user.user_id,
 		});
-		console.log(data);
 		if (data?.statusCode === 200) alert('Post Created  successfully');
+		resetForm();
 	};
 	return (
 		<>
