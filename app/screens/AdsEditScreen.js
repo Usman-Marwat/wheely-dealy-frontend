@@ -103,7 +103,6 @@ function AdsEditScreen() {
 	};
 
 	handleSubmit = async (adsData, { resetForm }) => {
-		console.log(adsData);
 		setProgress(0);
 		setuploadVisible(true);
 
@@ -116,8 +115,6 @@ function AdsEditScreen() {
 			},
 			(prog) => setProgress(prog)
 		);
-
-		console.log(result.data);
 
 		if (!result.ok) {
 			setuploadVisible(false);

@@ -15,6 +15,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as Yup from 'yup';
+import ImageView from 'react-native-image-viewing';
 
 import { useEffect } from 'react';
 import userAds from '../api/ad';
@@ -53,6 +54,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const [saved, setSaved] = useState(item.savedByCurrentUser);
 	const [bidVisible, setBidVisible] = useState(false);
 	const [updateVisible, setUpdateVisible] = useState(false);
+	const [imagesVisible, setImagesVisible] = useState(false);
 	const { user } = useAuth();
 
 	const myBidApi = useApi(userAds.getMyBidOnAd);
@@ -97,8 +99,12 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		if (user.account_type === 'Client') getBids();
 	}, []);
 
+	const mappedImages = item.imageUrls?.map((image) => ({
+		uri: image.url,
+	}));
+
 	return (
-		<>
+		<View>
 			<BackButton />
 			<ActivityIndicator
 				visible={
@@ -109,10 +115,8 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					deleteApi.loading
 				}
 			/>
-			<View>
-				<SharedElement id={`item.${item.key}.image`} style={styles.image}>
-					<Image source={{ uri: item.imageUrls[0].url }} style={styles.image} />
-				</SharedElement>
+
+			<View style={{ width: '100%', height: '30%' }}>
 				<View style={styles.meta}>
 					<SharedElement id={`item.${item.key}.modal`}>
 						<Text numberOfLines={1} adjustsFontSizeToFit style={styles.model}>
@@ -126,61 +130,71 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 						<Text style={styles.price}>Rs {item.price}</Text>
 					</SharedElement>
 				</View>
-				<AnimatableScrollview
-					useNativeDriver
-					animation={animation}
-					delay={400}
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					contentContainerStyle={{ padding: SPACING }}
-					style={{ flexGrow: 0, marginVertical: SPACING }}
-				>
-					{colorsPallete.map((color, index) => {
-						return (
-							<View
-								key={index}
-								style={[styles.swatch, { backgroundColor: color }]}
-							></View>
-						);
-					})}
-				</AnimatableScrollview>
-
-				{user.account_type === 'Seller' && (
-					<Animatable.View useNativeDriver animation={animation} delay={700}>
-						<TouchableOpacity
-							style={styles.rowButton}
-							onPress={() =>
-								navigation.navigate(routes.BIDS_LIST, {
-									adId: item.alternateKey,
-								})
-							}
-						>
-							<Text>See all the bids</Text>
-							<AntDesign name="arrowright" color="rgba(0,0,0,0.8)" size={17} />
-						</TouchableOpacity>
-					</Animatable.View>
-				)}
-
-				{user.account_type === 'Client' && (
-					<>
-						<Text>Your current bid:{myBidApi.data?.obj.bidAmount} </Text>
-						<Button
-							title="Give your bid"
-							color={colors.medium}
-							onPress={() => setBidVisible(true)}
-						/>
-					</>
-				)}
-				<ActionButtons
-					deleteAble={deleteAble}
-					saveAble={saveAble}
-					updateAble={updateAble}
-					saved={saved}
-					onSave={saveItem}
-					onUpdate={() => setUpdateVisible(true)}
-					onDelete={handleAdDelete}
-				/>
 			</View>
+
+			<AnimatableScrollview
+				useNativeDriver
+				animation={animation}
+				delay={400}
+				horizontal
+				showsHorizontalScrollIndicator={false}
+				contentContainerStyle={{ padding: SPACING }}
+				style={{ flexGrow: 0, marginVertical: SPACING }}
+			>
+				{item.imageUrls.map((image, index) => {
+					return (
+						<TouchableOpacity
+							key={image.alternateKey}
+							onPress={() => setImagesVisible(true)}
+						>
+							<Image source={{ uri: image.url }} style={styles.image} />
+						</TouchableOpacity>
+					);
+				})}
+			</AnimatableScrollview>
+
+			{user.account_type === 'Seller' && (
+				<Animatable.View useNativeDriver animation={animation} delay={700}>
+					<TouchableOpacity
+						style={styles.rowButton}
+						onPress={() =>
+							navigation.navigate(routes.BIDS_LIST, {
+								adId: item.alternateKey,
+							})
+						}
+					>
+						<Text>See all the bids</Text>
+						<AntDesign name="arrowright" color="rgba(0,0,0,0.8)" size={17} />
+					</TouchableOpacity>
+				</Animatable.View>
+			)}
+
+			{user.account_type === 'Client' && (
+				<>
+					<Text>Your current bid:{myBidApi.data?.obj.bidAmount} </Text>
+					<Button
+						title="Give your bid"
+						color={colors.medium}
+						onPress={() => setBidVisible(true)}
+					/>
+				</>
+			)}
+			<ActionButtons
+				deleteAble={deleteAble}
+				saveAble={saveAble}
+				updateAble={updateAble}
+				saved={saved}
+				onSave={saveItem}
+				onUpdate={() => setUpdateVisible(true)}
+				onDelete={handleAdDelete}
+			/>
+
+			<ImageView
+				images={mappedImages}
+				imageIndex={0}
+				visible={imagesVisible}
+				onRequestClose={() => setImagesVisible(false)}
+			/>
 
 			<AppModal
 				visible={bidVisible}
@@ -234,7 +248,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					<SubmitButton title="Update" />
 				</AppForm>
 			</AppModal>
-		</>
+		</View>
 	);
 };
 
@@ -248,15 +262,17 @@ const styles = StyleSheet.create({
 		top: SPACING + 30,
 	},
 	image: {
-		resizeMode: 'contain',
-		width: width * 2.1,
-		height: width * 0.7,
+		width: 120,
+		height: 120,
+		borderRadius: 30,
+		marginHorizontal: 10,
 	},
 	meta: {
-		position: 'absolute',
+		// position: 'absolute',
 		top: SPACING * 4,
 		left: SPACING,
 		width: width * 0.6,
+		marginBottom: 10,
 	},
 	model: {
 		fontSize: 32,

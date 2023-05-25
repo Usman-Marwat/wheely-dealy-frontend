@@ -43,23 +43,26 @@ const Vehicles = ({
 						}
 					>
 						<View style={styles.item}>
-							<View>
-								<SharedElement id={`item.${item.key}.modal`}>
-									<Text style={styles.model}>{item.title}</Text>
-								</SharedElement>
-								<SharedElement id={`item.${item.key}.description`}>
-									<Text style={styles.description}>{item.description}</Text>
-								</SharedElement>
-								<SharedElement>
-									<Text style={styles.price}>Rs {item.price}</Text>
-								</SharedElement>
-							</View>
-							<SharedElement id={`item.${item.key}.image`} style={styles.image}>
-								<Image
-									source={{ uri: item.imageUrls[0].url }}
-									style={{ flex: 1, resizeMode: 'contain' }}
-								/>
+							<SharedElement id={`item.${item.key}.modal`}>
+								<Text style={styles.model}>{item.title}</Text>
 							</SharedElement>
+							<SharedElement id={`item.${item.key}.description`}>
+								<Text style={styles.description}>{item.description}</Text>
+							</SharedElement>
+							<SharedElement>
+								<Text style={styles.price}>Rs {item.price}</Text>
+							</SharedElement>
+							<View style={{ marginTop: 10, marginLeft: -5 }}>
+								<Text> Body: {item.bodyType.title}</Text>
+								<Text> Fuel: {item.fuelType.title}</Text>
+								<Text> Registeration: {item.registrationCity.title}</Text>
+								<Text> Transmission: {item.transmissionType.title}</Text>
+							</View>
+
+							<Image
+								source={{ uri: item.imageUrls[0].url }}
+								style={styles.image}
+							/>
 						</View>
 					</TouchableOpacity>
 				);
@@ -74,8 +77,7 @@ const styles = StyleSheet.create({
 	description: {
 		fontSize: 12,
 		opacity: 0.7,
-		position: 'absolute',
-		top: SPACING + 17,
+		marginVertical: 10,
 	},
 	item: {
 		height: ITEM_SIZE * 1.7,
@@ -87,22 +89,20 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		height: ITEM_SIZE * 1.2,
-		width: '100%',
-		position: 'absolute',
+		width: '50%',
 		bottom: 10,
-		right: '-30%',
+		right: '0%',
 		padding: 10,
+		borderRadius: 20,
+		position: 'absolute',
 	},
 	model: {
 		fontSize: 18,
 		fontWeight: '700',
-		position: 'absolute',
 	},
 	price: {
 		fontSize: 12,
 		fontWeight: '700',
 		opacity: 0.7,
-		position: 'absolute',
-		top: SPACING + 47,
 	},
 });
