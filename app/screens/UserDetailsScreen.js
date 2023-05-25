@@ -20,6 +20,8 @@ import useApi from '../hooks/useApi';
 import { useState } from 'react';
 import ActivityIndicator from '../components/ActivityIndicator';
 import dashboard from '../api/dashboard';
+import { useChatContext } from 'stream-chat-expo';
+import useAuth from '../auth/useAuth';
 
 const { height, width } = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.18;
@@ -32,16 +34,26 @@ const detailsIcons = [
 ];
 const DURATION = 400;
 
-const UserDetailsScreen = ({ route }) => {
+const UserDetailsScreen = ({ navigation, route }) => {
+	const { client } = useChatContext();
 	const [item, setItem] = useState(route.params.item);
+	const { user } = useAuth();
 
 	const followUserApi = useApi(userApi.followUser);
 	const profileByIdApi = useApi(authApi.getProfileById);
 	const profileViewApi = useApi(dashboard.getProfileView);
 
+	const handleChat = async (chatUserId) => {
+		const channel = client.channel('messaging', {
+			members: [chatUserId, user.user_id],
+		});
+		await channel.watch();
+		navigation.navigate('Channel', { cid: channel.cid });
+	};
 	const handleDetails = (icon) => {
 		if (icon === 'heart') handleFollowUser(item.alternateKey);
 		if (icon === 'infocirlce') getSingleProfile(item.alternateKey);
+		if (icon === 'wechat') handleChat(item.alternateKey);
 	};
 	const handleFollowUser = async (followedId) => {
 		const result = await followUserApi.request(followedId);
@@ -49,9 +61,7 @@ const UserDetailsScreen = ({ route }) => {
 			setItem({ ...item, followedByCurrentUser: !item.followedByCurrentUser });
 	};
 	const getSingleProfile = async (userId) => {
-		// const { data } = await profileByIdApi.request(userId);
 		const { data } = await profileViewApi.request(userId);
-		console.log(data.serviceAds[0].imageUrls);
 	};
 
 	`

@@ -9,6 +9,7 @@ import routes from './routes';
 import PostEditScreen from '../screens/PostEditScreen';
 import ServiceDetails from '../screens/ServiceDetails';
 import UserDetailsScreen from '../screens/UserDetailsScreen';
+import ChannelScreen from '../chat/ChannelScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -51,6 +52,11 @@ const HomeNavigator = () => {
 			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
 			<Stack.Screen name={routes.SERVICE_DETAIL} component={ServiceDetails} />
 			<Stack.Screen name={routes.POST_EDIT} component={PostEditScreen} />
+			<Stack.Screen
+				options={{ headerShadowVisible: true }}
+				name="Channel"
+				component={ChannelScreen}
+			/>
 		</Stack.Navigator>
 	);
 };

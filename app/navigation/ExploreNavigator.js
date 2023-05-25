@@ -7,6 +7,7 @@ import { options } from './navigationOptions';
 import routes from './routes';
 import UserDetailsScreen from '../screens/UserDetailsScreen';
 import ServiceDetails from '../screens/ServiceDetails';
+import ChannelScreen from '../chat/ChannelScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -48,6 +49,11 @@ const ExploreNavigator = () => {
 			/>
 			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
 			<Stack.Screen name={routes.SERVICE_DETAIL} component={ServiceDetails} />
+			<Stack.Screen
+				options={{ headerShadowVisible: true }}
+				name="Channel"
+				component={ChannelScreen}
+			/>
 		</Stack.Navigator>
 	);
 };
