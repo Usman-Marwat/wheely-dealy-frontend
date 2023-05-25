@@ -15,8 +15,12 @@ const MyServicesListScreen = ({ navigation }) => {
 	const userAdsApi = useApi(userAds.getServiceAds);
 	const { user } = useAuth();
 
-	useEffect(() => {
+	const getUserAds = () => {
 		userAdsApi.request(user.user_id);
+	};
+
+	useEffect(() => {
+		getUserAds();
 	}, []);
 
 	return (
@@ -31,7 +35,9 @@ const MyServicesListScreen = ({ navigation }) => {
 				<Services
 					services={userAdsApi.data?.items}
 					navigation={navigation}
+					onRefresh={getUserAds}
 					updateAble
+					deleteAble
 				/>
 			</View>
 

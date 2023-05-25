@@ -1,14 +1,16 @@
 import {
-	FlatList,
 	Image,
 	Text,
 	TouchableOpacity,
 	View,
 	StyleSheet,
+	ScrollView,
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 import * as Yup from 'yup';
+import * as Animatable from 'react-native-animatable';
+import ImageView from 'react-native-image-viewing';
+import { Entypo } from '@expo/vector-icons';
 
 import dashboard from '../api/dashboard';
 import useApi from '../hooks/useApi';
@@ -18,6 +20,14 @@ import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import AppModal from '../components/AppModal';
 import seller from '../api/seller';
 import useAuth from '../auth/useAuth';
+import ActionButtons from '../components/ActionButtons';
+import MapLocationPicker from '../components/MapLocationPicker';
+
+const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
+const animation = {
+	0: { opacity: 0, translateX: 50 },
+	1: { opacity: 1, translateX: 0 },
+};
 
 const validationSchema = Yup.object().shape({
 	price: Yup.number().required().min(1).label('Price'),
@@ -25,9 +35,12 @@ const validationSchema = Yup.object().shape({
 });
 
 const ServiceDetails = ({ route }) => {
-	const { service, saveAble, updateAble } = route.params;
+	const { service, saveAble, updateAble, deleteAble } = route.params;
 	const [saved, setSaved] = useState(service.savedByCurrentUser);
 	const [visible, setVisible] = useState(false);
+	const [imagesVisible, setImagesVisible] = useState(false);
+	const [mapVisible, setMapVisible] = useState(false);
+
 	const { user } = useAuth();
 
 	const saveItemApi = useApi(dashboard.saveAnItem);
@@ -38,8 +51,6 @@ const ServiceDetails = ({ route }) => {
 		if (data.statusCode === 200) setSaved(!saved);
 	};
 	const updateDetails = async (adsData) => {
-		// console.log({ ...service, ...adsData, userGId: user.user_id });
-
 		setVisible(false);
 		const { data } = await updateAdApi.request({
 			...service,
@@ -48,47 +59,91 @@ const ServiceDetails = ({ route }) => {
 		});
 		if (data?.statusCode === 200) alert('Add updated successfully');
 	};
+	const handleAdDelete = () => {
+		console.log('hi');
+	};
+
+	const mappedImages = service.imageUrls?.map((image) => ({
+		uri: image.url,
+	}));
 
 	return (
 		<>
 			<Header heading={service.title} />
 			<ActivityIndicator visible={saveItemApi.loading || updateAdApi.loading} />
 
-			<View style={{ padding: 10 }}>
-				<View style={styles.rowButtons}>
-					{updateAble && (
-						<TouchableOpacity onPress={() => setVisible(true)}>
-							<FontAwesome name={'edit'} size={30} />
-						</TouchableOpacity>
-					)}
-
-					{saveAble && (
-						<TouchableOpacity onPress={saveItem}>
-							<FontAwesome name={saved ? 'bookmark' : 'bookmark-o'} size={30} />
-						</TouchableOpacity>
-					)}
+			<View style={styles.dataContainer}>
+				<View>
+					<Text style={{ fontWeight: '700' }}>Rs {service.price}</Text>
+					<Text>{service.contactNo}</Text>
+					<Text>{service.description}</Text>
+					<Text
+						style={{
+							fontWeight: '700',
+							marginVertical: 10,
+						}}
+					>
+						Service seller
+					</Text>
+					<Text> {service.user.name}</Text>
+					<Text> {service.user.phoneNo}</Text>
+					<Text> {service.user.email}</Text>
 				</View>
-
-				<Text style={{ fontWeight: '700' }}>Service Data:</Text>
-				<Text>{service.title}</Text>
-				<Text>{service.price}</Text>
-				<Text>{service.description}</Text>
-				<Text style={{ fontWeight: '700' }}>User Data:</Text>
-				<Text> {service.user.name}</Text>
-				<Text> {service.user.phoneNo}</Text>
-				<Text> {service.user.email}</Text>
-				<Text style={{ fontWeight: '700' }}>Images:</Text>
-				<FlatList
-					data={service.imageUrls}
-					keyExtractor={(url) => url.alternateKey}
-					renderItem={({ item, index }) => (
-						<Image
-							style={{ width: 70, height: 70 }}
-							source={{ uri: item.url }}
-						/>
-					)}
-				/>
+				<TouchableOpacity
+					onPress={() => setMapVisible(true)}
+					style={styles.mapIcon}
+				>
+					<Entypo name="location-pin" size={30} color="#98AFC7" />
+				</TouchableOpacity>
 			</View>
+			<AnimatableScrollview
+				useNativeDriver
+				animation={animation}
+				delay={400}
+				horizontal
+				showsHorizontalScrollIndicator={false}
+				contentContainerStyle={{ padding: 10 }}
+				style={{ flexGrow: 0, marginVertical: 10 }}
+			>
+				{service.imageUrls.map((image, index) => {
+					return (
+						<TouchableOpacity
+							key={image.alternateKey}
+							onPress={() => setImagesVisible(true)}
+						>
+							<Image source={{ uri: image.url }} style={styles.image} />
+						</TouchableOpacity>
+					);
+				})}
+			</AnimatableScrollview>
+			<ActionButtons
+				deleteAble={deleteAble}
+				saveAble={saveAble}
+				updateAble={updateAble}
+				saved={saved}
+				onSave={saveItem}
+				onUpdate={() => setVisible(true)}
+				onDelete={handleAdDelete}
+			/>
+
+			<ImageView
+				images={mappedImages}
+				imageIndex={0}
+				visible={imagesVisible}
+				onRequestClose={() => setImagesVisible(false)}
+			/>
+			<MapLocationPicker
+				visible={mapVisible}
+				onPress={() => setMapVisible(false)}
+				region={{
+					latitude: service.latitude,
+					longitude: service.longitude,
+					latitudeDelta: 0.09,
+					longitudeDelta: 0.09,
+				}}
+				onAddlocation={(coords) => {}}
+				buttonTitle="close"
+			/>
 
 			<AppModal
 				heading="Update Ad"
@@ -120,10 +175,31 @@ const ServiceDetails = ({ route }) => {
 export default ServiceDetails;
 
 const styles = StyleSheet.create({
+	dataContainer: {
+		width: '100%',
+		height: '30%',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'flex-end',
+		paddingHorizontal: 15,
+	},
 	rowButtons: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		marginVertical: 20,
 		paddingHorizontal: 10,
+	},
+	image: {
+		width: 120,
+		height: 120,
+		borderRadius: 30,
+		marginHorizontal: 10,
+	},
+	mapIcon: {
+		marginRight: 40,
+		marginBottom: 20,
+		borderRadius: '50%',
+		borderWidth: 0.3,
+		borderColor: '#98AFC7',
 	},
 });

@@ -17,7 +17,10 @@ const Services = ({
 	onRefresh,
 	saveAble,
 	updateAble,
+	deleteAble,
 }) => {
+	// console.log(services[0])
+
 	return (
 		<View style={{ flex: 1 }}>
 			<FlatList
@@ -35,7 +38,10 @@ const Services = ({
 									{uri && <Image source={{ uri }} style={styles.image} />}
 									<View style={{ flexShrink: 1 }}>
 										<Text style={styles.category}>{item.title}</Text>
-										<Text style={styles.memberText}>{item.description}</Text>
+										{/* <Text style={styles.memberText}>{item.description}</Text> */}
+										<Text style={styles.memberText}>
+											{item.serviceType.title}
+										</Text>
 									</View>
 									<TouchableOpacity
 										onPress={() =>
@@ -43,6 +49,7 @@ const Services = ({
 												service: item,
 												saveAble,
 												updateAble,
+												deleteAble,
 											})
 										}
 									>

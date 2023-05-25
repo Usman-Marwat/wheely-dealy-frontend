@@ -105,8 +105,6 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		uri: image.url,
 	}));
 
-	console.log(item);
-
 	return (
 		<View>
 			<BackButton />
