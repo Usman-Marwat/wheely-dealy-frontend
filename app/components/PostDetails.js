@@ -19,24 +19,21 @@ const PostDetails = ({ post, onComment }) => {
 				))}
 				<AppForm
 					initialValues={{ comment: '' }}
-					onSubmit={(text) => onComment(post.alternateKey, text.comment)}
+					onSubmit={(text, { resetForm }) => {
+						onComment(post, text.comment);
+						resetForm();
+					}}
 					validationSchema={Yup.object().shape({
 						comment: Yup.string().required().label('Comment'),
 					})}
 				>
-					<View
-						style={{
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-						}}
-					>
-						<AppFormField
-							name="comment"
-							placeholder="Comment on the post"
-							width="90%"
-							multiline
-						/>
+					<AppFormField
+						name="comment"
+						placeholder="Comment on the post"
+						width="90%"
+						multiline
+					/>
+					<View style={styles.submitButton}>
 						<SubmitButton title="send" bg="silver" isIcon />
 					</View>
 				</AppForm>
@@ -47,4 +44,10 @@ const PostDetails = ({ post, onComment }) => {
 
 export default PostDetails;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	submitButton: {
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		bottom: 50,
+	},
+});

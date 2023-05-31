@@ -124,6 +124,7 @@ const PostsListScreen = ({ navigation }) => {
 					setPost(post);
 				}}
 				onDelete={handleDelete}
+				loading={postCommentApi.loading}
 			/>
 			{user.account_type === 'Seller' && (
 				<View style={styles.plusButton}>

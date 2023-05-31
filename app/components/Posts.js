@@ -12,6 +12,7 @@ import Screen from './Screen';
 import UserPost from './UserPost';
 import WholeScreenModal from './WholeScreenModal';
 import BackgroundImage from './BackgroundImage';
+import ActivityIndicator from './ActivityIndicator';
 
 const BG_IMG =
 	'https://images.unsplash.com/photo-1506671753197-8d137cc5d53c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjAzfHxjYXJzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60';
@@ -29,6 +30,7 @@ const Posts = ({
 	onEdit,
 	deleteAble,
 	onDelete,
+	loading,
 }) => {
 	const [selected, setSelected] = useState(null);
 	const [visible, setVisible] = useState(false);
@@ -82,11 +84,13 @@ const Posts = ({
 					}}
 					visible={visible}
 				>
+					<ActivityIndicator visible={loading} />
 					<PostDetails
 						post={selected}
-						onComment={(postId, text) => {
-							onComment(postId, text);
-							setVisible(false);
+						onComment={async (post, text) => {
+							await onComment(post.alternateKey, text);
+							handlePostDetails(post);
+							// setVisible(false);
 						}}
 					/>
 				</WholeScreenModal>
