@@ -1,9 +1,17 @@
-import { FlatList, RefreshControl, Modal, Button, View } from 'react-native';
+import {
+	FlatList,
+	RefreshControl,
+	Modal,
+	StyleSheet,
+	View,
+} from 'react-native';
 import React, { useState } from 'react';
 
 import PostDetails from './PostDetails';
 import Screen from './Screen';
 import UserPost from './UserPost';
+import CloseButton from './CloseButton';
+import WholeScreenModal from './WholeScreenModal';
 
 const Posts = ({
 	posts,
@@ -50,27 +58,32 @@ const Posts = ({
 				/>
 			</Screen>
 			{selected && (
-				<Modal visible={visible} animationType="slide">
-					<View style={{ padding: 20 }}>
-						<Button
-							title="close"
-							onPress={() => {
-								setSelected(null);
-								setVisible(false);
-							}}
-						/>
-						<PostDetails
-							post={selected}
-							onComment={(postId, text) => {
-								onComment(postId, text);
-								setVisible(false);
-							}}
-						/>
-					</View>
-				</Modal>
+				<WholeScreenModal
+					onClose={() => {
+						setSelected(null);
+						setVisible(false);
+					}}
+					visible={visible}
+				>
+					<PostDetails
+						post={selected}
+						onComment={(postId, text) => {
+							onComment(postId, text);
+							setVisible(false);
+						}}
+					/>
+				</WholeScreenModal>
 			)}
 		</>
 	);
 };
 
 export default Posts;
+
+const styles = StyleSheet.create({
+	closeButton: {
+		marginBottom: 30,
+		flexDirection: 'row',
+		justifyContent: 'center',
+	},
+});

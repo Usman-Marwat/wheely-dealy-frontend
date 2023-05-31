@@ -44,11 +44,15 @@ const UserDetailsScreen = ({ navigation, route }) => {
 	const profileViewApi = useApi(dashboard.getProfileView);
 
 	const handleChat = async (chatUserId) => {
-		const channel = client.channel('messaging', {
-			members: [chatUserId, user.user_id],
-		});
-		await channel.watch();
-		navigation.navigate('Channel', { cid: channel.cid });
+		try {
+			const channel = client.channel('messaging', {
+				members: [chatUserId, user.user_id],
+			});
+			await channel.watch();
+			navigation.navigate('Channel', { cid: channel.cid });
+		} catch (error) {
+			alert('The selected user is not registered iwth chat Api');
+		}
 	};
 	const handleDetails = (icon) => {
 		if (icon === 'heart') handleFollowUser(item.alternateKey);
