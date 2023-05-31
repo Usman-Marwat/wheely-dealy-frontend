@@ -6,7 +6,7 @@ import colors from '../config/colors';
 const CloseButton = ({ onPress }) => {
 	return (
 		<TouchableOpacity onPress={onPress}>
-			<SimpleLineIcons name="close" size={25} color={colors.primary} />
+			<SimpleLineIcons name="close" size={25} color={colors.medium} />
 		</TouchableOpacity>
 	);
 };

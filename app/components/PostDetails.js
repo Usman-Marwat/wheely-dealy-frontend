@@ -10,9 +10,6 @@ const PostDetails = ({ post, onComment }) => {
 	return (
 		<KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
 			<View>
-				<Text>No# of Comments {post.commentCount}</Text>
-				<Text>No# of Likes {post.likeCount}</Text>
-				<Text>No# of Shares {post.shareCount}</Text>
 				{post.comments.map((comment, index) => (
 					<Comment
 						key={comment.alternateKey}
@@ -27,8 +24,21 @@ const PostDetails = ({ post, onComment }) => {
 						comment: Yup.string().required().label('Comment'),
 					})}
 				>
-					<AppFormField name="comment" placeholder="Comment on the post" />
-					<SubmitButton title="send" bg="silver" />
+					<View
+						style={{
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+						}}
+					>
+						<AppFormField
+							name="comment"
+							placeholder="Comment on the post"
+							width="90%"
+							multiline
+						/>
+						<SubmitButton title="send" bg="silver" isIcon />
+					</View>
 				</AppForm>
 			</View>
 		</KeyboardAwareScrollView>
