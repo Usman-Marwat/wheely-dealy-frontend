@@ -20,6 +20,8 @@ import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 import ActivityIndicator from '../components/ActivityIndicator';
 import randomAvatars from '../config/randomAvatars';
+import BackButton from '../navigation/BackButton';
+import MenuFoldButton from '../navigation/MenuFoldButton';
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().required().min(1).label('Name'),
@@ -66,7 +68,8 @@ function ProfileScreen({ navigation }) {
 
 	return (
 		<View style={styles.container}>
-			<Header />
+			<BackButton />
+			<MenuFoldButton />
 			<ActivityIndicator
 				visible={myAccountApi.loading || resetPasswordApi.loading}
 			/>

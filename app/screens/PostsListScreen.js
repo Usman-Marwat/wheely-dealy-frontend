@@ -1,27 +1,40 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
 import { useEffect } from 'react';
+import { StyleSheet, View, Alert } from 'react-native';
+import { useState } from 'react';
+import * as Yup from 'yup';
 
-import dashboard from '../api/dashboard';
 import userAdsApi from '../api/ad';
-import Posts from '../components/Posts';
-import Header from '../components/Header';
+import dashboard from '../api/dashboard';
+import postApi from '../api/post';
 import useAuth from '../auth/useAuth';
 import ActivityIndicator from '../components/ActivityIndicator';
-import useApi from '../hooks/useApi';
-import TouchableIcon from '../components/TouchableIcon';
-import routes from '../navigation/routes';
 import NewItemButton from '../components/NewItemButton';
+import Posts from '../components/Posts';
+import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import MenuFoldButton from '../navigation/MenuFoldButton';
+import routes from '../navigation/routes';
+import { AppForm, AppFormField, SubmitButton } from '../components/forms';
+import FormImagePicker from '../components/forms/FormImagePicker';
+import AppModal from '../components/AppModal';
+import general from '../api/general';
+
+const validationSchema = Yup.object().shape({
+	text: Yup.string().required().min(1).label('Text'),
+	images: Yup.array().min(1, 'Please select atleast 1 image'),
+});
 
 const PostsListScreen = ({ navigation }) => {
+	const [editVisible, setEditVisible] = useState(false);
+	const [post, setPost] = useState(false);
 	const { user } = useAuth();
 
 	const profileViewApi = useApi(dashboard.getProfileView);
 	const postLikeApi = useApi(userAdsApi.likePost);
 	const postCommentApi = useApi(userAdsApi.commentOnPost);
 	const singlePostApi = useApi(userAdsApi.getPostById);
+	const postUpdateApi = useApi(postApi.updatePost);
+	const postDeleteApi = useApi(general.deleteOrMarkSold);
 
 	const getPosts = () => {
 		profileViewApi.request(user.user_id);
@@ -56,11 +69,29 @@ const PostsListScreen = ({ navigation }) => {
 			});
 		}
 	};
-	const handleEdit = async (post) => {
-		console.log(post);
+	const handleEdit = async (formData) => {
+		const { data } = await postUpdateApi.request({
+			text: formData.text,
+			postId: post.alternateKey,
+		});
+		if (data.statusCode === 200) return getPosts();
+
+		alert('Could not update the post');
 	};
-	const handleDelete = async (postId) => {
-		console.log(postId);
+
+	const deletePost = async (postId) => {
+		const { data } = await postDeleteApi.request(postId, 1);
+
+		if (data.statusCode === 200) return getPosts();
+
+		alert('Could not delete the posts');
+	};
+
+	const handleDelete = (postId) => {
+		Alert.alert('Delete', 'Are you sure?', [
+			{ text: 'Yes', onPress: () => deletePost(postId), style: 'destructive' },
+			{ text: 'No' },
+		]);
 	};
 
 	return (
@@ -70,7 +101,9 @@ const PostsListScreen = ({ navigation }) => {
 					postLikeApi.loading ||
 					postCommentApi.loading ||
 					singlePostApi.loading ||
-					profileViewApi.loading
+					profileViewApi.loading ||
+					postUpdateApi.loading ||
+					postDeleteApi.loading
 				}
 			/>
 			<BackButton />
@@ -86,7 +119,10 @@ const PostsListScreen = ({ navigation }) => {
 				onDetails={handlePostDetails}
 				updateAble
 				deleteAble
-				onEdit={handleEdit}
+				onEdit={(post) => {
+					setEditVisible(true);
+					setPost(post);
+				}}
 				onDelete={handleDelete}
 			/>
 			{user.account_type === 'Seller' && (
@@ -96,6 +132,33 @@ const PostsListScreen = ({ navigation }) => {
 					/>
 				</View>
 			)}
+
+			<AppModal
+				heading="Edit Post"
+				visible={editVisible}
+				onVisible={() => setEditVisible(false)}
+			>
+				<AppForm
+					initialValues={{
+						text: post.text,
+						images: [],
+					}}
+					onSubmit={(formData) => {
+						setEditVisible(false);
+						handleEdit(formData);
+					}}
+					validationSchema={validationSchema}
+				>
+					<FormImagePicker name="images" />
+					<AppFormField
+						icon="card-text"
+						name="text"
+						placeholder="Text"
+						multiline
+					/>
+					<SubmitButton title="Update" />
+				</AppForm>
+			</AppModal>
 		</>
 	);
 };

@@ -1,6 +1,6 @@
 import client from './httpClient';
 
-const endpoint = '/post';
+const endpoint = '/Post';
 
 const createPost = (post) => {
 	const data = new FormData();
@@ -19,6 +19,17 @@ const createPost = (post) => {
 	return client.post(`${endpoint}/createpost`, data);
 };
 
+const updatePost = (ad) => {
+	const data = new FormData();
+
+	data.append('Text', ad.text);
+	data.append('PostId', ad.postId);
+	data.append('Images', ['']);
+
+	return client.put(`${endpoint}/modify-post`, data);
+};
+
 export default {
 	createPost,
+	updatePost,
 };
