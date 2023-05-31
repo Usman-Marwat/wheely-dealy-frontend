@@ -40,7 +40,7 @@ const PostEditScreen = ({ navigation }) => {
 	};
 	return (
 		<>
-			<Header />
+			<Header heading="Create Post" />
 			<ActivityIndicator visible={createPostApi.loading} />
 			<View style={styles.container}>
 				<KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
@@ -74,6 +74,7 @@ export default PostEditScreen;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		padding: 10,
 		paddingTop: 70,
 	},

@@ -16,19 +16,19 @@ const ActionButtons = ({
 			<View style={styles.rowButton}>
 				{updateAble && (
 					<TouchableOpacity onPress={onUpdate} style={styles.buttonText}>
-						<FontAwesome name={'edit'} size={30} />
+						<FontAwesome name={'edit'} size={22} />
 						<Text style={{ marginTop: 5 }}>Edit </Text>
 					</TouchableOpacity>
 				)}
 				{saveAble && (
 					<TouchableOpacity onPress={onSave} style={styles.buttonText}>
-						<FontAwesome name={saved ? 'bookmark' : 'bookmark-o'} size={30} />
+						<FontAwesome name={saved ? 'bookmark' : 'bookmark-o'} size={22} />
 						<Text style={{ marginTop: 5 }}>save </Text>
 					</TouchableOpacity>
 				)}
 				{deleteAble && (
 					<TouchableOpacity onPress={onDelete} style={styles.buttonText}>
-						<AntDesign name="delete" size={30} />
+						<AntDesign name="delete" size={22} />
 						<Text style={{ marginTop: 5 }}>Delete </Text>
 					</TouchableOpacity>
 				)}
@@ -45,8 +45,6 @@ const styles = StyleSheet.create({
 		padding: 10 * 2,
 		justifyContent: 'space-between',
 		borderColor: 'rgba(0,0,0,0.1)',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
 	},
 	buttonText: {
 		alignItems: 'center',

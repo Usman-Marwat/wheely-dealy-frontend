@@ -1,7 +1,7 @@
 import {
 	FlatList,
 	RefreshControl,
-	Modal,
+	Image,
 	StyleSheet,
 	View,
 } from 'react-native';
@@ -10,8 +10,11 @@ import React, { useState } from 'react';
 import PostDetails from './PostDetails';
 import Screen from './Screen';
 import UserPost from './UserPost';
-import CloseButton from './CloseButton';
 import WholeScreenModal from './WholeScreenModal';
+import BackgroundImage from './BackgroundImage';
+
+const BG_IMG =
+	'https://images.unsplash.com/photo-1506671753197-8d137cc5d53c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjAzfHxjYXJzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60';
 
 const Posts = ({
 	posts,
@@ -21,7 +24,11 @@ const Posts = ({
 	onRefresh,
 	onDetails,
 	saveAble,
+	updateAble,
 	onSave,
+	onEdit,
+	deleteAble,
+	onDelete,
 }) => {
 	const [selected, setSelected] = useState(null);
 	const [visible, setVisible] = useState(false);
@@ -37,22 +44,32 @@ const Posts = ({
 	return (
 		<>
 			<Screen>
+				<BackgroundImage uri={BG_IMG} />
 				<FlatList
 					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ padding: 10 }}
+					contentContainerStyle={{
+						paddingHorizontal: 20,
+						paddingVertical: 70,
+					}}
 					data={posts}
 					keyExtractor={(item) => item.alternateKey}
 					refreshControl={<RefreshControl onRefresh={onRefresh} />}
 					renderItem={({ item }) => {
 						return (
-							<UserPost
-								post={item}
-								onSelected={(post) => handlePostDetails(post)}
-								onLike={onLike}
-								onShare={onShare}
-								saveAble
-								onSave={onSave}
-							/>
+							<View style={{ marginVertical: 10 }}>
+								<UserPost
+									post={item}
+									onSelected={(post) => handlePostDetails(post)}
+									onLike={onLike}
+									onShare={onShare}
+									saveAble={saveAble}
+									updateAble={updateAble}
+									onSave={onSave}
+									onEdit={onEdit}
+									deleteAble={deleteAble}
+									onDelete={onDelete}
+								/>
+							</View>
 						);
 					}}
 				/>

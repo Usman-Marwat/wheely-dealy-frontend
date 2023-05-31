@@ -12,6 +12,8 @@ import useApi from '../hooks/useApi';
 import TouchableIcon from '../components/TouchableIcon';
 import routes from '../navigation/routes';
 import NewItemButton from '../components/NewItemButton';
+import BackButton from '../navigation/BackButton';
+import MenuFoldButton from '../navigation/MenuFoldButton';
 
 const PostsListScreen = ({ navigation }) => {
 	const { user } = useAuth();
@@ -54,6 +56,12 @@ const PostsListScreen = ({ navigation }) => {
 			});
 		}
 	};
+	const handleEdit = async (post) => {
+		console.log(post);
+	};
+	const handleDelete = async (postId) => {
+		console.log(postId);
+	};
 
 	return (
 		<>
@@ -65,7 +73,8 @@ const PostsListScreen = ({ navigation }) => {
 					profileViewApi.loading
 				}
 			/>
-			<Header />
+			<BackButton />
+			<MenuFoldButton />
 			<Posts
 				posts={profileViewApi.data?.posts}
 				onLike={(postId) => handlePostLike(postId)}
@@ -75,9 +84,10 @@ const PostsListScreen = ({ navigation }) => {
 				onComment={(postId, text) => handlePostComment(postId, text)}
 				onRefresh={getPosts}
 				onDetails={handlePostDetails}
-				onSave={() => {
-					alert('The is yours');
-				}}
+				updateAble
+				deleteAble
+				onEdit={handleEdit}
+				onDelete={handleDelete}
 			/>
 			{user.account_type === 'Seller' && (
 				<View style={styles.plusButton}>

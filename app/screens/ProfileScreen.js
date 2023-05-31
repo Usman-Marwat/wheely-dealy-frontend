@@ -19,6 +19,7 @@ import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 import ActivityIndicator from '../components/ActivityIndicator';
+import randomAvatars from '../config/randomAvatars';
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().required().min(1).label('Name'),
@@ -79,7 +80,7 @@ function ProfileScreen({ navigation }) {
 					<Image
 						style={styles.profilePhoto}
 						source={{
-							uri: 'user.image',
+							uri: user.profilePictureURL || randomAvatars(),
 						}}
 					/>
 					<View style={styles.statisticsContainer}>
@@ -268,6 +269,9 @@ const styles = StyleSheet.create({
 		height: 80,
 		width: 80,
 		borderRadius: 50,
+		borderWidth: 1,
+		borderColor: colors.primary,
+		right: 20,
 	},
 	statisticsContainer: {
 		display: 'flex',
@@ -283,8 +287,8 @@ const styles = StyleSheet.create({
 		color: colors.medium,
 	},
 	profileCenterSection: {
-		display: 'flex',
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	name: { fontWeight: 'bold', fontSize: 16, marginBottom: 5 },
 	designationText: {

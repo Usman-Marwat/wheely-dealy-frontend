@@ -1,9 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
-import ExpandableText from './ExpandableText';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {
+	AntDesign,
+	Ionicons,
+	FontAwesome,
+	MaterialIcons,
+} from '@expo/vector-icons';
+import { useState } from 'react';
 
-const UserPost = ({ post, onSelected, onLike, onShare, saveAble, onSave }) => {
+import * as Animatable from 'react-native-animatable';
+import ExpandableText from './ExpandableText';
+import randomCarImages from '../config/randomCarImages';
+import ActionButtons from './ActionButtons';
+
+const UserPost = ({
+	post,
+	onSelected,
+	onLike,
+	onShare,
+	saveAble,
+	onSave,
+	onEdit,
+	updateAble,
+	deleteAble,
+	onDelete,
+}) => {
+	const [isActionVisible, setActionsVisible] = useState(false);
+	const [randomImage, _] = useState(randomCarImages());
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -15,17 +38,33 @@ const UserPost = ({ post, onSelected, onLike, onShare, saveAble, onSave }) => {
 				<Text style={styles.date}>
 					{new Date(post.postedDateTime).toDateString()}
 				</Text>
-				{saveAble && (
-					<TouchableOpacity
-						style={{ marginLeft: 17 }}
-						onPress={() => onSave(post.alternateKey)}
-					>
-						<FontAwesome
-							name={post.savedByCurrentUser ? 'bookmark' : 'bookmark-o'}
-							size={20}
-						/>
-					</TouchableOpacity>
-				)}
+
+				<TouchableOpacity
+					style={styles.actionToggle}
+					onPress={() => setActionsVisible(!isActionVisible)}
+				>
+					<MaterialIcons
+						name={isActionVisible ? 'expand-less' : 'expand-more'}
+						size={20}
+					/>
+				</TouchableOpacity>
+			</View>
+			{isActionVisible && (
+				<Animatable.View animation="fadeInLeft" delay={10}>
+					<ActionButtons
+						saveAble={saveAble}
+						onSave={onSave}
+						saved={post.savedByCurrentUser}
+						deleteAble={deleteAble}
+						onDelete={() => onDelete(post.alternateKey)}
+						updateAble={updateAble}
+						onUpdate={() => onEdit(post)}
+					/>
+				</Animatable.View>
+			)}
+
+			<View style={styles.imageWrapper}>
+				<Image source={{ uri: randomImage }} style={styles.image} />
 			</View>
 
 			<ExpandableText>{post.text}</ExpandableText>
@@ -62,6 +101,11 @@ const UserPost = ({ post, onSelected, onLike, onShare, saveAble, onSave }) => {
 };
 
 const styles = StyleSheet.create({
+	actionToggle: {
+		marginLeft: 55,
+		borderWidth: 0.7,
+		borderRadius: 8,
+	},
 	container: {
 		backgroundColor: '#fff',
 		padding: 16,
@@ -112,6 +156,17 @@ const styles = StyleSheet.create({
 	commentForm: {
 		alignItems: 'center',
 		paddingTop: 17,
+	},
+	image: {
+		width: '100%',
+		height: 300,
+	},
+	imageWrapper: {
+		overflow: 'hidden',
+		borderTopLeftRadius: 20,
+		borderTopRightRadius: 20,
+		borderBottomRightRadius: 5,
+		marginVertical: 20,
 	},
 });
 
