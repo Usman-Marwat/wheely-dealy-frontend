@@ -4,7 +4,7 @@ import cache from '../utility/cache';
 import authStorage from '../auth/storage';
 
 const apiClient = create({
-	baseURL: 'https://whelleyapi.azurewebsites.net/api',
+	baseURL: 'https://wheely-dealy-api.azurewebsites.net/api',
 	// params: {
 	//   key: "62f3d719ed334f489c4481bff764b0fb",
 	// },
