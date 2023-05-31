@@ -1,15 +1,14 @@
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import React from 'react';
+import { SimpleLineIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
-import Icon from '../components/Icon';
-import colors from '../config/colors';
+const SIZE = 30;
 
 const BackButton = ({
 	iconName = 'chevron-left',
 	iconBg = '#fff',
 	containerStyle,
+	position = 'absolute',
 }) => {
 	const navigation = useNavigation();
 
@@ -30,13 +29,16 @@ const BackButton = ({
 	return (
 		<TouchableOpacity
 			onPress={() => navigation.goBack()}
-			style={styles.conatiner}
+			style={[
+				styles.conatiner,
+				{
+					position,
+					top: position === 'relative' ? 0 : 25,
+					left: position === 'relative' ? 0 : 17,
+				},
+			]}
 		>
-			<Ionicons
-				name="arrow-back-circle-outline"
-				size={30}
-				color={colors.medium}
-			/>
+			<SimpleLineIcons name="arrow-left" size={SIZE - 15} />
 		</TouchableOpacity>
 	);
 };
@@ -45,11 +47,13 @@ export default BackButton;
 
 const styles = StyleSheet.create({
 	conatiner: {
-		position: 'absolute',
-		top: 20,
-		left: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
+
 		backgroundColor: 'white',
 		zIndex: 1,
-		borderRadius: 13,
+		borderRadius: SIZE / 2,
+		width: SIZE,
+		height: SIZE,
 	},
 });

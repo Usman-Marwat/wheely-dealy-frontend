@@ -7,7 +7,7 @@ import BackButton from '../navigation/BackButton';
 const Header = ({ heading }) => {
 	return (
 		<View style={[styles.headerContainer, styles.shadow]}>
-			<BackButton />
+			<BackButton position="relative" />
 			{heading && (
 				<View style={[styles.holder]}>
 					<Text style={[styles.title]}>{heading}</Text>
