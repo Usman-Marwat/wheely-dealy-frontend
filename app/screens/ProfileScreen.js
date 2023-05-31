@@ -53,7 +53,13 @@ function ProfileScreen({ navigation }) {
 		myAccountApi.request();
 	}, []);
 
-	if (!myAccountApi.data) return <Empty title="Could not fetch profile" />;
+	if (!myAccountApi.data)
+		return (
+			<>
+				<ActivityIndicator visible={myAccountApi.loading} />
+				<Empty title="Could not fetch profile" />
+			</>
+		);
 
 	const user = myAccountApi.data;
 

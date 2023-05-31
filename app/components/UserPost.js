@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
+import ExpandableText from './ExpandableText';
 
 const UserPost = ({ post, onSelected, onLike, onShare, saveAble, onSave }) => {
 	return (
@@ -27,7 +28,7 @@ const UserPost = ({ post, onSelected, onLike, onShare, saveAble, onSave }) => {
 				)}
 			</View>
 
-			<Text style={styles.content}>{post.text}</Text>
+			<ExpandableText>{post.text}</ExpandableText>
 
 			<View style={styles.actionsContainer}>
 				<TouchableOpacity
@@ -97,6 +98,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		marginTop: 40,
 	},
 	action: {
 		flexDirection: 'row',
