@@ -11,6 +11,7 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import useApi from '../hooks/useApi';
 import TouchableIcon from '../components/TouchableIcon';
 import routes from '../navigation/routes';
+import NewItemButton from '../components/NewItemButton';
 
 const PostsListScreen = ({ navigation }) => {
 	const { user } = useAuth();
@@ -80,12 +81,9 @@ const PostsListScreen = ({ navigation }) => {
 			/>
 			{user.account_type === 'Seller' && (
 				<View style={styles.plusButton}>
-					<TouchableIcon
-						name="plus"
-						size={50}
-						iconColor="black"
+					<NewItemButton
 						onPress={() => navigation.navigate(routes.POST_EDIT)}
-					></TouchableIcon>
+					/>
 				</View>
 			)}
 		</>
@@ -97,7 +95,7 @@ export default PostsListScreen;
 const styles = StyleSheet.create({
 	plusButton: {
 		position: 'absolute',
-		bottom: 10,
+		bottom: 7,
 		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',

@@ -10,6 +10,7 @@ import TouchableIcon from '../components/TouchableIcon';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import routes from '../navigation/routes';
+import NewItemButton from '../components/NewItemButton';
 
 const MyServicesListScreen = ({ navigation }) => {
 	const userAdsApi = useApi(userAds.getServiceAds);
@@ -42,12 +43,9 @@ const MyServicesListScreen = ({ navigation }) => {
 			</View>
 
 			<View style={styles.plusButton}>
-				<TouchableIcon
-					name="plus"
-					size={50}
-					iconColor="black"
+				<NewItemButton
 					onPress={() => navigation.navigate(routes.SERVICE_EDIT)}
-				></TouchableIcon>
+				/>
 			</View>
 		</>
 	);
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
 	},
 	plusButton: {
 		position: 'absolute',
-		bottom: 10,
+		bottom: 7,
 		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',
