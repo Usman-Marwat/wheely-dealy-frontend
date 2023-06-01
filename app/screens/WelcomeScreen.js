@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
 	Animated,
 	Dimensions,
@@ -10,10 +10,12 @@ import {
 } from 'react-native';
 import { SharedElement } from 'react-navigation-shared-element';
 
+import authApi from '../api/auth';
 import AppButton from '../components/AppButton';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
-import accounttypes from '../data/accountTypes';
+import { useEffect } from 'react';
+import useApi from '../hooks/useApi';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -101,6 +103,12 @@ export default function WelcomeScreen({ navigation }) {
 	const scrollX = useRef(new Animated.Value(0)).current;
 	const [currentIndex, setCurrentIndex] = useState(0);
 
+	const accountTypesApi = useApi(authApi.getAccountTypes);
+
+	useEffect(() => {
+		accountTypesApi.request();
+	}, []);
+
 	const handleCurentIndex = (index) => {
 		if (index < 0) index = 0;
 		if (index > 1) index = 1;
@@ -154,12 +162,12 @@ export default function WelcomeScreen({ navigation }) {
 					color="transparent"
 					style={[styles.button, { width: 190 }]}
 					title={'Register'}
-					subTitle={'as ' + accounttypes.items[currentIndex].type}
+					subTitle={'as ' + accountTypesApi?.data?.items[currentIndex].type}
 					onPress={() =>
 						navigation.navigate(routes.REGISTER, {
 							item: DATA[currentIndex],
 							bg: bgs[currentIndex],
-							account: accounttypes.items[currentIndex],
+							account: accountTypesApi?.data?.items[currentIndex],
 						})
 					}
 				/>
@@ -172,7 +180,7 @@ export default function WelcomeScreen({ navigation }) {
 						navigation.navigate(routes.LOGIN, {
 							item: DATA[currentIndex],
 							bg: bgs[currentIndex],
-							account: accounttypes.items[currentIndex],
+							account: accountTypesApi?.data?.items[currentIndex],
 						})
 					}
 				/>
