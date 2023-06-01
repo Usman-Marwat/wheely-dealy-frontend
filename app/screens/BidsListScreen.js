@@ -22,7 +22,7 @@ import useAuth from '../auth/useAuth';
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const BG_IMG =
-	'https://images.pexels.com/photos/1231265/pexels-photo-1231265.jpeg?auto=compress&cs=tinysrgb&w=800';
+	'https://images.unsplash.com/photo-1602786195490-c785a218df40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjZ8fGNhcnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60';
 const SPACING = 20;
 const AVATAR_SIZE = 70;
 const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
@@ -63,7 +63,7 @@ const BidsListScreen = ({ route }) => {
 				<Image
 					source={{ uri: BG_IMG }}
 					style={StyleSheet.absoluteFillObject}
-					blurRadius={80}
+					blurRadius={10}
 				/>
 				<Animated.FlatList
 					onScroll={Animated.event(

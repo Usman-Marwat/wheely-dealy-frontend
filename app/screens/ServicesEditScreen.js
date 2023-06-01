@@ -27,6 +27,7 @@ import useApi from '../hooks/useApi';
 import useLocations from '../hooks/useLocations';
 import UploadScreen from './UploadScreen';
 import Empty from '../components/Empty';
+import colors from '../config/colors';
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required().min(1).label('Title'),
@@ -92,8 +93,6 @@ function ServicesEditScreen() {
 			(prog) => setProgress(prog)
 		);
 
-		console.log(result.data);
-
 		if (!result.ok) {
 			setuploadVisible(false);
 			return alert(result.data.message);
@@ -147,7 +146,7 @@ function ServicesEditScreen() {
 								<TouchableIcon
 									name="location-pin"
 									family="entypo"
-									backgroundColor="dodgerblue"
+									backgroundColor={colors.primary}
 									iconColor="white"
 									style={50}
 									onPress={() => setMapVisible(true)}
@@ -163,7 +162,11 @@ function ServicesEditScreen() {
 									placeholder="Generate OTP"
 									keyboardType="numeric"
 								/>
-								<Button title="generate" onPress={generateOtp} />
+								<Button
+									title="generate"
+									onPress={generateOtp}
+									color={colors.primary}
+								/>
 							</View>
 							<SubmitButton title="Post" />
 						</Form>

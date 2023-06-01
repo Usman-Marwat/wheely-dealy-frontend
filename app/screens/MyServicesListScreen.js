@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 import { useEffect } from 'react';
 
 import userAds from '../api/ad';
@@ -31,7 +31,9 @@ const MyServicesListScreen = ({ navigation }) => {
 
 			<View style={styles.container}>
 				{!userAdsApi.data?.items.length > 0 && (
-					<Empty title="No Services added yet" />
+					<Empty title="No Ads added yet">
+						<Button title="Reload" onPress={() => getUserAds()} />
+					</Empty>
 				)}
 				<Services
 					services={userAdsApi.data?.items}
@@ -39,6 +41,7 @@ const MyServicesListScreen = ({ navigation }) => {
 					onRefresh={getUserAds}
 					updateAble
 					deleteAble
+					ownAd
 				/>
 			</View>
 

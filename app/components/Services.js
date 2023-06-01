@@ -18,10 +18,9 @@ const Services = ({
 	saveAble,
 	updateAble,
 	deleteAble,
+	ownAd,
 	visitor,
 }) => {
-	// console.log(services[0])
-
 	return (
 		<View style={{ flex: 1 }}>
 			<FlatList
@@ -54,6 +53,7 @@ const Services = ({
 															saveAble,
 															updateAble,
 															deleteAble,
+															ownAd,
 														})
 										}
 									>

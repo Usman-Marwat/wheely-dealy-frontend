@@ -11,11 +11,10 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import * as Animatable from 'react-native-animatable';
 import ImageView from 'react-native-image-viewing';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 
 import dashboard from '../api/dashboard';
 import useApi from '../hooks/useApi';
-import Header from '../components/Header';
 import ActivityIndicator from '../components/ActivityIndicator';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import AppModal from '../components/AppModal';
@@ -24,6 +23,11 @@ import useAuth from '../auth/useAuth';
 import ActionButtons from '../components/ActionButtons';
 import MapLocationPicker from '../components/MapLocationPicker';
 import general from '../api/general';
+import MenuFoldButton from '../navigation/MenuFoldButton';
+import BackButton from '../navigation/BackButton';
+import UserCard from '../components/UserCard';
+import randomAvatars from '../config/randomAvatars';
+import { useChatContext } from 'stream-chat-expo';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -36,12 +40,14 @@ const validationSchema = Yup.object().shape({
 	description: Yup.string().label('Description'),
 });
 
-const ServiceDetails = ({ route }) => {
-	const { service, saveAble, updateAble, deleteAble } = route.params;
+const ServiceDetails = ({ navigation, route }) => {
+	const { service, saveAble, updateAble, deleteAble, ownAd } = route.params;
+	const { client } = useChatContext();
 	const [saved, setSaved] = useState(service.savedByCurrentUser);
 	const [visible, setVisible] = useState(false);
 	const [imagesVisible, setImagesVisible] = useState(false);
 	const [mapVisible, setMapVisible] = useState(false);
+	const [isUserVisible, setUserVisible] = useState(false);
 
 	const { user } = useAuth();
 
@@ -53,6 +59,12 @@ const ServiceDetails = ({ route }) => {
 		const { data } = await saveItemApi.request(service.alternateKey, 'SA');
 		if (data.statusCode === 200) setSaved(!saved);
 	};
+
+	const navigateBack = (action) => {
+		Alert.alert(`${action} Status`, `Ad was ${action}ed successfully`, [
+			{ text: 'ok', onPress: () => navigation.goBack() },
+		]);
+	};
 	const updateDetails = async (adsData) => {
 		setVisible(false);
 		const { data } = await updateAdApi.request({
@@ -60,18 +72,34 @@ const ServiceDetails = ({ route }) => {
 			...adsData,
 			userGId: user.user_id,
 		});
-		if (data?.statusCode === 200) alert('Add updated successfully');
+		if (data?.statusCode !== 200) return alert('Could not update the add');
+
+		navigateBack('Update');
 	};
+
 	const deleteAd = async () => {
 		const { data } = await deleteApi.request(service.alternateKey, 2);
-		if (data?.statusCode === 200) return alert('Ad was deleted successfully');
-		alert(data.message);
+
+		if (data?.statusCode !== 200) return alert('Could not delete the add');
+
+		navigateBack('Delete');
 	};
 	const handleAdDelete = () => {
 		Alert.alert('Delete', 'Are you sure?', [
 			{ text: 'Yes', onPress: () => deleteAd(), style: 'destructive' },
 			{ text: 'No' },
 		]);
+	};
+	const handleChat = async (chatUserId) => {
+		try {
+			const channel = client.channel('messaging', {
+				members: [chatUserId, user.user_id],
+			});
+			await channel.watch();
+			navigation.navigate('Channel', { cid: channel.cid });
+		} catch (error) {
+			alert('The selected user is not registered with chat Api');
+		}
 	};
 
 	const mappedImages = service.imageUrls?.map((image) => ({
@@ -80,7 +108,9 @@ const ServiceDetails = ({ route }) => {
 
 	return (
 		<>
-			<Header heading={service.title} />
+			<MenuFoldButton />
+			<BackButton />
+
 			<ActivityIndicator
 				visible={
 					saveItemApi.loading || updateAdApi.loading || deleteApi.loading
@@ -89,20 +119,10 @@ const ServiceDetails = ({ route }) => {
 
 			<View style={styles.dataContainer}>
 				<View>
-					<Text style={{ fontWeight: '700' }}>Rs {service.price}</Text>
+					<Text style={styles.model}>{service.title}</Text>
+					<Text style={styles.price}>Rs {service.price}</Text>
 					<Text>{service.contactNo}</Text>
 					<Text>{service.description}</Text>
-					<Text
-						style={{
-							fontWeight: '700',
-							marginVertical: 10,
-						}}
-					>
-						Service seller
-					</Text>
-					<Text> {service.user.name}</Text>
-					<Text> {service.user.phoneNo}</Text>
-					<Text> {service.user.email}</Text>
 				</View>
 				<TouchableOpacity
 					onPress={() => setMapVisible(true)}
@@ -131,6 +151,36 @@ const ServiceDetails = ({ route }) => {
 					);
 				})}
 			</AnimatableScrollview>
+			{!ownAd && (
+				<TouchableOpacity
+					style={styles.userButton}
+					onPress={() => setUserVisible(!isUserVisible)}
+				>
+					<View style={{ alignItems: 'center', padding: 7 }}>
+						<Text style={{ fontWeight: '500' }}>see user details</Text>
+						<MaterialIcons size={20} name="expand-more" />
+					</View>
+				</TouchableOpacity>
+			)}
+
+			{isUserVisible && (
+				<Animatable.View
+					animation="slideInLeft"
+					delay={10}
+					style={{ alignItems: 'center' }}
+				>
+					<TouchableOpacity
+						onPress={() => handleChat(service.user.alternateKey)}
+					>
+						<UserCard
+							email={service.user.email}
+							name={service.user.name}
+							imageUri={randomAvatars()}
+						/>
+					</TouchableOpacity>
+				</Animatable.View>
+			)}
+
 			<ActionButtons
 				deleteAble={deleteAble}
 				saveAble={saveAble}
@@ -195,8 +245,18 @@ const styles = StyleSheet.create({
 		height: '30%',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignItems: 'flex-end',
-		paddingHorizontal: 15,
+		alignItems: 'center',
+		marginTop: 35,
+		padding: 10,
+	},
+	model: {
+		fontSize: 32,
+		fontWeight: '700',
+	},
+	price: {
+		fontSize: 18,
+		fontWeight: '700',
+		opacity: 0.7,
 	},
 	rowButtons: {
 		flexDirection: 'row',

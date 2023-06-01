@@ -1,8 +1,7 @@
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Alert,
-	Button,
 	Dimensions,
 	Image,
 	ScrollView,
@@ -16,6 +15,7 @@ import ImageView from 'react-native-image-viewing';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as Yup from 'yup';
 
+import { useChatContext } from 'stream-chat-expo';
 import userAds from '../api/ad';
 import dashboard from '../api/dashboard';
 import general from '../api/general';
@@ -25,15 +25,12 @@ import ActionButtons from '../components/ActionButtons';
 import ActivityIndicator from '../components/ActivityIndicator';
 import AppModal from '../components/AppModal';
 import MapLocationPicker from '../components/MapLocationPicker';
+import UserCard from '../components/UserCard';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
-import colors from '../config/colors';
+import randomAvatars from '../config/randomAvatars';
 import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
-import UserCard from '../components/UserCard';
-import randomAvatars from '../config/randomAvatars';
-import AppButton from '../components/AppButton';
-import { useChatContext } from 'stream-chat-expo';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -78,6 +75,12 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		const { data } = await saveItemApi.request(item.alternateKey, 'VA');
 		if (data.statusCode === 200) setSaved(!saved);
 	};
+	const navigateBack = (action) => {
+		Alert.alert(`${action} Status`, `Ad was ${action}ed successfully`, [
+			{ text: 'ok', onPress: () => navigation.goBack() },
+		]);
+	};
+
 	const updateDetails = async (adsData) => {
 		setUpdateVisible(false);
 		const { data } = await updateAdApi.request({
@@ -85,12 +88,16 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 			...adsData,
 			userGId: user.user_id,
 		});
-		if (data?.statusCode === 200) alert('Add updated successfully');
+		if (data?.statusCode !== 200) return alert('Could not update the ad');
+
+		navigateBack('Update');
 	};
 	const deleteAd = async () => {
 		const { data } = await deleteApi.request(item.alternateKey, 3);
-		console.log(data);
-		if (data?.statusCode === 200) alert('Ad was deleted successfully');
+
+		if (data?.statusCode !== 200) return alert('Could not delete the add');
+
+		navigateBack('Delete');
 	};
 	const handleAdDelete = () => {
 		Alert.alert('Delete', 'Are you sure?', [
@@ -117,7 +124,6 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const mappedImages = item.imageUrls?.map((image) => ({
 		uri: image.url,
 	}));
-
 	return (
 		<View>
 			<BackButton />
@@ -335,8 +341,8 @@ const styles = StyleSheet.create({
 		height: '30%',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignItems: 'flex-end',
-		marginTop: 35,
+		alignItems: 'center',
+		marginTop: 40,
 		padding: 10,
 	},
 	description: {

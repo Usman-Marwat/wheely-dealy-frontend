@@ -28,6 +28,7 @@ import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import useAuth from '../auth/useAuth';
 import Header from '../components/Header';
+import colors from '../config/colors';
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required().min(1).label('Title'),
@@ -231,7 +232,7 @@ function AdsEditScreen() {
 								<TouchableIcon
 									name="location-pin"
 									family="entypo"
-									backgroundColor="dodgerblue"
+									backgroundColor={colors.primary}
 									iconColor="white"
 									style={50}
 									onPress={() => setMapVisible(true)}
@@ -247,7 +248,11 @@ function AdsEditScreen() {
 									placeholder="Generate OTP"
 									keyboardType="numeric"
 								/>
-								<Button title="generate" onPress={generateOtp} />
+								<Button
+									title="generate"
+									onPress={generateOtp}
+									color={colors.primary}
+								/>
 							</View>
 							<SubmitButton title="Post" />
 						</Form>

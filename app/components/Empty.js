@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-const Empty = ({ title }) => {
+const Empty = ({ title, children }) => {
 	return (
 		<View style={styles.container}>
 			<Text>{title}</Text>
+			{children}
 		</View>
 	);
 };
