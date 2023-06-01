@@ -31,6 +31,10 @@ import randomAvatars from '../config/randomAvatars';
 import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
+import colors from '../config/colors';
+
+const BG_IMG =
+	'https://images.unsplash.com/photo-1602786195490-c785a218df40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjZ8fGNhcnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -52,6 +56,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const { client } = useChatContext();
 	const [saved, setSaved] = useState(item.savedByCurrentUser);
 	const [bidVisible, setBidVisible] = useState(false);
+	const [dealVisible, setDealVisible] = useState(false);
 	const [updateVisible, setUpdateVisible] = useState(false);
 	const [imagesVisible, setImagesVisible] = useState(false);
 	const [mapVisible, setMapVisible] = useState(false);
@@ -138,6 +143,11 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 			/>
 
 			<View style={styles.dataContainer}>
+				<Image
+					source={{ uri: BG_IMG }}
+					style={StyleSheet.absoluteFillObject}
+					blurRadius={70}
+				/>
 				<View style={styles.meta}>
 					<SharedElement id={`item.${item.key}.modal`}>
 						<Text numberOfLines={1} adjustsFontSizeToFit style={styles.model}>
@@ -149,17 +159,25 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 						<Text style={styles.price}>Rs {item.price}</Text>
 					</SharedElement>
 					<View style={{ marginLeft: -3 }}>
-						<Text> Body: {item.bodyType.title}</Text>
-						<Text> Fuel: {item.fuelType.title}</Text>
-						<Text> Registeration: {item.registrationCity.title}</Text>
-						<Text> Transmission: {item.transmissionType.title}</Text>
+						<Text style={{ color: 'lightgrey' }}>
+							Body: {item.bodyType.title}
+						</Text>
+						<Text style={{ color: 'lightgrey' }}>
+							Fuel: {item.fuelType.title}
+						</Text>
+						<Text style={{ color: 'lightgrey' }}>
+							Registeration: {item.registrationCity.title}
+						</Text>
+						<Text style={{ color: 'lightgrey' }}>
+							Transmission: {item.transmissionType.title}
+						</Text>
 					</View>
 				</View>
 				<TouchableOpacity
 					onPress={() => setMapVisible(true)}
 					style={styles.mapIcon}
 				>
-					<Entypo name="location-pin" size={30} color="#98AFC7" />
+					<Entypo name="location-pin" size={30} color="white" />
 				</TouchableOpacity>
 			</View>
 
@@ -183,14 +201,26 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					);
 				})}
 			</AnimatableScrollview>
+			<ActionButtons
+				deleteAble={deleteAble}
+				saveAble={saveAble}
+				updateAble={updateAble}
+				saved={saved}
+				onSave={saveItem}
+				onUpdate={() => setUpdateVisible(true)}
+				onDelete={handleAdDelete}
+			/>
+
 			{!ownAd && (
 				<TouchableOpacity
 					style={styles.userButton}
 					onPress={() => setUserVisible(!isUserVisible)}
 				>
-					<View style={{ alignItems: 'center', padding: 7 }}>
-						<Text style={{ fontWeight: '500' }}>see user details</Text>
-						<MaterialIcons size={20} name="expand-more" />
+					<View style={styles.userDetailBtn}>
+						<Text style={{ fontWeight: '500', color: 'white' }}>
+							see user details
+						</Text>
+						<MaterialIcons size={20} name="expand-more" color="white" />
 					</View>
 				</TouchableOpacity>
 			)}
@@ -210,16 +240,6 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					</TouchableOpacity>
 				</Animatable.View>
 			)}
-
-			<ActionButtons
-				deleteAble={deleteAble}
-				saveAble={saveAble}
-				updateAble={updateAble}
-				saved={saved}
-				onSave={saveItem}
-				onUpdate={() => setUpdateVisible(true)}
-				onDelete={handleAdDelete}
-			/>
 
 			{ownAd && (
 				<Animatable.View useNativeDriver animation={animation} delay={700}>
@@ -244,16 +264,28 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 			{user.account_type === 'Client' && (
 				<>
 					<View style={styles.rowButton}>
-						<Text>Your current bid:{myBidApi.data?.obj.bidAmount} </Text>
+						<Text style={{ fontWeight: '700', marginTop: 10 }}>
+							Your current bid:{myBidApi.data?.obj.bidAmount}{' '}
+						</Text>
 					</View>
-					<TouchableOpacity
-						style={styles.rowButton}
-						onPress={() => setBidVisible(true)}
-					>
-						<View style={{ borderBottomWidth: 1 }}>
-							<Text>Give Your Bid</Text>
-						</View>
-					</TouchableOpacity>
+					<View style={styles.dealBtnWrapper}>
+						<TouchableOpacity
+							style={[styles.rowButton]}
+							onPress={() => setBidVisible(true)}
+						>
+							<View style={styles.dealBtn}>
+								<Text style={{ color: 'white' }}>Give Your Bid </Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={[styles.rowButton]}
+							onPress={() => setDealVisible(true)}
+						>
+							<View style={styles.dealBtn}>
+								<Text style={{ color: 'white' }}>claim Deal </Text>
+							</View>
+						</TouchableOpacity>
+					</View>
 				</>
 			)}
 
@@ -338,12 +370,23 @@ export default AdsListDetailsScreen;
 const styles = StyleSheet.create({
 	dataContainer: {
 		width: '100%',
-		height: '30%',
+		// height: '30%',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginTop: 40,
+		paddingTop: 60,
 		padding: 10,
+	},
+	dealBtn: {
+		borderRadius: 30,
+		padding: 7,
+		backgroundColor: colors.primary,
+	},
+	dealBtnWrapper: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginHorizontal: 30,
+		marginTop: 20,
 	},
 	description: {
 		fontSize: 12,
@@ -367,18 +410,9 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: '700',
 		opacity: 0.7,
-		// position: 'absolute',
-		// top: SPACING + 57,
-	},
-	swatch: {
-		height: 56,
-		width: 56,
-		borderRadius: 16,
-		marginRight: SPACING,
 	},
 	rowButton: {
 		flexDirection: 'row',
-		padding: SPACING * 2,
 		justifyContent: 'center',
 	},
 	location: {
@@ -390,7 +424,12 @@ const styles = StyleSheet.create({
 	userButton: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginVertical: 5,
+	},
+	userDetailBtn: {
+		alignItems: 'center',
+		padding: 10,
+		backgroundColor: colors.primary,
+		borderRadius: 30,
 	},
 	mapIcon: {
 		marginRight: 40,
