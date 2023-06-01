@@ -15,6 +15,7 @@ import userAds from '../api/ad';
 import BackButton from '../navigation/BackButton';
 import { useEffect } from 'react';
 import ActivityIndicator from '../components/ActivityIndicator';
+import Empty from '../components/Empty';
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -38,10 +39,18 @@ const BidsListScreen = ({ route }) => {
 		getBids();
 	}, []);
 
+	if (myBidsApi.data?.obj)
+		return (
+			<>
+				<BackButton />
+				<Empty title="No Bids made by anyone" />
+			</>
+		);
+
 	return (
 		<>
 			<BackButton />
-			<ActivityIndicator i />
+			<ActivityIndicator visible={myBidsApi.loading} />
 			<Screen style={{ paddingTop: 50 }}>
 				<Image
 					source={{ uri: BG_IMG }}

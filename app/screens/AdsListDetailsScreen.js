@@ -286,6 +286,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'flex-end',
+		marginTop: 35,
+		padding: 10,
 	},
 	description: {
 		fontSize: 12,

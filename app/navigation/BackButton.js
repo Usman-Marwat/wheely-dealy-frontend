@@ -1,31 +1,17 @@
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import colors from '../config/colors';
 
 const SIZE = 30;
 
 const BackButton = ({
-	iconName = 'chevron-left',
-	iconBg = '#fff',
-	containerStyle,
 	position = 'absolute',
+	backgroundColor = colors.primary,
+	iconColor = 'white',
 }) => {
 	const navigation = useNavigation();
 
-	// return (
-	// 	<TouchableOpacity
-	// 		onPress={() => navigation.goBack()}
-	// 		style={containerStyle}
-	// 	>
-	// 		<Icon
-	// 			family="mci"
-	// 			name={iconName}
-	// 			backgroundColor={iconBg}
-	// 			iconColor="#222"
-	// 			size={34}
-	// 		/>
-	// 	</TouchableOpacity>
-	// );
 	return (
 		<TouchableOpacity
 			onPress={() => navigation.goBack()}
@@ -33,12 +19,13 @@ const BackButton = ({
 				styles.conatiner,
 				{
 					position,
+					backgroundColor,
 					top: position === 'relative' ? 0 : 25,
 					left: position === 'relative' ? 0 : 17,
 				},
 			]}
 		>
-			<SimpleLineIcons name="arrow-left" size={SIZE - 15} />
+			<SimpleLineIcons name="arrow-left" size={SIZE - 15} color={iconColor} />
 		</TouchableOpacity>
 	);
 };
