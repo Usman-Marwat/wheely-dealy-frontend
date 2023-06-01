@@ -19,4 +19,6 @@ export default Object.freeze({
 	BIDS_LIST: 'BidsList',
 	RECEIVED: 'ReceivedS',
 	RECEIVED_DETAILS: 'RecievedDetails',
+
+	VISITOR_DASHBOARD: 'VisitorDashboard',
 });

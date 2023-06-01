@@ -103,7 +103,7 @@ const images = [
 const { height, width } = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.18;
 
-const Profiles = ({ navigation, profiles, onRefresh }) => {
+const Profiles = ({ navigation, profiles, onRefresh, visitor }) => {
 	return (
 		<Screen>
 			<FlatList
@@ -116,11 +116,15 @@ const Profiles = ({ navigation, profiles, onRefresh }) => {
 					const image = images[Math.floor(Math.random() * images.length - 1)];
 					return (
 						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate(routes.USER_DETAILS, {
-									item: { ...item, color, image },
-								});
-							}}
+							onPress={
+								visitor
+									? () => alert('For details please login')
+									: () => {
+											navigation.navigate(routes.USER_DETAILS, {
+												item: { ...item, color, image },
+											});
+									  }
+							}
 							style={styles.itemWrapper}
 						>
 							<View style={{ flex: 1, padding: SPACING }}>
@@ -133,7 +137,9 @@ const Profiles = ({ navigation, profiles, onRefresh }) => {
 								<SharedElement id={`item.${item.key}.name`}>
 									<Text style={styles.profileName}>{item.name}</Text>
 								</SharedElement>
-								<Text style={styles.jobTitle}>{item.accountType.type}</Text>
+								<Text style={styles.jobTitle}>
+									{item?.accountType?.type || item.email}
+								</Text>
 								<SharedElement
 									id={`item.${item.key}.image`}
 									style={styles.profileImage}

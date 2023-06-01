@@ -18,6 +18,7 @@ const Services = ({
 	saveAble,
 	updateAble,
 	deleteAble,
+	visitor,
 }) => {
 	// console.log(services[0])
 
@@ -44,13 +45,16 @@ const Services = ({
 										</Text>
 									</View>
 									<TouchableOpacity
-										onPress={() =>
-											navigation.navigate(routes.SERVICE_DETAIL, {
-												service: item,
-												saveAble,
-												updateAble,
-												deleteAble,
-											})
+										onPress={
+											visitor
+												? () => alert('For details please login')
+												: () =>
+														navigation.navigate(routes.SERVICE_DETAIL, {
+															service: item,
+															saveAble,
+															updateAble,
+															deleteAble,
+														})
 										}
 									>
 										<FontAwesome name={'chevron-circle-right'} size={30} />

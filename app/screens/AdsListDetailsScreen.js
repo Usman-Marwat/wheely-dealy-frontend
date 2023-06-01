@@ -215,7 +215,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				onDelete={handleAdDelete}
 			/>
 
-			{user.account_type === 'Seller' && (
+			{ownAd && (
 				<Animatable.View useNativeDriver animation={animation} delay={700}>
 					<TouchableOpacity
 						style={styles.rowButton}

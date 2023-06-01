@@ -23,6 +23,7 @@ const Vehicles = ({
 	updateAble,
 	deleteAble,
 	ownAd,
+	visitor,
 }) => {
 	return (
 		<FlatList
@@ -34,14 +35,17 @@ const Vehicles = ({
 			renderItem={({ item }) => {
 				return (
 					<TouchableOpacity
-						onPress={() =>
-							navigation.navigate(routes.ADS_LIST_DETAIL, {
-								item,
-								saveAble,
-								updateAble,
-								deleteAble,
-								ownAd,
-							})
+						onPress={
+							visitor
+								? () => alert('For details please login')
+								: () =>
+										navigation.navigate(routes.ADS_LIST_DETAIL, {
+											item,
+											saveAble,
+											updateAble,
+											deleteAble,
+											ownAd,
+										})
 						}
 					>
 						<View style={styles.item}>

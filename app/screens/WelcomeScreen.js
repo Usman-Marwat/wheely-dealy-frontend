@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 	Text,
 	View,
+	TouchableOpacity,
 } from 'react-native';
 import { SharedElement } from 'react-navigation-shared-element';
 
@@ -185,6 +186,12 @@ export default function WelcomeScreen({ navigation }) {
 					}
 				/>
 			</View>
+			<TouchableOpacity
+				style={styles.visitor}
+				onPress={() => navigation.navigate(routes.VISITOR_DASHBOARD)}
+			>
+				<Text style={styles.visitorText}>Visitor Dashboard</Text>
+			</TouchableOpacity>
 			<Indicator scrollX={scrollX} />
 		</View>
 	);
@@ -200,7 +207,7 @@ const styles = StyleSheet.create({
 	buttonsRow: {
 		flexDirection: 'row',
 		position: 'absolute',
-		bottom: 80,
+		bottom: 120,
 	},
 	container: {
 		flex: 1,
@@ -267,5 +274,13 @@ const styles = StyleSheet.create({
 		textTransform: 'uppercase',
 		// textDecorationLine: "underline",
 		// textDecorationStyle: "dashed",
+	},
+	visitor: {
+		position: 'absolute',
+		bottom: 80,
+	},
+	visitorText: {
+		textDecorationLine: 'underline',
+		color: 'white',
 	},
 });
