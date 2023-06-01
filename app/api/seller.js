@@ -108,6 +108,22 @@ const updateServiceAd = (ad) => {
 	return client.put(`${endpoint}/modifyservicead`, data);
 };
 
+const getMyVehicleDeals = () => client.get(`${endpoint}/get-my-vehicle-deals`);
+
+const approveOrRejectDeal = (dealId, command) =>
+	client.post(`${endpoint}/approve-reject-deal`, { dealId, command });
+
+const getMyServiceDeals = () => client.get(`${endpoint}/get-my-service-deals`);
+
+const approveOrRejectServiceDeal = (dealId, command) =>
+	client.post(`${endpoint}/approve-reject-service-deal`, { dealId, command });
+
+/*
+1 Approved
+2 Rejected
+5 Pending Approval
+*/
+
 export default {
 	getTypes,
 	getServiceTypes,
@@ -115,4 +131,8 @@ export default {
 	postServiceAd,
 	updateAd,
 	updateServiceAd,
+	getMyVehicleDeals,
+	approveOrRejectDeal,
+	getMyServiceDeals,
+	approveOrRejectServiceDeal,
 };

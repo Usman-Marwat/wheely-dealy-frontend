@@ -1,17 +1,25 @@
-import client from "./httpClient";
+import client from './httpClient';
 
-const endpoint = "/search";
+const endpoint = '/Search';
 
-const getAds = (searchFor, searchField, pageNumber, pageSize) =>
-  client.get(endpoint, {
-    params: {
-      searchFor,
-      searchField,
-      pageNumber,
-      pageSize,
-    },
-  });
+const search = (searchField, pageNumber, pageSize) =>
+	client.get(endpoint, {
+		params: {
+			searchFor: 'h',
+			searchField,
+			pageNumber,
+			pageSize,
+		},
+	});
+
+const getQuestion = (search) =>
+	client.get(`${endpoint}/get-question`, { search });
+
+const getQuestionById = (questionId) =>
+	client.get(`${endpoint}/get-question-by-id`, { questionId });
 
 export default {
-  getAds,
+	search,
+	getQuestion,
+	getQuestionById,
 };

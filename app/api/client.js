@@ -1,12 +1,17 @@
-import client from "./httpClient";
+import client from './httpClient';
 
-const endpoint = "/client";
+const endpoint = '/client';
 
 const rateSeller = (rating) => client.post(`${endpoint}/rate`, rating);
 
-const getAccountTypes = () => client.get(`${endpoint}/getaccounttypes`);
+const claimDeal = (dealObj) => client.post(`${endpoint}/claim-deal`, dealObj);
+
+const claimServiceDeal = (dealObj) =>
+	client.post(`${endpoint}/claim-service-deal`, dealObj);
 
 export default {
-  getAccountTypes,
-  rateSeller,
+	getAccountTypes,
+	rateSeller,
+	claimDeal,
+	claimServiceDeal,
 };

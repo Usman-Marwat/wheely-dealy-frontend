@@ -94,6 +94,8 @@ const PostsListScreen = ({ navigation }) => {
 		]);
 	};
 
+	console.log(profileViewApi.data);
+
 	return (
 		<>
 			<ActivityIndicator

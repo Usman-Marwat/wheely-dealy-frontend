@@ -29,7 +29,10 @@ const updatePost = (ad) => {
 	return client.put(`${endpoint}/modify-post`, data);
 };
 
+const getMyPosts = () => client.get(`${endpoint}/get-my-posts`);
+
 export default {
 	createPost,
 	updatePost,
+	getMyPosts,
 };
