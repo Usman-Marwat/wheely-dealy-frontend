@@ -10,16 +10,16 @@ import {
 import * as Yup from 'yup';
 
 import authApi from '../api/auth';
+import userApi from '../api/user';
+import useAuth from '../auth/useAuth';
+import ActivityIndicator from '../components/ActivityIndicator';
 import AppModal from '../components/AppModal';
 import Empty from '../components/Empty';
-import Header from '../components/Header';
 import Icon from '../components/Icon';
-import ImageInput from '../components/ImageInput';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
-import useApi from '../hooks/useApi';
-import ActivityIndicator from '../components/ActivityIndicator';
 import randomAvatars from '../config/randomAvatars';
+import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 
@@ -33,13 +33,16 @@ function ProfileScreen({ navigation }) {
 	const [passwordVisible, setPasswordVisble] = useState(false);
 	const [otpDisable, setOtpDisable] = useState(false);
 	const [imageUri, setImageUri] = useState();
+	const { user: currentUser } = useAuth();
 
+	const updateProdileApi = useApi(userApi.updateProfile);
 	const myAccountApi = useApi(authApi.getMyAccount);
 	const passwordOtpApi = useApi(authApi.getPasswordOtp);
 	const resetPasswordApi = useApi(authApi.resetPassword);
 
-	const updateProfile = (formData) => {
-		console.log(formData);
+	const updateProfile = async (formData) => {
+		const { data } = await updateProdileApi.request({ ...formData });
+		alert(data?.message);
 	};
 	const changePassword = async (formData) => {
 		const { data } = await resetPasswordApi.request({
@@ -155,32 +158,22 @@ function ProfileScreen({ navigation }) {
 			>
 				<AppForm
 					initialValues={{
-						name: 'user.name',
-						email: 'user.email',
+						username: currentUser.username,
+						name: currentUser.name,
+						email: currentUser.email,
+						about: currentUser.about,
 					}}
 					onSubmit={updateProfile}
-					validationSchema={validationSchema}
+					// validationSchema={validationSchema}
 				>
-					<AppFormField
-						width={'70%'}
-						icon="ornament"
-						name="name"
-						placeholder="Name"
-						backgroundColor={colors.light}
-					/>
-					<AppFormField
-						autoCapitalize="none"
-						autoCorrect={false}
-						icon="email"
-						keyboardType="email-address"
-						name="email"
-						placeholder="Email"
-						textContentType="emailAddress"
-					/>
-					<ImageInput
+					<AppFormField width={'70%'} name="username" placeholder="User Name" />
+					<AppFormField name="name" placeholder="Name" />
+					<AppFormField name="email" placeholder="Email" />
+					<AppFormField name="about" placeholder="About" />
+					{/* <ImageInput
 						imageUri={imageUri}
 						onChangeImage={(uri) => setImageUri(uri)}
-					/>
+					/> */}
 					<SubmitButton title="Update" />
 				</AppForm>
 			</AppModal>
