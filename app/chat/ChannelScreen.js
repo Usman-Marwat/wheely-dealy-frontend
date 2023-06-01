@@ -38,6 +38,7 @@ export default function ChannelScreen({ navigation, route }) {
 	return (
 		<>
 			<MenuFoldButton />
+			<BackButton />
 			<Channel
 				channel={channel}
 				Input={() => <InputBox targetIds={targetIds} sender={sender} />}

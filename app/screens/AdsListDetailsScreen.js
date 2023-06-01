@@ -1,6 +1,5 @@
-import { AntDesign, Entypo } from '@expo/vector-icons';
-import niceColors from 'nice-color-palettes';
-import { useState } from 'react';
+import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons';
+import { useState, useEffect } from 'react';
 import {
 	Alert,
 	Button,
@@ -17,7 +16,6 @@ import ImageView from 'react-native-image-viewing';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as Yup from 'yup';
 
-import { useEffect } from 'react';
 import userAds from '../api/ad';
 import dashboard from '../api/dashboard';
 import general from '../api/general';
@@ -32,6 +30,10 @@ import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
+import UserCard from '../components/UserCard';
+import randomAvatars from '../config/randomAvatars';
+import AppButton from '../components/AppButton';
+import { useChatContext } from 'stream-chat-expo';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -45,18 +47,18 @@ const validationSchema = Yup.object().shape({
 	description: Yup.string().required().label('Description'),
 });
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const SPACING = 10;
-const colorsPallete = [...niceColors[1], ...niceColors[2]];
-const buttons = ['See all the bids', 'Give your bid'];
 
 const AdsListDetailsScreen = ({ navigation, route }) => {
-	const { item, saveAble, updateAble, deleteAble } = route.params;
+	const { item, saveAble, updateAble, deleteAble, ownAd } = route.params;
+	const { client } = useChatContext();
 	const [saved, setSaved] = useState(item.savedByCurrentUser);
 	const [bidVisible, setBidVisible] = useState(false);
 	const [updateVisible, setUpdateVisible] = useState(false);
 	const [imagesVisible, setImagesVisible] = useState(false);
 	const [mapVisible, setMapVisible] = useState(false);
+	const [isUserVisible, setUserVisible] = useState(false);
 	const { user } = useAuth();
 
 	const myBidApi = useApi(userAds.getMyBidOnAd);
@@ -95,6 +97,17 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 			{ text: 'Yes', onPress: () => deleteAd(), style: 'destructive' },
 			{ text: 'No' },
 		]);
+	};
+	const handleChat = async (chatUserId) => {
+		try {
+			const channel = client.channel('messaging', {
+				members: [chatUserId, user.user_id],
+			});
+			await channel.watch();
+			navigation.navigate('Channel', { cid: channel.cid });
+		} catch (error) {
+			alert('The selected user is not registered with chat Api');
+		}
 	};
 
 	useEffect(() => {
@@ -164,6 +177,43 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					);
 				})}
 			</AnimatableScrollview>
+			{!ownAd && (
+				<TouchableOpacity
+					style={styles.userButton}
+					onPress={() => setUserVisible(!isUserVisible)}
+				>
+					<View style={{ alignItems: 'center', padding: 7 }}>
+						<Text style={{ fontWeight: '500' }}>see user details</Text>
+						<MaterialIcons size={20} name="expand-more" />
+					</View>
+				</TouchableOpacity>
+			)}
+
+			{isUserVisible && (
+				<Animatable.View
+					animation="slideInLeft"
+					delay={10}
+					style={{ alignItems: 'center' }}
+				>
+					<TouchableOpacity onPress={() => handleChat()}>
+						<UserCard
+							email={item.user.email}
+							name={item.user.name}
+							imageUri={randomAvatars()}
+						/>
+					</TouchableOpacity>
+				</Animatable.View>
+			)}
+
+			<ActionButtons
+				deleteAble={deleteAble}
+				saveAble={saveAble}
+				updateAble={updateAble}
+				saved={saved}
+				onSave={saveItem}
+				onUpdate={() => setUpdateVisible(true)}
+				onDelete={handleAdDelete}
+			/>
 
 			{user.account_type === 'Seller' && (
 				<Animatable.View useNativeDriver animation={animation} delay={700}>
@@ -175,8 +225,12 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 							})
 						}
 					>
-						<Text>See all the bids</Text>
-						<AntDesign name="arrowright" color="rgba(0,0,0,0.8)" size={17} />
+						<View style={{ borderBottomWidth: 1 }}>
+							<Text>
+								See all the bids
+								<AntDesign name="arrowright" size={17} />
+							</Text>
+						</View>
 					</TouchableOpacity>
 				</Animatable.View>
 			)}
@@ -191,15 +245,6 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					/>
 				</>
 			)}
-			<ActionButtons
-				deleteAble={deleteAble}
-				saveAble={saveAble}
-				updateAble={updateAble}
-				saved={saved}
-				onSave={saveItem}
-				onUpdate={() => setUpdateVisible(true)}
-				onDelete={handleAdDelete}
-			/>
 
 			<ImageView
 				images={mappedImages}
@@ -323,13 +368,15 @@ const styles = StyleSheet.create({
 	rowButton: {
 		flexDirection: 'row',
 		padding: SPACING * 2,
-		justifyContent: 'space-between',
-		borderColor: 'rgba(0,0,0,0.1)',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
+		justifyContent: 'center',
 	},
 	location: {
 		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginVertical: 5,
+	},
+	userButton: {
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginVertical: 5,

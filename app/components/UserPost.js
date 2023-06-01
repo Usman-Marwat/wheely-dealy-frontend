@@ -1,17 +1,11 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import {
-	AntDesign,
-	Ionicons,
-	FontAwesome,
-	MaterialIcons,
-} from '@expo/vector-icons';
+import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
-import ExpandableText from './ExpandableText';
 import randomCarImages from '../config/randomCarImages';
 import ActionButtons from './ActionButtons';
+import ExpandableText from './ExpandableText';
 
 const UserPost = ({
 	post,

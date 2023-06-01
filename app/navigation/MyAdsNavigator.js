@@ -1,12 +1,12 @@
-import React from 'react';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
+import ChannelScreen from '../chat/ChannelScreen';
 import AdsEditScreen from '../screens/AdsEditScreen';
-import MyAdsListScreen from '../screens/MyAdsListScreen';
 import AdsListDetailsScreen from '../screens/AdsListDetailsScreen';
+import BidsListScreen from '../screens/BidsListScreen';
+import MyAdsListScreen from '../screens/MyAdsListScreen';
 import { options } from './navigationOptions';
 import routes from './routes';
-import BidsListScreen from '../screens/BidsListScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -30,6 +30,7 @@ const MyAdsNavigator = () => {
 			/>
 			<Stack.Screen name={routes.ADS_EDIT} component={AdsEditScreen} />
 			<Stack.Screen name={routes.BIDS_LIST} component={BidsListScreen} />
+			<Stack.Screen name="Channel" component={ChannelScreen} />
 		</Stack.Navigator>
 	);
 };

@@ -33,6 +33,7 @@ const MyAdsListScreen = ({ navigation }) => {
 				onRefresh={getMyAds}
 				updateAble
 				deleteAble
+				ownAd
 			/>
 			<View style={styles.plusButton}>
 				<NewItemButton onPress={() => navigation.navigate(routes.ADS_EDIT)} />

@@ -22,11 +22,12 @@ const Vehicles = ({
 	saveAble,
 	updateAble,
 	deleteAble,
+	ownAd,
 }) => {
 	return (
 		<FlatList
 			showsVerticalScrollIndicator={false}
-			contentContainerStyle={{ padding: SPACING }}
+			contentContainerStyle={{ padding: SPACING, paddingVertical: 60 }}
 			data={vehicles}
 			keyExtractor={(item) => item.alternateKey}
 			refreshControl={<RefreshControl onRefresh={onRefresh} />}
@@ -39,6 +40,7 @@ const Vehicles = ({
 								saveAble,
 								updateAble,
 								deleteAble,
+								ownAd,
 							})
 						}
 					>

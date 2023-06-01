@@ -3,6 +3,7 @@ import React from 'react';
 
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import BackButton from '../navigation/BackButton';
+import colors from '../config/colors';
 
 const Header = ({ heading }) => {
 	return (
@@ -14,7 +15,7 @@ const Header = ({ heading }) => {
 				</View>
 			)}
 
-			<MenuFoldButton menuFoldPosition="relative" />
+			<MenuFoldButton position="relative" />
 		</View>
 	);
 };
@@ -32,8 +33,6 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 		paddingHorizontal: 17,
 		borderBottomColor: 'silver',
-
-		// position: "absolute",
 		top: 2,
 		zIndex: 1,
 	},
@@ -43,7 +42,6 @@ const styles = StyleSheet.create({
 		zIndex: 1,
 	},
 	shadow: {
-		// backgroundColor: "white",
 		shadowColor: 'silver',
 		shadowOffset: {
 			width: 0,
@@ -60,6 +58,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		borderRadius: 50,
 		backgroundColor: 'white',
-		borderWidth: 0.3,
+		borderWidth: 0.7,
+		borderColor: colors.primary,
 	},
 });
