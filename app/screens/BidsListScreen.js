@@ -1,21 +1,23 @@
+import { useRef } from 'react';
 import {
-	StatusBar,
-	Image,
 	Animated,
-	Text,
-	View,
+	Image,
+	StatusBar,
 	StyleSheet,
+	Text,
 	TouchableOpacity,
+	View,
 } from 'react-native';
-import React, { useRef } from 'react';
 
-import Screen from '../components/Screen';
-import useApi from '../hooks/useApi';
-import userAds from '../api/ad';
-import BackButton from '../navigation/BackButton';
 import { useEffect } from 'react';
+import { useChatContext } from 'stream-chat-expo';
+import userAds from '../api/ad';
 import ActivityIndicator from '../components/ActivityIndicator';
-import Empty from '../components/Empty';
+import Screen from '../components/Screen';
+import randomAvatars from '../config/randomAvatars';
+import useApi from '../hooks/useApi';
+import BackButton from '../navigation/BackButton';
+import useAuth from '../auth/useAuth';
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -28,6 +30,8 @@ const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
 const BidsListScreen = ({ route }) => {
 	const { adId } = route.params;
 	const scrollY = useRef(new Animated.Value(0)).current;
+	const { client } = useChatContext();
+	const { user } = useAuth();
 
 	const myBidsApi = useApi(userAds.getBidsOnMyAd);
 
@@ -39,13 +43,17 @@ const BidsListScreen = ({ route }) => {
 		getBids();
 	}, []);
 
-	if (myBidsApi.data?.obj)
-		return (
-			<>
-				<BackButton />
-				<Empty title="No Bids made by anyone" />
-			</>
-		);
+	const handleChat = async (chatUserId) => {
+		try {
+			const channel = client.channel('messaging', {
+				members: [chatUserId, user.user_id],
+			});
+			await channel.watch();
+			navigation.navigate('Channel', { cid: channel.cid });
+		} catch (error) {
+			alert('The selected user is not registered with chat Api');
+		}
+	};
 
 	return (
 		<>
@@ -96,9 +104,12 @@ const BidsListScreen = ({ route }) => {
 									styles.itemWrapper,
 									{ opacity, transform: [{ scale: scale }] },
 								]}
+								onPress={() => handleChat(item.bidder.alternateKey)}
 							>
 								<Image
-									source={{ uri: item.bidder.profilePictureURL }}
+									source={{
+										uri: item.bidder.profilePictureURL || randomAvatars(),
+									}}
 									style={styles.image}
 								/>
 								<View style={{ flexShrink: 1 }}>

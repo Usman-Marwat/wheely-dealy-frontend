@@ -195,7 +195,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					delay={10}
 					style={{ alignItems: 'center' }}
 				>
-					<TouchableOpacity onPress={() => handleChat()}>
+					<TouchableOpacity onPress={() => handleChat(item.user.alternateKey)}>
 						<UserCard
 							email={item.user.email}
 							name={item.user.name}
@@ -237,12 +237,17 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 
 			{user.account_type === 'Client' && (
 				<>
-					<Text>Your current bid:{myBidApi.data?.obj.bidAmount} </Text>
-					<Button
-						title="Give your bid"
-						color={colors.medium}
+					<View style={styles.rowButton}>
+						<Text>Your current bid:{myBidApi.data?.obj.bidAmount} </Text>
+					</View>
+					<TouchableOpacity
+						style={styles.rowButton}
 						onPress={() => setBidVisible(true)}
-					/>
+					>
+						<View style={{ borderBottomWidth: 1 }}>
+							<Text>Give Your Bid</Text>
+						</View>
+					</TouchableOpacity>
 				</>
 			)}
 
