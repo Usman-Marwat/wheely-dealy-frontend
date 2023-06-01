@@ -16,6 +16,7 @@ import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import dashboard from '../api/dashboard';
 import useApi from '../hooks/useApi';
 import ActivityIndicator from '../components/ActivityIndicator';
+import clientApi from '../api/client';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import AppModal from '../components/AppModal';
 import seller from '../api/seller';
@@ -28,6 +29,7 @@ import BackButton from '../navigation/BackButton';
 import UserCard from '../components/UserCard';
 import randomAvatars from '../config/randomAvatars';
 import { useChatContext } from 'stream-chat-expo';
+import colors from '../config/colors';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -46,6 +48,7 @@ const ServiceDetails = ({ navigation, route }) => {
 	const [saved, setSaved] = useState(service.savedByCurrentUser);
 	const [visible, setVisible] = useState(false);
 	const [imagesVisible, setImagesVisible] = useState(false);
+	const [dealVisible, setDealVisible] = useState(false);
 	const [mapVisible, setMapVisible] = useState(false);
 	const [isUserVisible, setUserVisible] = useState(false);
 
@@ -54,6 +57,7 @@ const ServiceDetails = ({ navigation, route }) => {
 	const saveItemApi = useApi(dashboard.saveAnItem);
 	const updateAdApi = useApi(seller.updateServiceAd);
 	const deleteApi = useApi(general.deleteOrMarkSold);
+	const claimDealApi = useApi(clientApi.claimServiceDeal);
 
 	const saveItem = async () => {
 		const { data } = await saveItemApi.request(service.alternateKey, 'SA');
@@ -101,6 +105,14 @@ const ServiceDetails = ({ navigation, route }) => {
 			alert('The selected user is not registered with chat Api');
 		}
 	};
+	const claimDeal = async (formData) => {
+		const { data } = await claimDealApi.request({
+			serviceAdId: service.alternateKey,
+			...formData,
+		});
+		if (data?.statusCode !== 200) return alert('Could not claim the deal');
+		alert('Deal was claimed successfully, Now seller will approve');
+	};
 
 	const mappedImages = service.imageUrls?.map((image) => ({
 		uri: image.url,
@@ -113,7 +125,10 @@ const ServiceDetails = ({ navigation, route }) => {
 
 			<ActivityIndicator
 				visible={
-					saveItemApi.loading || updateAdApi.loading || deleteApi.loading
+					saveItemApi.loading ||
+					updateAdApi.loading ||
+					deleteApi.loading ||
+					claimDealApi.loading
 				}
 			/>
 
@@ -151,14 +166,25 @@ const ServiceDetails = ({ navigation, route }) => {
 					);
 				})}
 			</AnimatableScrollview>
+			<ActionButtons
+				deleteAble={deleteAble}
+				saveAble={saveAble}
+				updateAble={updateAble}
+				saved={saved}
+				onSave={saveItem}
+				onUpdate={() => setVisible(true)}
+				onDelete={handleAdDelete}
+			/>
 			{!ownAd && (
 				<TouchableOpacity
 					style={styles.userButton}
 					onPress={() => setUserVisible(!isUserVisible)}
 				>
-					<View style={{ alignItems: 'center', padding: 7 }}>
-						<Text style={{ fontWeight: '500' }}>see user details</Text>
-						<MaterialIcons size={20} name="expand-more" />
+					<View style={styles.userDetailBtn}>
+						<Text style={{ fontWeight: '500', color: 'white' }}>
+							see user details
+						</Text>
+						<MaterialIcons size={20} name="expand-more" color="white" />
 					</View>
 				</TouchableOpacity>
 			)}
@@ -181,15 +207,18 @@ const ServiceDetails = ({ navigation, route }) => {
 				</Animatable.View>
 			)}
 
-			<ActionButtons
-				deleteAble={deleteAble}
-				saveAble={saveAble}
-				updateAble={updateAble}
-				saved={saved}
-				onSave={saveItem}
-				onUpdate={() => setVisible(true)}
-				onDelete={handleAdDelete}
-			/>
+			<TouchableOpacity
+				style={{
+					flexDirection: 'row',
+					justifyContent: 'center',
+					marginTop: 30,
+				}}
+				onPress={() => setDealVisible(true)}
+			>
+				<Text style={{ textDecorationLine: 'underline', fontWeight: '500' }}>
+					claim Deal{' '}
+				</Text>
+			</TouchableOpacity>
 
 			<ImageView
 				images={mappedImages}
@@ -233,6 +262,39 @@ const ServiceDetails = ({ navigation, route }) => {
 					<SubmitButton title="Update" />
 				</AppForm>
 			</AppModal>
+
+			<AppModal
+				heading="Claim Deal "
+				visible={dealVisible}
+				onVisible={() => setDealVisible(false)}
+			>
+				<AppForm
+					initialValues={{
+						dealPrice: '',
+						ratingScore: '',
+						review: '',
+					}}
+					onSubmit={(formData) => {
+						setDealVisible(false);
+						claimDeal(formData);
+					}}
+					// validationSchema={validationSchema}
+				>
+					<AppFormField
+						name="dealPrice"
+						placeholder="Deal Price"
+						keyboardType="numeric"
+					/>
+					<AppFormField
+						keyboardType="numeric"
+						width="50%"
+						name="ratingScore"
+						placeholder="Rate Seller 1-5"
+					/>
+					<AppFormField name="review" placeholder="Review" />
+					<SubmitButton title="Claim" />
+				</AppForm>
+			</AppModal>
 		</>
 	);
 };
@@ -242,11 +304,10 @@ export default ServiceDetails;
 const styles = StyleSheet.create({
 	dataContainer: {
 		width: '100%',
-		height: '30%',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginTop: 35,
+		marginTop: 60,
 		padding: 10,
 	},
 	model: {
@@ -269,6 +330,13 @@ const styles = StyleSheet.create({
 		height: 120,
 		borderRadius: 30,
 		marginHorizontal: 10,
+	},
+	userDetailBtn: {
+		alignItems: 'center',
+		padding: 10,
+		backgroundColor: colors.primary,
+		borderRadius: 30,
+		marginHorizontal: 140,
 	},
 	mapIcon: {
 		marginRight: 40,

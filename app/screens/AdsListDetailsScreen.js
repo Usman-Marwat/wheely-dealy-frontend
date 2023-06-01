@@ -18,6 +18,7 @@ import * as Yup from 'yup';
 import { useChatContext } from 'stream-chat-expo';
 import userAds from '../api/ad';
 import dashboard from '../api/dashboard';
+import clientApi from '../api/client';
 import general from '../api/general';
 import seller from '../api/seller';
 import useAuth from '../auth/useAuth';
@@ -68,6 +69,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const saveItemApi = useApi(dashboard.saveAnItem);
 	const updateAdApi = useApi(seller.updateAd);
 	const deleteApi = useApi(general.deleteOrMarkSold);
+	const claimDealApi = useApi(clientApi.claimDeal);
 
 	const getBids = async () => {
 		await myBidApi.request(item.alternateKey);
@@ -121,6 +123,14 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 			alert('The selected user is not registered with chat Api');
 		}
 	};
+	const claimDeal = async (formData) => {
+		const { data } = await claimDealApi.request({
+			vehicleAdId: item.alternateKey,
+			...formData,
+		});
+		if (data?.statusCode !== 200) return alert('Could not claim the deal');
+		alert('Deal was claimed successfully, Now seller will approve');
+	};
 
 	useEffect(() => {
 		if (user.account_type === 'Client') getBids();
@@ -138,7 +148,8 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					addBidApi.loading ||
 					saveItemApi.loading ||
 					updateAdApi.loading ||
-					deleteApi.loading
+					deleteApi.loading ||
+					claimDealApi.loading
 				}
 			/>
 
@@ -359,6 +370,39 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					/>
 					<AppFormField name="description" placeholder="Description" />
 					<SubmitButton title="Update" />
+				</AppForm>
+			</AppModal>
+
+			<AppModal
+				heading="Claim Deal "
+				visible={dealVisible}
+				onVisible={() => setDealVisible(false)}
+			>
+				<AppForm
+					initialValues={{
+						dealPrice: '',
+						ratingScore: '',
+						review: '',
+					}}
+					onSubmit={(formData) => {
+						setDealVisible(false);
+						claimDeal(formData);
+					}}
+					// validationSchema={validationSchema}
+				>
+					<AppFormField
+						name="dealPrice"
+						placeholder="Deal Price"
+						keyboardType="numeric"
+					/>
+					<AppFormField
+						keyboardType="numeric"
+						width="50%"
+						name="ratingScore"
+						placeholder="Rate Seller 1-5"
+					/>
+					<AppFormField name="review" placeholder="Review" />
+					<SubmitButton title="Claim" />
 				</AppForm>
 			</AppModal>
 		</View>

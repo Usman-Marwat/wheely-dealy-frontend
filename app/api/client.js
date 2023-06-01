@@ -1,6 +1,6 @@
 import client from './httpClient';
 
-const endpoint = '/client';
+const endpoint = '/Client';
 
 const rateSeller = (rating) => client.post(`${endpoint}/rate`, rating);
 
@@ -10,7 +10,6 @@ const claimServiceDeal = (dealObj) =>
 	client.post(`${endpoint}/claim-service-deal`, dealObj);
 
 export default {
-	getAccountTypes,
 	rateSeller,
 	claimDeal,
 	claimServiceDeal,
