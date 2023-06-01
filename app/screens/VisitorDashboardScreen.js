@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -9,6 +10,8 @@ import Services from '../components/Services';
 import Vehicles from '../components/Vehicles';
 import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
+import search from '../api/search';
+import Questions from '../components/Questions';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles', 'Questions'];
 
@@ -16,13 +19,15 @@ const VisitorDashboardScreen = ({ navigation }) => {
 	const [selectedTab, setSelectedTab] = useState(tabs[2]);
 
 	const visitorContentApi = useApi(dashboard.getVisitorContent);
+	const questionApi = useApi(search.getQuestion);
 
-	const getExploreData = () => {
+	const getVisitorData = () => {
 		visitorContentApi.request();
+		questionApi.request();
 	};
 
 	useEffect(() => {
-		getExploreData();
+		getVisitorData();
 	}, []);
 
 	const noDetails = () => alert('For Details please login');
@@ -32,17 +37,19 @@ const VisitorDashboardScreen = ({ navigation }) => {
 			<ActivityIndicator visible={visitorContentApi.loading} />
 			<BackButton />
 
-			<FilterTabs
-				tabs={tabs}
-				selectedTab={selectedTab}
-				onSelectTab={(tab) => setSelectedTab(tab)}
-			/>
+			<View style={{ marginTop: 40 }}>
+				<FilterTabs
+					tabs={tabs}
+					selectedTab={selectedTab}
+					onSelectTab={(tab) => setSelectedTab(tab)}
+				/>
+			</View>
 
 			{selectedTab === 'Vehicles' && (
 				<Vehicles
 					navigation={navigation}
 					vehicles={visitorContentApi.data?.ads}
-					onRefresh={getExploreData}
+					onRefresh={getVisitorData}
 					visitor
 				/>
 			)}
@@ -50,7 +57,7 @@ const VisitorDashboardScreen = ({ navigation }) => {
 				<Services
 					navigation={navigation}
 					services={visitorContentApi.data?.serviceAds}
-					onRefresh={getExploreData}
+					onRefresh={getVisitorData}
 					visitor
 				/>
 			)}
@@ -73,8 +80,11 @@ const VisitorDashboardScreen = ({ navigation }) => {
 					visitor
 					navigation={navigation}
 					profiles={visitorContentApi.data?.profiles}
-					onRefresh={getExploreData}
+					onRefresh={getVisitorData}
 				/>
+			)}
+			{selectedTab === 'Questions' && (
+				<Questions questions={questionApi.data} onRefresh={getVisitorData} />
 			)}
 		</>
 	);

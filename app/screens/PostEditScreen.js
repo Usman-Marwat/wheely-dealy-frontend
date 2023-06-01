@@ -37,6 +37,7 @@ const PostEditScreen = ({ navigation }) => {
 		});
 		if (data?.statusCode === 200) alert('Post Created  successfully');
 		resetForm();
+		navigation.goBack();
 	};
 	return (
 		<>

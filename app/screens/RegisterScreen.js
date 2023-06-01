@@ -71,6 +71,7 @@ function RegisterScreen({ navigation, route }) {
 		if (result.data?.statusCode !== 200) return setError(result.data.message);
 		setError(null);
 		alert('User registered successfully!!');
+		navigation.goBack();
 	};
 
 	const handleSubmit = async (userInfo, { resetForm }) => {

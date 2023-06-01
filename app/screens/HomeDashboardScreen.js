@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -14,6 +14,8 @@ import TouchableIcon from '../components/TouchableIcon';
 import useAuth from '../auth/useAuth';
 import routes from '../navigation/routes';
 import userAdsApi from '../api/ad';
+import Empty from '../components/Empty';
+import colors from '../config/colors';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 
@@ -61,7 +63,8 @@ const HomeDashboardScreen = ({ navigation }) => {
 	};
 	const savePost = async (postId) => {
 		const { data } = await saveItemApi.request(postId, 'P');
-		if (data.statusCode === 200) getHomeData();
+		if (data.statusCode !== 200) alert('Could Not save the post');
+		getHomeData();
 	};
 
 	useEffect(() => {
@@ -88,25 +91,54 @@ const HomeDashboardScreen = ({ navigation }) => {
 			/>
 
 			{selectedTab === 'Vehicles' && (
-				<Vehicles
-					navigation={navigation}
-					vehicles={homeContentApi.data?.ads}
-					onRefresh={getHomeData}
-					saveAble
-				/>
+				<>
+					{!homeContentApi.data?.ads?.length > 0 && (
+						<Empty title="No Ads added yet">
+							<Button
+								title="Reload"
+								onPress={() => getHomeData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
+					<Vehicles
+						navigation={navigation}
+						vehicles={homeContentApi.data?.ads}
+						onRefresh={getHomeData}
+						saveAble
+					/>
+				</>
 			)}
 			{selectedTab === 'Services' && (
-				<View>
+				<>
+					{!homeContentApi.data?.serviceAds?.length > 0 && (
+						<Empty title="No Service Ads added yet">
+							<Button
+								title="Reload"
+								onPress={() => getHomeData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
 					<Services
 						navigation={navigation}
 						services={homeContentApi.data?.serviceAds}
 						onRefresh={getHomeData}
 						saveAble
 					/>
-				</View>
+				</>
 			)}
 			{selectedTab === 'Posts' && (
 				<>
+					{!homeContentApi.data?.posts?.length > 0 && (
+						<Empty title="No Posts added yet">
+							<Button
+								title="Reload"
+								onPress={() => getHomeData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
 					<Posts
 						posts={homeContentApi.data?.posts}
 						onLike={(postId) => handlePostLike(postId)}
@@ -120,11 +152,22 @@ const HomeDashboardScreen = ({ navigation }) => {
 				</>
 			)}
 			{selectedTab === 'Profiles' && (
-				<Profiles
-					navigation={navigation}
-					profiles={homeContentApi.data?.profiles}
-					onRefresh={getHomeData}
-				/>
+				<>
+					{!homeContentApi.data?.profiles?.length > 0 && (
+						<Empty title="No Profiles added yet">
+							<Button
+								title="Reload"
+								onPress={() => getHomeData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
+					<Profiles
+						navigation={navigation}
+						profiles={homeContentApi.data?.profiles}
+						onRefresh={getHomeData}
+					/>
+				</>
 			)}
 		</>
 	);

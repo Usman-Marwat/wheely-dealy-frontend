@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import * as Yup from 'yup';
+import { View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import * as Yup from 'yup';
 
-import { AppForm, AppFormField, SubmitButton } from './forms';
 import Comment from './Comment';
+import { AppForm, AppFormField, SubmitButton } from './forms';
 
 const PostDetails = ({ post, onComment }) => {
 	return (
@@ -30,10 +29,9 @@ const PostDetails = ({ post, onComment }) => {
 					<AppFormField
 						name="comment"
 						placeholder="Comment on the post"
-						width="90%"
 						multiline
 					/>
-					<View style={styles.submitButton}>
+					<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 						<SubmitButton title="send" bg="silver" isIcon />
 					</View>
 				</AppForm>
@@ -43,11 +41,3 @@ const PostDetails = ({ post, onComment }) => {
 };
 
 export default PostDetails;
-
-const styles = StyleSheet.create({
-	submitButton: {
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-		bottom: 50,
-	},
-});

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Button } from 'react-native';
 
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -10,6 +11,8 @@ import Vehicles from '../components/Vehicles';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import userAdsApi from '../api/ad';
+import Empty from '../components/Empty';
+import colors from '../config/colors';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 
@@ -61,7 +64,8 @@ const ExploreDashboardScreen = ({ navigation }) => {
 	};
 	const savePost = async (postId) => {
 		const { data } = await saveItemApi.request(postId, 'P');
-		if (data.statusCode === 200) getExploreData();
+		if (data.statusCode !== 200) alert('Could Not save the post');
+		getExploreData();
 	};
 
 	return (
@@ -84,23 +88,54 @@ const ExploreDashboardScreen = ({ navigation }) => {
 			/>
 
 			{selectedTab === 'Vehicles' && (
-				<Vehicles
-					navigation={navigation}
-					vehicles={exploreContentApi.data?.ads}
-					onRefresh={getExploreData}
-					saveAble
-				/>
+				<>
+					{!exploreContentApi.data?.ads?.length > 0 && (
+						<Empty title="No Ads added yet">
+							<Button
+								title="Reload"
+								onPress={() => getExploreData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
+					<Vehicles
+						navigation={navigation}
+						vehicles={exploreContentApi.data?.ads}
+						onRefresh={getExploreData}
+						saveAble
+					/>
+				</>
 			)}
 			{selectedTab === 'Services' && (
-				<Services
-					navigation={navigation}
-					services={exploreContentApi.data?.serviceAds}
-					onRefresh={getExploreData}
-					saveAble
-				/>
+				<>
+					{!exploreContentApi.data?.serviceAds?.length > 0 && (
+						<Empty title="No Service Ads added yet">
+							<Button
+								title="Reload"
+								onPress={() => getExploreData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
+					<Services
+						navigation={navigation}
+						services={exploreContentApi.data?.serviceAds}
+						onRefresh={getExploreData}
+						saveAble
+					/>
+				</>
 			)}
 			{selectedTab === 'Posts' && (
 				<>
+					{!exploreContentApi.data?.posts?.length > 0 && (
+						<Empty title="No Posts added yet">
+							<Button
+								title="Reload"
+								onPress={() => getExploreData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
 					<Posts
 						posts={exploreContentApi.data?.posts}
 						onLike={(postId) => handlePostLike(postId)}
@@ -114,11 +149,22 @@ const ExploreDashboardScreen = ({ navigation }) => {
 				</>
 			)}
 			{selectedTab === 'Profiles' && (
-				<Profiles
-					navigation={navigation}
-					profiles={exploreContentApi.data?.profiles}
-					onRefresh={getExploreData}
-				/>
+				<>
+					{!exploreContentApi.data?.profiles?.length > 0 && (
+						<Empty title="No Profiles yet">
+							<Button
+								title="Reload"
+								onPress={() => getExploreData()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
+					<Profiles
+						navigation={navigation}
+						profiles={exploreContentApi.data?.profiles}
+						onRefresh={getExploreData}
+					/>
+				</>
 			)}
 		</>
 	);

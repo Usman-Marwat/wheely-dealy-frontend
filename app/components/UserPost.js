@@ -47,7 +47,7 @@ const UserPost = ({
 				<Animatable.View animation="fadeInLeft" delay={10}>
 					<ActionButtons
 						saveAble={saveAble}
-						onSave={onSave}
+						onSave={() => onSave(post.alternateKey)}
 						saved={post.savedByCurrentUser}
 						deleteAble={deleteAble}
 						onDelete={() => onDelete(post.alternateKey)}
