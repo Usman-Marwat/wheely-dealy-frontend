@@ -27,7 +27,7 @@ const SPACING = 20;
 const AVATAR_SIZE = 70;
 const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
 
-const BidsListScreen = ({ route }) => {
+const BidsListScreen = ({ navigation, route }) => {
 	const { adId } = route.params;
 	const scrollY = useRef(new Animated.Value(0)).current;
 	const { client } = useChatContext();
