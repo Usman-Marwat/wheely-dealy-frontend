@@ -33,20 +33,43 @@ const DealsListScreen = () => {
 		serviceDealsApi.request();
 	};
 
-	const handleVehicleAction = async (dealId, command) => {
+	const performVehicleAction = async (dealId, command, action) => {
 		const { data } = await vehicleActionApi.request(dealId, command);
 
-		if (data.statusCode !== 200) return alert('Could not perform the action');
+		if (data.statusCode !== 200) return alert(`Could not ${action} deal`);
+		getData();
+	};
+	const handleVehicleAction = async (dealId, command) => {
+		const action =
+			command === 1 ? 'Approve' : command === 2 ? 'Reject' : 'Pending';
+		Alert.alert(`${action} The Deal?`, `Are you sure?`, [
+			{
+				text: 'Yes',
+				onPress: () => performVehicleAction(dealId, command, action),
+				style: 'destructive',
+			},
+			{ text: 'No' },
+		]);
+	};
 
+	const performServiceAction = async (dealId, command, action) => {
+		const { data } = await serviceActionApi.request(dealId, command);
+
+		if (data.statusCode !== 200) return alert(`Could not ${action} deal`);
 		getData();
 	};
 
-	const handleServiceAction = async (dealId, command) => {
-		const { data } = await serviceActionApi.request(dealId, command);
-
-		if (data.statusCode !== 200) return alert('Could not perform the action');
-
-		getData();
+	const handleServiceAction = (dealId, command) => {
+		const action =
+			command === 1 ? 'Approve' : command === 2 ? 'Reject' : 'Pending';
+		Alert.alert(`${action} The Deal?`, `Are you sure?`, [
+			{
+				text: 'Yes',
+				onPress: () => performServiceAction(dealId, command, action),
+				style: 'destructive',
+			},
+			{ text: 'No' },
+		]);
 	};
 
 	useEffect(() => {
@@ -54,7 +77,7 @@ const DealsListScreen = () => {
 	}, []);
 
 	return (
-		<View>
+		<>
 			<ActivityIndicator
 				visible={
 					vehicleDealsApi.loading ||
@@ -168,7 +191,7 @@ const DealsListScreen = () => {
 												status === 'Approved'
 													? 'check-circle'
 													: status === 'Rejected'
-													? 'check-circle-o'
+													? 'remove'
 													: 'flag-checkered'
 											}
 											size={22}
@@ -182,7 +205,7 @@ const DealsListScreen = () => {
 					/>
 				</>
 			)}
-		</View>
+		</>
 	);
 };
 
