@@ -1,16 +1,15 @@
-import { Button, StyleSheet, View } from 'react-native';
 import { useEffect } from 'react';
+import { Button, StyleSheet, View } from 'react-native';
 
 import userAds from '../api/ad';
 import useAuth from '../auth/useAuth';
 import ActivityIndicator from '../components/ActivityIndicator';
 import Empty from '../components/Empty';
+import NewItemButton from '../components/NewItemButton';
 import Services from '../components/Services';
-import TouchableIcon from '../components/TouchableIcon';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import routes from '../navigation/routes';
-import NewItemButton from '../components/NewItemButton';
 
 const MyServicesListScreen = ({ navigation }) => {
 	const userAdsApi = useApi(userAds.getServiceAds);

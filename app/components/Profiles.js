@@ -176,8 +176,8 @@ const styles = StyleSheet.create({
 		...StyleSheet.absoluteFillObject,
 	},
 	profileImage: {
-		width: ITEM_HEIGHT * 0.8,
-		height: ITEM_HEIGHT * 0.8,
+		width: ITEM_HEIGHT * 1.2,
+		height: ITEM_HEIGHT * 0.9,
 		resizeMode: 'contain',
 		position: 'absolute',
 		bottom: 0,

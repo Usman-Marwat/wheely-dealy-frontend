@@ -13,7 +13,7 @@ const FilterTabs = ({ tabs, selectedTab, onSelectTab }) => {
 			<FlatList
 				data={tabs}
 				horizontal
-				style={{ flexGrow: 1, marginHorizontal: 30 }}
+				style={{ flexGrow: 1, marginHorizontal: 50 }}
 				contentContainerStyle={{ padding: 10 }}
 				showsHorizontalScrollIndicator={false}
 				keyExtractor={(item, index) => `${item}-${index}`}

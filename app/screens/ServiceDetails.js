@@ -51,7 +51,6 @@ const ServiceDetails = ({ navigation, route }) => {
 	const [dealVisible, setDealVisible] = useState(false);
 	const [mapVisible, setMapVisible] = useState(false);
 	const [isUserVisible, setUserVisible] = useState(false);
-
 	const { user } = useAuth();
 
 	const saveItemApi = useApi(dashboard.saveAnItem);
@@ -207,18 +206,20 @@ const ServiceDetails = ({ navigation, route }) => {
 				</Animatable.View>
 			)}
 
-			<TouchableOpacity
-				style={{
-					flexDirection: 'row',
-					justifyContent: 'center',
-					marginTop: 30,
-				}}
-				onPress={() => setDealVisible(true)}
-			>
-				<Text style={{ textDecorationLine: 'underline', fontWeight: '500' }}>
-					claim Deal{' '}
-				</Text>
-			</TouchableOpacity>
+			{!ownAd && (
+				<TouchableOpacity
+					style={{
+						flexDirection: 'row',
+						justifyContent: 'center',
+						marginTop: 30,
+					}}
+					onPress={() => setDealVisible(true)}
+				>
+					<Text style={{ textDecorationLine: 'underline', fontWeight: '500' }}>
+						claim Deal{' '}
+					</Text>
+				</TouchableOpacity>
+			)}
 
 			<ImageView
 				images={mappedImages}

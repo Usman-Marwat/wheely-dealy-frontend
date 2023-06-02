@@ -61,7 +61,7 @@ const PostEditScreen = ({ navigation }) => {
 									placeholder="Text"
 									multiline
 								/>
-								<SubmitButton title="Send" />
+								<SubmitButton title="Create" />
 							</AppForm>
 						</ScrollView>
 					</TouchableWithoutFeedback>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Button } from 'react-native';
 
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -9,6 +10,8 @@ import Vehicles from '../components/Vehicles';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import userAdsApi from '../api/ad';
+import Empty from '../components/Empty';
+import colors from '../config/colors';
 
 const tabs = ['Vehicles', 'Services', 'Posts'];
 
@@ -77,18 +80,40 @@ const SaveDashboardScreen = ({ navigation }) => {
 			/>
 
 			{selectedTab === 'Vehicles' && (
-				<Vehicles
-					navigation={navigation}
-					vehicles={saveContentApi.data?.ads}
-					onRefresh={getSavedItems}
-				/>
+				<>
+					{!saveContentApi.data?.ads?.length > 0 && (
+						<Empty title="No Ads added yet">
+							<Button
+								title="Reload"
+								onPress={() => getSavedItems()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
+					<Vehicles
+						navigation={navigation}
+						vehicles={saveContentApi.data?.ads}
+						onRefresh={getSavedItems}
+					/>
+				</>
 			)}
 			{selectedTab === 'Services' && (
-				<Services
-					navigation={navigation}
-					services={saveContentApi.data?.serviceAds}
-					onRefresh={getSavedItems}
-				/>
+				<>
+					{!saveContentApi.data?.serviceAds?.length > 0 && (
+						<Empty title="No Ads added yet">
+							<Button
+								title="Reload"
+								onPress={() => getSavedItems()}
+								color={colors.primary}
+							/>
+						</Empty>
+					)}
+					<Services
+						navigation={navigation}
+						services={saveContentApi.data?.serviceAds}
+						onRefresh={getSavedItems}
+					/>
+				</>
 			)}
 			{selectedTab === 'Posts' && (
 				<>

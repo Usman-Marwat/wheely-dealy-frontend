@@ -14,6 +14,8 @@ import HomeNavigator from './HomeNavigator';
 import navigationTheme from './navigationTheme';
 import MyBidsNavigator from './MyBidsNavigator';
 import SavedItemsNavigator from './SavedItemsNavigator';
+import MyQuestionsNavigator from './MyQuestionsNavigator';
+import AllQuestionsNavigator from './AllQuestionsNavigator';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -61,6 +63,15 @@ const CustomerNavigator = () => {
 							component={SavedItemsNavigator}
 						/>
 						<DrawerNavigator.Screen name="Bids" component={MyBidsNavigator} />
+
+						<DrawerNavigator.Screen
+							name="My Questions"
+							component={MyQuestionsNavigator}
+						/>
+						<DrawerNavigator.Screen
+							name="All Questions"
+							component={AllQuestionsNavigator}
+						/>
 						<DrawerNavigator.Screen name="Chat" component={RootNavigator} />
 						<DrawerNavigator.Screen
 							name="Account"

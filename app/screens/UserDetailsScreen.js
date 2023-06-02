@@ -256,11 +256,11 @@ const styles = StyleSheet.create({
 		marginBottom: SPACING + 32,
 	},
 	image: {
-		width: ITEM_HEIGHT * 0.8,
-		height: ITEM_HEIGHT * 0.8,
+		width: ITEM_HEIGHT * 1.2,
+		height: ITEM_HEIGHT * 0.9,
 		resizeMode: 'contain',
 		position: 'absolute',
-		top: TOP_HEADER_HEIGHT - ITEM_HEIGHT * 0.8 + 10,
+		top: TOP_HEADER_HEIGHT - ITEM_HEIGHT * 0.9,
 		right: SPACING,
 	},
 	jobTitle: {

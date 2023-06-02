@@ -5,7 +5,7 @@ const Answers = ({ answers, onRefresh }) => {
 	return (
 		<FlatList
 			data={answers}
-			keyExtractor={(item) => item.alternateKey}
+			keyExtractor={(item) => item.answerDateTime}
 			showsVerticalScrollIndicator={false}
 			contentContainerStyle={{ paddingVertical: 10, paddingHorizontal: 10 }}
 			refreshControl={<RefreshControl onRefresh={onRefresh} />}
