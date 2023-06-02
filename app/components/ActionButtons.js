@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 const ActionButtons = ({
 	updateAble,
@@ -10,6 +10,8 @@ const ActionButtons = ({
 	onUpdate,
 	onSave,
 	onDelete,
+	sellAble,
+	onSell,
 }) => {
 	return (
 		<View style={styles.rowButton}>
@@ -29,6 +31,12 @@ const ActionButtons = ({
 				<TouchableOpacity onPress={onDelete} style={styles.buttonText}>
 					<AntDesign name="delete" size={22} />
 					<Text style={{ marginTop: 5 }}>Delete </Text>
+				</TouchableOpacity>
+			)}
+			{sellAble && (
+				<TouchableOpacity onPress={onSell} style={styles.buttonText}>
+					<MaterialIcons name="money-off" size={22} />
+					<Text style={{ marginTop: 5 }}>Mark Sold </Text>
 				</TouchableOpacity>
 			)}
 		</View>

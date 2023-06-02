@@ -22,6 +22,7 @@ const Vehicles = ({
 	saveAble,
 	updateAble,
 	deleteAble,
+	sellAble,
 	ownAd,
 	visitor,
 }) => {
@@ -44,6 +45,7 @@ const Vehicles = ({
 											saveAble,
 											updateAble,
 											deleteAble,
+											sellAble,
 											ownAd,
 										})
 						}

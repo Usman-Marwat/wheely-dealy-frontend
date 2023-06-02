@@ -41,6 +41,7 @@ const MyAdsListScreen = ({ navigation }) => {
 					onRefresh={getMyAds}
 					updateAble
 					deleteAble
+					sellAble
 					ownAd
 				/>
 			</View>

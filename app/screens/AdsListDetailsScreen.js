@@ -53,7 +53,8 @@ const { width } = Dimensions.get('window');
 const SPACING = 10;
 
 const AdsListDetailsScreen = ({ navigation, route }) => {
-	const { item, saveAble, updateAble, deleteAble, ownAd } = route.params;
+	const { item, saveAble, updateAble, deleteAble, ownAd, sellAble } =
+		route.params;
 	const { client } = useChatContext();
 	const [saved, setSaved] = useState(item.savedByCurrentUser);
 	const [bidVisible, setBidVisible] = useState(false);
@@ -69,6 +70,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const saveItemApi = useApi(dashboard.saveAnItem);
 	const updateAdApi = useApi(seller.updateAd);
 	const deleteApi = useApi(general.deleteOrMarkSold);
+	const markAsSoldApi = useApi(general.deleteOrMarkSold);
 	const claimDealApi = useApi(clientApi.claimDeal);
 
 	const getBids = async () => {
@@ -77,6 +79,17 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	const postBid = async (bidAmount) => {
 		await addBidApi.request(bidAmount, item.alternateKey);
 		getBids();
+	};
+	const markSold = async () => {
+		const { data } = await markAsSoldApi.request(item.alternateKey, 4);
+		if (data?.statusCode !== 200) return alert('Could mark the add as sold ');
+		alert('Add was marked as sold');
+	};
+	const handleSell = () => {
+		Alert.alert(`Mark as sold`, `Are you sure?`, [
+			{ text: 'Yes', onPress: () => markSold(), style: 'destructive' },
+			{ text: 'No' },
+		]);
 	};
 	const saveItem = async () => {
 		const { data } = await saveItemApi.request(item.alternateKey, 'VA');
@@ -149,7 +162,8 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 					saveItemApi.loading ||
 					updateAdApi.loading ||
 					deleteApi.loading ||
-					claimDealApi.loading
+					claimDealApi.loading ||
+					markAsSoldApi.loading
 				}
 			/>
 
@@ -216,8 +230,10 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				deleteAble={deleteAble}
 				saveAble={saveAble}
 				updateAble={updateAble}
+				sellAble={sellAble}
 				saved={saved}
 				onSave={saveItem}
+				onSell={handleSell}
 				onUpdate={() => setUpdateVisible(true)}
 				onDelete={handleAdDelete}
 			/>
@@ -255,18 +271,15 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 			{ownAd && (
 				<Animatable.View useNativeDriver animation={animation} delay={700}>
 					<TouchableOpacity
-						style={styles.rowButton}
+						style={[styles.rowButton, { marginTop: 20 }]}
 						onPress={() =>
 							navigation.navigate(routes.BIDS_LIST, {
 								adId: item.alternateKey,
 							})
 						}
 					>
-						<View style={{ borderBottomWidth: 1 }}>
-							<Text>
-								See all the bids
-								<AntDesign name="arrowright" size={17} />
-							</Text>
+						<View style={[styles.dealBtn, { padding: 13 }]}>
+							<Text style={{ color: 'white' }}>See all the bids</Text>
 						</View>
 					</TouchableOpacity>
 				</Animatable.View>
