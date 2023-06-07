@@ -23,6 +23,7 @@ import MyContentNavigator from './MyContentNavigator';
 import QuestionsNavigator from './QuestionsNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
 import LandingScreen from '../screens/LandingScreen';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -62,6 +63,13 @@ const CustomerNavigator = () => {
 					<DrawerNavigator.Navigator
 						screenOptions={screenOptions}
 						drawerContent={CustomDrawerContent}
+						drawerIcon={({ focused, color, size }) => (
+							<Ionicons
+								name={focused ? 'settings' : 'settings-outline'}
+								size={size}
+								color={color}
+							/>
+						)}
 					>
 						<DrawerNavigator.Screen
 							name="Dashboard"

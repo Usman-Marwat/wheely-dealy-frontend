@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 	},
 	pillText: {
-		fontWeight: '700',
+		fontWeight: '500',
 	},
 });

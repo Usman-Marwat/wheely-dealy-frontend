@@ -14,6 +14,8 @@ import HomeExploreNavigator from './HomeExploreNavigator';
 import QuestionsNavigator from './QuestionsNavigator';
 import SavedAndBidsNavigator from './SavedAndBidsNavigator';
 import navigationTheme from './navigationTheme';
+import LandingScreen from '../screens/LandingScreen';
+import { useEffect } from 'react';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -25,6 +27,18 @@ const CustomerNavigator = () => {
 	const [toCords] = useState({ x: width, y: 0 });
 	const animatedValue = useRef(new Animated.ValueXY(fromCords)).current;
 	const { loading } = useNotifications();
+
+	const [showLAnding, setShowLanding] = useState(true);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setShowLanding(false);
+		}, 3000);
+
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (showLAnding) return <LandingScreen />;
 
 	return (
 		<>

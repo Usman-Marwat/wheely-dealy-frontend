@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
 import React from 'react';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
@@ -16,7 +16,11 @@ const Header = ({ heading, backButton }) => {
 			)}
 			{heading && (
 				<View style={[styles.holder]}>
-					<Text style={[styles.title]}>{heading}</Text>
+					<Image
+						source={require('../assets/wheel.jpg')}
+						style={{ width: 30, height: 30, borderRadius: 15, marginRight: 10 }}
+					/>
+					<Text style={[styles.title]}>Wheely Dealy</Text>
 				</View>
 			)}
 
@@ -44,9 +48,10 @@ const styles = StyleSheet.create({
 		zIndex: 1,
 	},
 	title: {
-		fontWeight: '500',
-		fontSize: 15,
+		fontWeight: '400',
+		fontSize: 17,
 		zIndex: 1,
+		fontFamily: 'Courier New',
 	},
 	shadow: {
 		shadowColor: 'silver',
@@ -58,14 +63,9 @@ const styles = StyleSheet.create({
 		shadowRadius: 20,
 	},
 	holder: {
-		// height: 50,
 		alignItems: 'center',
 		justifyContent: 'center',
-		// marginTop: 10,
+		flexDirection: 'row',
 		paddingHorizontal: 20,
-		borderRadius: 50,
-		backgroundColor: 'white',
-		// borderWidth: 0.7,
-		borderColor: colors.primary,
 	},
 });

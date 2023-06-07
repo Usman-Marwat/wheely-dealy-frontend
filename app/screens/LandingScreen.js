@@ -22,13 +22,14 @@ const LandingScreen = ({}) => {
 	return (
 		<View style={styles.container}>
 			<Animated.Image
-				source={require('../assets/Landing.jpg')}
+				source={require('../assets/wheel.jpg')}
 				// source={{
 				// 	uri: 'https://img.freepik.com/free-vector/gradient-car-decal-sticker-collection_23-2150107844.jpg?w=1380&t=st=1686128684~exp=1686129284~hmac=055fbc951056424140f31cc7b4112dfdfd87f6a5774d86eb057cd250bba4cb0f',
 				// }}
 				style={[styles.logo, { transform: [{ rotate: spin }] }]}
 			/>
 			<Text style={styles.appName}>Welcome To Wheely Deely</Text>
+			<Text style={styles.subTitle}>Upgrade your ride today</Text>
 		</View>
 	);
 };
@@ -49,8 +50,15 @@ const styles = StyleSheet.create({
 		marginBottom: 30,
 	},
 	appName: {
-		fontSize: 28,
-		fontWeight: 'bold',
+		fontSize: 25,
+		fontFamily: 'Courier New',
+		// fontWeight: 'bold',
 		color: '#333',
+	},
+	subTitle: {
+		fontWeight: 300,
+		fontSize: 17,
+		fontFamily: 'Courier New',
+		marginTop: 7,
 	},
 });
