@@ -16,6 +16,7 @@ import routes from '../navigation/routes';
 import userAdsApi from '../api/ad';
 import Empty from '../components/Empty';
 import colors from '../config/colors';
+import Header from '../components/Header';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 
@@ -82,7 +83,7 @@ const HomeDashboardScreen = ({ navigation }) => {
 					saveItemApi.loading
 				}
 			/>
-			<MenuFoldButton />
+			<Header heading="Home Dashboard" />
 
 			<FilterTabs
 				tabs={tabs}

@@ -29,7 +29,7 @@ const Vehicles = ({
 	return (
 		<FlatList
 			showsVerticalScrollIndicator={false}
-			contentContainerStyle={{ padding: SPACING, paddingVertical: 60 }}
+			contentContainerStyle={{ padding: SPACING, paddingVertical: 40 }}
 			data={vehicles}
 			keyExtractor={(item) => item.alternateKey}
 			refreshControl={<RefreshControl onRefresh={onRefresh} />}

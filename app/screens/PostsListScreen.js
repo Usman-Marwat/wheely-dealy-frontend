@@ -169,7 +169,7 @@ export default PostsListScreen;
 const styles = StyleSheet.create({
 	plusButton: {
 		position: 'absolute',
-		bottom: 7,
+		bottom: 20,
 		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',

@@ -49,7 +49,10 @@ const UserDetailsScreen = ({ navigation, route }) => {
 				members: [chatUserId, user.user_id],
 			});
 			await channel.watch();
-			navigation.navigate('Channel', { cid: channel.cid });
+			navigation.navigate('Channel', {
+				cid: channel.cid,
+				targetName: item.name,
+			});
 		} catch (error) {
 			alert('The selected user is not registered iwth chat Api');
 		}
@@ -73,7 +76,6 @@ const UserDetailsScreen = ({ navigation, route }) => {
    `;
 	return (
 		<>
-			<BackButton />
 			<ActivityIndicator
 				visible={followUserApi.loading || profileViewApi.loading}
 			/>

@@ -14,7 +14,6 @@ const TableRow = ({ column1, column2, onReject, onApprove, onPending }) => {
 			<View style={[styles.column]}>
 				<Button title="Approve" onPress={onApprove} color={colors.primary} />
 				<Button title="Reject" onPress={onReject} color={colors.primary} />
-				<Button title="Pending" onPress={onPending} color={colors.primary} />
 			</View>
 		</View>
 	);

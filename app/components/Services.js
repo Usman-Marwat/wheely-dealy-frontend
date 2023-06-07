@@ -27,7 +27,7 @@ const Services = ({
 				data={services}
 				keyExtractor={(item) => item.alternateKey}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingTop: 60 }}
+				contentContainerStyle={{ paddingTop: 40 }}
 				refreshControl={<RefreshControl onRefresh={onRefresh} />}
 				renderItem={({ item, index }) => {
 					const uri = item.imageUrls[0]?.url;

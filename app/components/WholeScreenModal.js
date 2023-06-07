@@ -20,6 +20,7 @@ export default WholeScreenModal;
 const styles = StyleSheet.create({
 	container: {
 		padding: 20,
+		paddingTop: 50,
 		flex: 1,
 	},
 	closeButton: {

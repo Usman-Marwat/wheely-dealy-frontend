@@ -103,7 +103,6 @@ function ServicesEditScreen() {
 
 	return (
 		<>
-			<Header heading="Create Ad" />
 			<View style={styles.container}>
 				{!adsDataApi.data && <Empty title="Fetching Types data" />}
 

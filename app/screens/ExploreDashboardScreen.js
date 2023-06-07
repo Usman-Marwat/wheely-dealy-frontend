@@ -13,6 +13,7 @@ import MenuFoldButton from '../navigation/MenuFoldButton';
 import userAdsApi from '../api/ad';
 import Empty from '../components/Empty';
 import colors from '../config/colors';
+import Header from '../components/Header';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles'];
 
@@ -79,7 +80,7 @@ const ExploreDashboardScreen = ({ navigation }) => {
 					saveItemApi.loading
 				}
 			/>
-			<MenuFoldButton />
+			<Header heading="Explore Dashboard" />
 
 			<FilterTabs
 				tabs={tabs}

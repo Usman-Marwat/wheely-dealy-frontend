@@ -13,11 +13,13 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import { InputBox } from './InputBox';
 import BackButton from '../navigation/BackButton';
 import MenuFoldButton from '../navigation/MenuFoldButton';
+import Header from '../components/Header';
+import { View } from 'react-native';
 
 export default function ChannelScreen({ navigation, route }) {
 	const { user } = useContext(AuthContext);
 	const [channel, setChannel] = useState(null);
-	const cid = route.params?.cid;
+	const { cid, targetName } = route.params;
 	const { client } = useChatContext();
 
 	const getChannel = async () => {
@@ -37,8 +39,7 @@ export default function ChannelScreen({ navigation, route }) {
 
 	return (
 		<>
-			<MenuFoldButton />
-			<BackButton />
+			{!targetName && <BackButton />}
 			<Channel
 				channel={channel}
 				Input={() => <InputBox targetIds={targetIds} sender={sender} />}

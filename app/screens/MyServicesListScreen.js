@@ -10,6 +10,7 @@ import Services from '../components/Services';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import routes from '../navigation/routes';
+import Header from '../components/Header';
 
 const MyServicesListScreen = ({ navigation }) => {
 	const userAdsApi = useApi(userAds.getServiceAds);
@@ -25,7 +26,7 @@ const MyServicesListScreen = ({ navigation }) => {
 
 	return (
 		<>
-			<MenuFoldButton />
+			<Header heading="My Services" />
 			<ActivityIndicator visible={userAdsApi.loading} />
 
 			<View style={styles.container}>
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
 	},
 	plusButton: {
 		position: 'absolute',
-		bottom: 7,
+		bottom: 20,
 		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',

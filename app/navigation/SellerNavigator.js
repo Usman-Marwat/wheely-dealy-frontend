@@ -18,17 +18,20 @@ import MyPostsNavigator from './MyPostsNavigator';
 import MyQuestionsNavigator from './MyQuestionsNavigator';
 import DealsListScreen from '../screens/DealsListScreen';
 import AllQuestionsNavigator from './AllQuestionsNavigator';
+import HomeExploreNavigator from './HomeExploreNavigator';
+import MyContentNavigator from './MyContentNavigator';
+import QuestionsNavigator from './QuestionsNavigator';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
 const screenOptions = {
 	headerShown: false,
-	drawerStyle: {
-		backgroundColor: 'transparent',
-		width: 0,
-	},
-	drawerType: 'permanent',
-	overlayColor: 'transparent',
+	// drawerStyle: {
+	// 	backgroundColor: 'transparent',
+	// 	width: 0,
+	// },
+	// drawerType: 'permanent',
+	// overlayColor: 'transparent',
 };
 const CustomerNavigator = () => {
 	const [fromCords] = useState({ x: 0, y: height });
@@ -43,43 +46,19 @@ const CustomerNavigator = () => {
 				value={{ fromCords, toCords, animatedValue }}
 			>
 				<NavigationContainer theme={navigationTheme}>
-					<DrawerNavigator.Navigator
-						screenOptions={screenOptions}
-						drawerContent={(props) => {
-							return (
-								<CustomDrawer
-									navigation={props.navigation}
-									routes={props.state.routeNames}
-									selectedRoute={props.state.routeNames[props.state.index]}
-								/>
-							);
-						}}
-					>
+					<DrawerNavigator.Navigator screenOptions={screenOptions}>
 						<DrawerNavigator.Screen
-							name="Explore"
-							component={ExploreNavigator}
-						/>
-						<DrawerNavigator.Screen name="Home" component={HomeNavigator} />
-
-						<DrawerNavigator.Screen name="My Ads" component={MyAdsNavigator} />
-
-						<DrawerNavigator.Screen
-							name="My Services"
-							component={MyServicesNavigator}
+							name="Dashboard"
+							component={HomeExploreNavigator}
 						/>
 
 						<DrawerNavigator.Screen
-							name="My Posts"
-							component={MyPostsNavigator}
-						/>
-
-						<DrawerNavigator.Screen
-							name="My Questions"
-							component={MyQuestionsNavigator}
+							name="My Content"
+							component={MyContentNavigator}
 						/>
 						<DrawerNavigator.Screen
-							name="All Questions"
-							component={AllQuestionsNavigator}
+							name="Questions"
+							component={QuestionsNavigator}
 						/>
 
 						<DrawerNavigator.Screen

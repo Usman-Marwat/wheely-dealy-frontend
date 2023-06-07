@@ -86,7 +86,6 @@ const DealsListScreen = () => {
 					serviceActionApi.loading
 				}
 			/>
-			<MenuFoldButton />
 
 			<View
 				style={{

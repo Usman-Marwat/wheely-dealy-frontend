@@ -119,9 +119,6 @@ const ServiceDetails = ({ navigation, route }) => {
 
 	return (
 		<>
-			<MenuFoldButton />
-			<BackButton />
-
 			<ActivityIndicator
 				visible={
 					saveItemApi.loading ||
@@ -206,7 +203,7 @@ const ServiceDetails = ({ navigation, route }) => {
 				</Animatable.View>
 			)}
 
-			{!ownAd && (
+			{!ownAd && user.account_type === 'Client' && (
 				<TouchableOpacity
 					style={{
 						flexDirection: 'row',

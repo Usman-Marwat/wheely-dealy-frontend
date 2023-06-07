@@ -154,7 +154,6 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 	}));
 	return (
 		<View>
-			<BackButton />
 			<ActivityIndicator
 				visible={
 					myBidApi.loading ||

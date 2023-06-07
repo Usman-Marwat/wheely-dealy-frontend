@@ -10,6 +10,7 @@ import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
 import routes from '../navigation/routes';
 import Empty from '../components/Empty';
+import Header from '../components/Header';
 
 const MyAdsListScreen = ({ navigation }) => {
 	const { user } = useAuth();
@@ -27,7 +28,7 @@ const MyAdsListScreen = ({ navigation }) => {
 	return (
 		<>
 			<ActivityIndicator visible={userAdsApi.loading}></ActivityIndicator>
-			<MenuFoldButton />
+			<Header heading="My Vehicle Ads" />
 
 			<View style={styles.container}>
 				{!userAdsApi.data?.items.length > 0 && (
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
 	},
 	plusButton: {
 		position: 'absolute',
-		bottom: 7,
+		bottom: 20,
 		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',

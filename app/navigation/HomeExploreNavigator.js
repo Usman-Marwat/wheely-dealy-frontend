@@ -2,28 +2,28 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-import ChannelListScreen from './ChannelListScreen';
-import UsersScreen from './UsersScreen';
+import ExploreNavigator from './ExploreNavigator';
+import HomeNavigator from './HomeNavigator';
 
 const Tab = createBottomTabNavigator();
-export default function BottomTabNavigator() {
+export default function HomeExploreNavigator() {
 	return (
 		<Tab.Navigator screenOptions={{ headerShown: false }}>
 			<Tab.Screen
-				name="list"
-				component={ChannelListScreen}
+				name="Explore"
+				component={ExploreNavigator}
 				options={{
 					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="list-circle-outline" color={color} size={size} />
+						<MaterialIcons name="explore" color={color} size={size} />
 					),
 				}}
 			/>
 			<Tab.Screen
-				name="users"
-				component={UsersScreen}
+				name="Home"
+				component={HomeNavigator}
 				options={{
 					tabBarIcon: ({ color, size }) => (
-						<MaterialIcons name="explore" color={color} size={size} />
+						<Ionicons name="home" color={color} size={size} />
 					),
 				}}
 			/>

@@ -31,11 +31,11 @@ const MenuFoldButton = ({
 					backgroundColor,
 					transform: [{ translateX: translateX }],
 					top: position === 'relative' ? 0 : 25,
-					right: position === 'relative' ? 0 : 17,
+					left: position === 'relative' ? 0 : 17,
 				},
 			]}
 		>
-			<AntDesign name="menufold" size={SIZE - 15} color={iconColor} />
+			<AntDesign name="menuunfold" size={SIZE - 15} color={iconColor} />
 		</AnimatedTouchable>
 	);
 };

@@ -11,7 +11,7 @@ import PostEditScreen from '../screens/PostEditScreen';
 const Stack = createStackNavigator();
 
 const AccountNavigator = () => (
-	<Stack.Navigator screenOptions={{ headerShown: false }}>
+	<Stack.Navigator screenOptions={{ headerShown: true }}>
 		<Stack.Screen name={routes.ACCOUNT} component={AccountScreen} />
 		<Stack.Screen name={routes.PROFILE} component={ProfileScreen} />
 		<Stack.Screen name={routes.TODOS} component={TodosScreen} />

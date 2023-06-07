@@ -24,8 +24,6 @@ const MyAdsListScreen = ({ navigation }) => {
 		getBidAds();
 	}, []);
 
-	console.log(bidAds.data);
-
 	return (
 		<>
 			<ActivityIndicator visible={bidAds.loading}></ActivityIndicator>

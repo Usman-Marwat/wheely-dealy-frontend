@@ -15,8 +15,12 @@ const Stack = createSharedElementStackNavigator();
 
 const HomeNavigator = () => {
 	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="AdsList" component={HomeDashboardScreen} />
+		<Stack.Navigator screenOptions={{ headerShown: true }}>
+			<Stack.Screen
+				name="AdsList"
+				component={HomeDashboardScreen}
+				options={{ headerShown: false }}
+			/>
 			<Stack.Screen
 				name={routes.ADS_LIST_DETAIL}
 				component={AdsListDetailsScreen}

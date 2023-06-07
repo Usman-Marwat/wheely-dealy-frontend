@@ -107,7 +107,7 @@ const Profiles = ({ navigation, profiles, onRefresh, visitor }) => {
 	return (
 		<Screen>
 			<FlatList
-				contentContainerStyle={{ padding: SPACING }}
+				contentContainerStyle={{ padding: SPACING, paddingTop: 40 }}
 				data={profiles}
 				keyExtractor={(item) => item.alternateKey}
 				refreshControl={<RefreshControl onRefresh={onRefresh} />}
