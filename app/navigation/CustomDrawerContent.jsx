@@ -3,7 +3,7 @@ import {
 	DrawerItemList,
 	DrawerItem,
 } from '@react-navigation/drawer';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 const CustomDrawerContent = (props) => {
 	const { user } = useAuth();
@@ -20,9 +20,14 @@ const CustomDrawerContent = (props) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.userName}>{user.name}</Text>
-				<Text style={styles.userEmail}>{user.account_type}</Text>
-				{/* Add other user data if needed */}
+				<Image
+					source={require('../assets/Landing.jpg')}
+					style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
+				/>
+				<View>
+					<Text style={styles.userName}>{user.name}</Text>
+					<Text style={styles.userEmail}>{user.account_type}</Text>
+				</View>
 			</View>
 			<View style={styles.content}>
 				{/* Render your custom drawer content here */}
@@ -54,6 +59,7 @@ const styles = StyleSheet.create({
 		padding: 16,
 		borderBottomWidth: 1,
 		borderBottomColor: '#ccc',
+		flexDirection: 'row',
 	},
 	userName: {
 		fontSize: 18,

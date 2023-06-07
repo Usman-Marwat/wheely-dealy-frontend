@@ -1,28 +1,28 @@
 {
-  "expo": {
-    "name": "Wheely-Dealy",
-    "slug": "Wheely-Dealy",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./app/assets/icon.jpg",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./app/assets/splash.jpg",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./app/assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": ".app./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "Wheely-Dealy",
+		"slug": "Wheely-Dealy",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./app/assets/icon.jpg",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./app/assets/Landing.jpg",
+			"resizeMode": "cover",
+			"backgroundColor": "#ffffff"
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./app/assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			}
+		},
+		"web": {
+			"favicon": ".app./assets/favicon.png"
+		}
+	}
 }

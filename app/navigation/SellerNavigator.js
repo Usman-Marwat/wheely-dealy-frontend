@@ -1,5 +1,5 @@
 import { Dimensions, Animated } from 'react-native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -22,6 +22,7 @@ import HomeExploreNavigator from './HomeExploreNavigator';
 import MyContentNavigator from './MyContentNavigator';
 import QuestionsNavigator from './QuestionsNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
+import LandingScreen from '../screens/LandingScreen';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -39,6 +40,17 @@ const CustomerNavigator = () => {
 	const [toCords] = useState({ x: width, y: 0 });
 	const animatedValue = useRef(new Animated.ValueXY(fromCords)).current;
 	const { loading } = useNotifications();
+	const [showLAnding, setShowLanding] = useState(true);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setShowLanding(false);
+		}, 3000);
+
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (showLAnding) return <LandingScreen />;
 
 	return (
 		<>
