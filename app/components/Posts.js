@@ -8,11 +8,11 @@ import {
 import React, { useState } from 'react';
 
 import PostDetails from './PostDetails';
-import Screen from './Screen';
 import UserPost from './UserPost';
 import WholeScreenModal from './WholeScreenModal';
 import BackgroundImage from './BackgroundImage';
 import ActivityIndicator from './ActivityIndicator';
+import Header from './Header';
 
 const BG_IMG =
 	'https://images.unsplash.com/photo-1506671753197-8d137cc5d53c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjAzfHxjYXJzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60';
@@ -44,38 +44,37 @@ const Posts = ({
 	};
 
 	return (
-		<>
-			<Screen>
-				<BackgroundImage uri={BG_IMG} />
-				<FlatList
-					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{
-						paddingHorizontal: 20,
-						paddingVertical: 70,
-					}}
-					data={posts}
-					keyExtractor={(item) => item.alternateKey}
-					refreshControl={<RefreshControl onRefresh={onRefresh} />}
-					renderItem={({ item }) => {
-						return (
-							<View style={{ marginVertical: 10 }}>
-								<UserPost
-									post={item}
-									onSelected={(post) => handlePostDetails(post)}
-									onLike={onLike}
-									onShare={onShare}
-									saveAble={saveAble}
-									updateAble={updateAble}
-									onSave={onSave}
-									onEdit={onEdit}
-									deleteAble={deleteAble}
-									onDelete={onDelete}
-								/>
-							</View>
-						);
-					}}
-				/>
-			</Screen>
+		<View style={{ flex: 1 }}>
+			<BackgroundImage uri={BG_IMG} />
+			<FlatList
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					paddingHorizontal: 20,
+					paddingVertical: 40,
+				}}
+				data={posts}
+				keyExtractor={(item) => item.alternateKey}
+				refreshControl={<RefreshControl onRefresh={onRefresh} />}
+				renderItem={({ item }) => {
+					return (
+						<View style={{ marginVertical: 10 }}>
+							<UserPost
+								post={item}
+								onSelected={(post) => handlePostDetails(post)}
+								onLike={onLike}
+								onShare={onShare}
+								saveAble={saveAble}
+								updateAble={updateAble}
+								onSave={onSave}
+								onEdit={onEdit}
+								deleteAble={deleteAble}
+								onDelete={onDelete}
+							/>
+						</View>
+					);
+				}}
+			/>
+
 			{selected && (
 				<WholeScreenModal
 					onClose={() => {
@@ -95,7 +94,7 @@ const Posts = ({
 					/>
 				</WholeScreenModal>
 			)}
-		</>
+		</View>
 	);
 };
 

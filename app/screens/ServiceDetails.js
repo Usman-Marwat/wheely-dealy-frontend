@@ -31,6 +31,9 @@ import randomAvatars from '../config/randomAvatars';
 import { useChatContext } from 'stream-chat-expo';
 import colors from '../config/colors';
 
+const BG_IMG =
+	'https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2Fyc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60';
+
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
 	0: { opacity: 0, translateX: 50 },
@@ -129,11 +132,16 @@ const ServiceDetails = ({ navigation, route }) => {
 			/>
 
 			<View style={styles.dataContainer}>
+				<Image
+					source={{ uri: BG_IMG }}
+					style={StyleSheet.absoluteFillObject}
+					blurRadius={70}
+				/>
 				<View>
 					<Text style={styles.model}>{service.title}</Text>
 					<Text style={styles.price}>Rs {service.price}</Text>
-					<Text>{service.contactNo}</Text>
-					<Text>{service.description}</Text>
+					<Text style={{ color: 'silver' }}>{service.contactNo}</Text>
+					<Text style={{ color: 'silver' }}>{service.description}</Text>
 				</View>
 				<TouchableOpacity
 					onPress={() => setMapVisible(true)}
@@ -302,10 +310,11 @@ export default ServiceDetails;
 const styles = StyleSheet.create({
 	dataContainer: {
 		width: '100%',
+		minHeight: '30%',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginTop: 60,
+		paddingTop: 60,
 		padding: 10,
 	},
 	model: {
@@ -316,6 +325,7 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: '700',
 		opacity: 0.7,
+		color: 'white',
 	},
 	rowButtons: {
 		flexDirection: 'row',

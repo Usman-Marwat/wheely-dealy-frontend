@@ -12,7 +12,11 @@ const Stack = createStackNavigator();
 
 const AccountNavigator = () => (
 	<Stack.Navigator screenOptions={{ headerShown: true }}>
-		<Stack.Screen name={routes.ACCOUNT} component={AccountScreen} />
+		<Stack.Screen
+			name={routes.ACCOUNT}
+			component={AccountScreen}
+			options={{ headerShown: false }}
+		/>
 		<Stack.Screen name={routes.PROFILE} component={ProfileScreen} />
 		<Stack.Screen name={routes.TODOS} component={TodosScreen} />
 		<Stack.Screen name={'PostList'} component={PostsListScreen} />

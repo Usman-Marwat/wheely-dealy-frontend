@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'react-native';
+import { Button, View } from 'react-native';
 
+import userAdsApi from '../api/ad';
 import dashboard from '../api/dashboard';
 import ActivityIndicator from '../components/ActivityIndicator';
+import Empty from '../components/Empty';
 import FilterTabs from '../components/FilterTabs';
+import Header from '../components/Header';
 import Posts from '../components/Posts';
 import Services from '../components/Services';
 import Vehicles from '../components/Vehicles';
-import useApi from '../hooks/useApi';
-import MenuFoldButton from '../navigation/MenuFoldButton';
-import userAdsApi from '../api/ad';
-import Empty from '../components/Empty';
 import colors from '../config/colors';
+import useApi from '../hooks/useApi';
 
 const tabs = ['Vehicles', 'Services', 'Posts'];
 
@@ -71,7 +71,7 @@ const SaveDashboardScreen = ({ navigation }) => {
 					singlePostApi.loading
 				}
 			/>
-			<MenuFoldButton />
+			<Header heading="Saved Items" />
 
 			<FilterTabs
 				tabs={tabs}

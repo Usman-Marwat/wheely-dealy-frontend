@@ -13,11 +13,10 @@ import { useEffect } from 'react';
 import { useChatContext } from 'stream-chat-expo';
 import userAds from '../api/ad';
 import ActivityIndicator from '../components/ActivityIndicator';
-import Screen from '../components/Screen';
 import randomAvatars from '../config/randomAvatars';
 import useApi from '../hooks/useApi';
-import BackButton from '../navigation/BackButton';
 import useAuth from '../auth/useAuth';
+import Header from '../components/Header';
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -57,9 +56,9 @@ const BidsListScreen = ({ navigation, route }) => {
 
 	return (
 		<>
-			<BackButton />
+			<Header heading="All the Bids" />
 			<ActivityIndicator visible={myBidsApi.loading} />
-			<Screen style={{ paddingTop: 50 }}>
+			<View style={{ flex: 1 }}>
 				<Image
 					source={{ uri: BG_IMG }}
 					style={StyleSheet.absoluteFillObject}
@@ -134,7 +133,7 @@ const BidsListScreen = ({ navigation, route }) => {
 						);
 					}}
 				/>
-			</Screen>
+			</View>
 		</>
 	);
 };

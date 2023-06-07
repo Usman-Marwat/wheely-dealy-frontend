@@ -8,13 +8,14 @@ import MenuFoldButton from '../navigation/MenuFoldButton';
 import routes from '../navigation/routes';
 import Screen from '../components/Screen';
 import ListItem from '../components/ListItem';
+import Header from '../components/Header';
 
 function AccountScreen({ navigation }) {
 	const { user, setUser } = useContext(AuthContext);
 
 	return (
-		<Screen style={styles.screen}>
-			<MenuFoldButton />
+		<View style={styles.screen}>
+			<Header heading="Your Account" />
 			<View style={styles.container}>
 				<ListItem
 					title={user.name}
@@ -36,14 +37,13 @@ function AccountScreen({ navigation }) {
 				IconComponent={<Icon name="logout" backgroundColor={colors.primary} />}
 				onPress={() => setUser(null)}
 			/>
-		</Screen>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	screen: {
 		backgroundColor: colors.light,
-		paddingTop: 50,
 	},
 	container: {
 		marginVertical: 20,

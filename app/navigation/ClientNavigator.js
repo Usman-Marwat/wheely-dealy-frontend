@@ -3,30 +3,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useRef, useState } from 'react';
 import { Animated, Dimensions } from 'react-native';
 
+import useAuth from '../auth/useAuth';
 import RootNavigator from '../chat/RootNavigator';
 import ActivityIndicator from '../components/ActivityIndicator';
 import DrawerAnimationContext from '../contexts/drawerAnimationContext';
 import useNotifications from '../hooks/useNotifications';
 import AccountNavigator from './AccountNavigator';
-import CustomDrawer from './CustomDrawer';
-import ExploreNavigator from './ExploreNavigator';
-import HomeNavigator from './HomeNavigator';
+import CustomDrawerContent from './CustomDrawerContent';
+import HomeExploreNavigator from './HomeExploreNavigator';
+import QuestionsNavigator from './QuestionsNavigator';
+import SavedAndBidsNavigator from './SavedAndBidsNavigator';
 import navigationTheme from './navigationTheme';
-import MyBidsNavigator from './MyBidsNavigator';
-import SavedItemsNavigator from './SavedItemsNavigator';
-import MyQuestionsNavigator from './MyQuestionsNavigator';
-import AllQuestionsNavigator from './AllQuestionsNavigator';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
 const screenOptions = {
 	headerShown: false,
-	drawerStyle: {
-		backgroundColor: 'transparent',
-		width: 0,
-	},
-	drawerType: 'permanent',
-	overlayColor: 'transparent',
 };
 const CustomerNavigator = () => {
 	const [fromCords] = useState({ x: 0, y: height });
@@ -43,34 +35,20 @@ const CustomerNavigator = () => {
 				<NavigationContainer theme={navigationTheme}>
 					<DrawerNavigator.Navigator
 						screenOptions={screenOptions}
-						drawerContent={(props) => {
-							return (
-								<CustomDrawer
-									navigation={props.navigation}
-									routes={props.state.routeNames}
-									selectedRoute={props.state.routeNames[props.state.index]}
-								/>
-							);
-						}}
+						drawerContent={CustomDrawerContent}
 					>
 						<DrawerNavigator.Screen
-							name="Explore"
-							component={ExploreNavigator}
+							name="Dashboard"
+							component={HomeExploreNavigator}
 						/>
-						<DrawerNavigator.Screen name="Home" component={HomeNavigator} />
 						<DrawerNavigator.Screen
-							name="Saved"
-							component={SavedItemsNavigator}
+							name="Saved & Bids"
+							component={SavedAndBidsNavigator}
 						/>
-						<DrawerNavigator.Screen name="Bids" component={MyBidsNavigator} />
 
 						<DrawerNavigator.Screen
-							name="My Questions"
-							component={MyQuestionsNavigator}
-						/>
-						<DrawerNavigator.Screen
-							name="All Questions"
-							component={AllQuestionsNavigator}
+							name="Questions"
+							component={QuestionsNavigator}
 						/>
 						<DrawerNavigator.Screen name="Chat" component={RootNavigator} />
 						<DrawerNavigator.Screen

@@ -1,22 +1,20 @@
+import { FontAwesome } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
 import {
+	Alert,
+	FlatList,
+	RefreshControl,
 	StyleSheet,
 	Text,
 	View,
-	RefreshControl,
-	FlatList,
-	Alert,
 } from 'react-native';
-import React from 'react';
-import useApi from '../hooks/useApi';
 import seller from '../api/seller';
-import { useState } from 'react';
 import ActivityIndicator from '../components/ActivityIndicator';
-import MenuFoldButton from '../navigation/MenuFoldButton';
 import FilterTabs from '../components/FilterTabs';
+import Header from '../components/Header';
 import TableRow from '../components/TableRow';
-import { useEffect } from 'react';
-import { FontAwesome } from '@expo/vector-icons';
 import colors from '../config/colors';
+import useApi from '../hooks/useApi';
 
 const tabs = ['Vehicles Deals', 'Services Deals'];
 
@@ -86,7 +84,7 @@ const DealsListScreen = () => {
 					serviceActionApi.loading
 				}
 			/>
-
+			<Header heading="Claimed Deals" />
 			<View
 				style={{
 					marginTop: 40,
@@ -223,7 +221,7 @@ const styles = StyleSheet.create({
 		fontSize: 17,
 	},
 	statusContainer: {
-		marginVertical: 10,
+		marginBottom: 10,
 		alignItems: 'center',
 	},
 });

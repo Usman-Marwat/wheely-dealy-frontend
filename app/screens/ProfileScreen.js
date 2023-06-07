@@ -71,8 +71,6 @@ function ProfileScreen({ navigation }) {
 
 	return (
 		<View style={styles.container}>
-			<BackButton />
-			<MenuFoldButton />
 			<ActivityIndicator
 				visible={myAccountApi.loading || resetPasswordApi.loading}
 			/>

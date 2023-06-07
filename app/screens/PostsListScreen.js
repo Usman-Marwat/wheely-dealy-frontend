@@ -106,8 +106,6 @@ const PostsListScreen = ({ navigation }) => {
 					postDeleteApi.loading
 				}
 			/>
-			<BackButton />
-			<MenuFoldButton />
 			<Posts
 				posts={profileViewApi.data?.posts}
 				onLike={(postId) => handlePostLike(postId)}

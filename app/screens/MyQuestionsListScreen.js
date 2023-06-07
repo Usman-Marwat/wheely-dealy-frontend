@@ -6,16 +6,16 @@ import { useEffect } from 'react';
 import general from '../api/general';
 import search from '../api/search';
 import ActivityIndicator from '../components/ActivityIndicator';
+import Answers from '../components/Answers';
 import AppModal from '../components/AppModal';
 import Empty from '../components/Empty';
+import Header from '../components/Header';
 import NewItemButton from '../components/NewItemButton';
 import Questions, { UserQuestion } from '../components/Questions';
-import { AppForm, AppFormField, SubmitButton } from '../components/forms';
-import useApi from '../hooks/useApi';
-import MenuFoldButton from '../navigation/MenuFoldButton';
-import colors from '../config/colors';
 import WholeScreenModal from '../components/WholeScreenModal';
-import Answers from '../components/Answers';
+import { AppForm, AppFormField, SubmitButton } from '../components/forms';
+import colors from '../config/colors';
+import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
 	text: Yup.string().required().min(7).label('Text'),
@@ -63,7 +63,7 @@ const MyQuestionsListScreen = () => {
 
 	return (
 		<>
-			<MenuFoldButton />
+			<Header heading="My Questions" />
 			<ActivityIndicator
 				visible={
 					myQuestionsApi.loading ||

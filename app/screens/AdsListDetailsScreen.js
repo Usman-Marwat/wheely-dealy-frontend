@@ -426,7 +426,7 @@ export default AdsListDetailsScreen;
 const styles = StyleSheet.create({
 	dataContainer: {
 		width: '100%',
-		// height: '30%',
+		minHeight: '30%',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

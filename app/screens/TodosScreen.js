@@ -84,7 +84,6 @@ export default function TodosScreen({ navigation }) {
 	};
 	return (
 		<View style={styles.container}>
-			<BackButton />
 			<View style={styles.content}>
 				<AddTodo
 					submitHandler={submitHandler}

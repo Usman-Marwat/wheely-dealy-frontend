@@ -14,6 +14,7 @@ import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 import MenuFoldButton from '../navigation/MenuFoldButton';
+import Header from '../components/Header';
 
 const validationSchema = Yup.object().shape({
 	text: Yup.string().required().min(7).label('Text'),
@@ -51,7 +52,7 @@ const AllQuestionsListScreen = () => {
 
 	return (
 		<>
-			<MenuFoldButton />
+			<Header heading="All Questions" />
 			<ActivityIndicator
 				visible={
 					questionByIdApi.loading ||

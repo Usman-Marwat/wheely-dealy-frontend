@@ -21,6 +21,7 @@ import AllQuestionsNavigator from './AllQuestionsNavigator';
 import HomeExploreNavigator from './HomeExploreNavigator';
 import MyContentNavigator from './MyContentNavigator';
 import QuestionsNavigator from './QuestionsNavigator';
+import CustomDrawerContent from './CustomDrawerContent';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -46,7 +47,10 @@ const CustomerNavigator = () => {
 				value={{ fromCords, toCords, animatedValue }}
 			>
 				<NavigationContainer theme={navigationTheme}>
-					<DrawerNavigator.Navigator screenOptions={screenOptions}>
+					<DrawerNavigator.Navigator
+						screenOptions={screenOptions}
+						drawerContent={CustomDrawerContent}
+					>
 						<DrawerNavigator.Screen
 							name="Dashboard"
 							component={HomeExploreNavigator}
