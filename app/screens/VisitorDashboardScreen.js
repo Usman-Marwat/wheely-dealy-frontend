@@ -12,6 +12,7 @@ import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import search from '../api/search';
 import Questions from '../components/Questions';
+import Header from '../components/Header';
 
 const tabs = ['Vehicles', 'Services', 'Posts', 'Profiles', 'Questions'];
 
@@ -35,15 +36,13 @@ const VisitorDashboardScreen = ({ navigation }) => {
 	return (
 		<>
 			<ActivityIndicator visible={visitorContentApi.loading} />
-			<BackButton />
+			<Header heading="Visitor Dashboard" backButton />
 
-			<View style={{ marginTop: 40 }}>
-				<FilterTabs
-					tabs={tabs}
-					selectedTab={selectedTab}
-					onSelectTab={(tab) => setSelectedTab(tab)}
-				/>
-			</View>
+			<FilterTabs
+				tabs={tabs}
+				selectedTab={selectedTab}
+				onSelectTab={(tab) => setSelectedTab(tab)}
+			/>
 
 			{selectedTab === 'Vehicles' && (
 				<Vehicles

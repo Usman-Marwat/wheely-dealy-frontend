@@ -6,17 +6,19 @@ import MenuFoldButton from '../navigation/MenuFoldButton';
 import BackButton from '../navigation/BackButton';
 import colors from '../config/colors';
 
-const Header = ({ heading }) => {
+const Header = ({ heading, backButton }) => {
 	return (
 		<View style={[styles.headerContainer, styles.shadow]}>
-			<MenuFoldButton position="relative" />
+			{backButton ? (
+				<BackButton position="relative" />
+			) : (
+				<MenuFoldButton position="relative" />
+			)}
 			{heading && (
 				<View style={[styles.holder]}>
 					<Text style={[styles.title]}>{heading}</Text>
 				</View>
 			)}
-
-			{/* <BackButton position="relative" /> */}
 
 			<View style={{ zIndex: -10 }}>
 				<SimpleLineIcons name="arrow-left" size={30} color="white" />
