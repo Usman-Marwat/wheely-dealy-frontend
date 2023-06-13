@@ -1,29 +1,21 @@
-import { Dimensions, Animated } from 'react-native';
-import React, { useState, useRef, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Dimensions } from 'react-native';
 
-import ActivityIndicator from '../components/ActivityIndicator';
-import AccountNavigator from './AccountNavigator';
-import HomeNavigator from './HomeNavigator';
-import CustomDrawer from './CustomDrawer';
-import DrawerAnimationContext from '../contexts/drawerAnimationContext';
-import navigationTheme from './navigationTheme';
+import { Ionicons } from '@expo/vector-icons';
 import RootNavigator from '../chat/RootNavigator';
+import ActivityIndicator from '../components/ActivityIndicator';
+import DrawerAnimationContext from '../contexts/drawerAnimationContext';
 import useNotifications from '../hooks/useNotifications';
-import MyAdsNavigator from './MyAdsNavigator';
-import ExploreNavigator from './ExploreNavigator';
-import MyServicesNavigator from './MyServicesNavigator';
-import MyPostsNavigator from './MyPostsNavigator';
-import MyQuestionsNavigator from './MyQuestionsNavigator';
-import DealsListScreen from '../screens/DealsListScreen';
-import AllQuestionsNavigator from './AllQuestionsNavigator';
+import LandingScreen from '../screens/LandingScreen';
+import AccountNavigator from './AccountNavigator';
+import ClaimedDealsNavigator from './ClaimedDealsNavigator';
+import CustomDrawerContent from './CustomDrawerContent';
 import HomeExploreNavigator from './HomeExploreNavigator';
 import MyContentNavigator from './MyContentNavigator';
 import QuestionsNavigator from './QuestionsNavigator';
-import CustomDrawerContent from './CustomDrawerContent';
-import LandingScreen from '../screens/LandingScreen';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import navigationTheme from './navigationTheme';
 
 const DrawerNavigator = createDrawerNavigator();
 const { width, height } = Dimensions.get('screen');
@@ -87,7 +79,7 @@ const CustomerNavigator = () => {
 
 						<DrawerNavigator.Screen
 							name="Claimed Deals"
-							component={DealsListScreen}
+							component={ClaimedDealsNavigator}
 						/>
 
 						<DrawerNavigator.Screen name="Chat" component={RootNavigator} />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import colors from '../config/colors';
 
-const TableRow = ({ column1, column2, onReject, onApprove, onPending }) => {
+const TableRow = ({ column1, column2, onReject, onApprove, pending }) => {
 	return (
 		<View style={styles.row}>
 			<View style={styles.column}>
@@ -12,8 +12,18 @@ const TableRow = ({ column1, column2, onReject, onApprove, onPending }) => {
 				<Text style={styles.columnText}>{column2}</Text>
 			</View>
 			<View style={[styles.column]}>
-				<Button title="Approve" onPress={onApprove} color={colors.primary} />
-				<Button title="Reject" onPress={onReject} color={colors.primary} />
+				<Button
+					title="Approve"
+					onPress={onApprove}
+					color={colors.primary}
+					disabled={!pending}
+				/>
+				<Button
+					title="Reject"
+					onPress={onReject}
+					color={colors.primary}
+					disabled={!pending}
+				/>
 			</View>
 		</View>
 	);
