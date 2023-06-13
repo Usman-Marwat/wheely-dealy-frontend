@@ -14,15 +14,14 @@ const Header = ({ heading, backButton }) => {
 			) : (
 				<MenuFoldButton position="relative" />
 			)}
-			{heading && (
-				<View style={[styles.holder]}>
-					<Image
-						source={require('../assets/wheel.jpg')}
-						style={{ width: 30, height: 30, borderRadius: 15, marginRight: 10 }}
-					/>
-					<Text style={[styles.title]}>Wheely Dealy</Text>
-				</View>
-			)}
+
+			<View style={[styles.holder]}>
+				<Image
+					source={require('../assets/wheel.jpg')}
+					style={{ width: 30, height: 30, borderRadius: 15, marginRight: 10 }}
+				/>
+				<Text style={[styles.title]}>Wheely Dealy</Text>
+			</View>
 
 			<View style={{ zIndex: -10 }}>
 				<SimpleLineIcons name="arrow-left" size={30} color="white" />

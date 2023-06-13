@@ -10,10 +10,12 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import VisitorNavigator from './VisitorNavigator';
 import routes from './routes';
 import LandingScreen from '../screens/LandingScreen';
+import useAuth from '../auth/useAuth';
 
 const Stack = createSharedElementStackNavigator();
 
 const AuthNavigator = () => {
+	const { user } = useAuth();
 	const [showLAnding, setShowLanding] = useState(true);
 
 	useEffect(() => {
@@ -24,7 +26,7 @@ const AuthNavigator = () => {
 		return () => clearTimeout(timer);
 	}, []);
 
-	if (showLAnding) return <LandingScreen />;
+	if (showLAnding && user?.name) return <LandingScreen />;
 	return (
 		<NavigationContainer theme={navigationTheme}>
 			<Stack.Navigator screenOptions={{ headerShown: false }}>

@@ -9,7 +9,10 @@ import {
 } from 'react-native';
 import React from 'react';
 import { SharedElement } from 'react-navigation-shared-element';
+import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+
 import routes from '../navigation/routes';
+import colors from '../config/colors';
 
 const SPACING = 10;
 const ITEM_SIZE = 120;
@@ -59,10 +62,34 @@ const Vehicles = ({
 								<Text style={styles.price}>Rs {item.price}</Text>
 							</SharedElement>
 							<View style={{ marginTop: 10, marginLeft: -5 }}>
-								<Text> Body: {item.bodyType.title}</Text>
-								<Text> Fuel: {item.fuelType.title}</Text>
-								<Text> Registeration: {item.registrationCity.title}</Text>
-								<Text> Transmission: {item.transmissionType.title}</Text>
+								<View style={styles.row}>
+									<FontAwesome
+										name="automobile"
+										size={18}
+										color={colors.primary}
+									/>
+									<Text> {item.bodyType.title}</Text>
+								</View>
+								<View style={styles.row}>
+									<FontAwesome5
+										name="gas-pump"
+										size={20}
+										color={colors.primary}
+									/>
+									<Text> {item.fuelType.title}</Text>
+								</View>
+								<View style={styles.row}>
+									<FontAwesome5 name="city" size={17} color={colors.primary} />
+									<Text> {item.registrationCity.title}</Text>
+								</View>
+								<View style={styles.row}>
+									<MaterialIcons
+										name="autorenew"
+										size={20}
+										color={colors.primary}
+									/>
+									<Text> {item.transmissionType.title}</Text>
+								</View>
 							</View>
 
 							<Image
@@ -104,12 +131,20 @@ const styles = StyleSheet.create({
 	},
 	model: {
 		fontSize: 18,
-		fontWeight: '700',
+		fontWeight: '500',
+		fontSize: Platform.OS === 'android' ? 18 : 20,
+		fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Avenir',
 	},
 	price: {
 		fontSize: 12,
 		fontWeight: '700',
 		opacity: 0.7,
 		marginTop: 10,
+	},
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		columnGap: 7,
+		marginBottom: 10,
 	},
 });

@@ -176,12 +176,14 @@ const styles = StyleSheet.create({
 		...StyleSheet.absoluteFillObject,
 	},
 	profileImage: {
-		width: ITEM_HEIGHT * 1.2,
+		width: ITEM_HEIGHT * 0.9,
 		height: ITEM_HEIGHT * 0.9,
-		resizeMode: 'contain',
+		resizeMode: 'cover',
 		position: 'absolute',
 		bottom: 0,
 		right: SPACING,
+		borderRadius: 100,
+		marginBottom: 3,
 	},
 	itemWrapper: {
 		marginBottom: SPACING,

@@ -45,7 +45,7 @@ const Posts = ({
 
 	return (
 		<View style={{ flex: 1 }}>
-			<BackgroundImage uri={BG_IMG} />
+			{posts?.length > 0 && <BackgroundImage uri={BG_IMG} />}
 			<FlatList
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{

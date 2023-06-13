@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { StyleSheet, View, Alert, Button } from 'react-native';
 import { useState } from 'react';
 import * as Yup from 'yup';
 
@@ -11,13 +11,14 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import NewItemButton from '../components/NewItemButton';
 import Posts from '../components/Posts';
 import useApi from '../hooks/useApi';
-import BackButton from '../navigation/BackButton';
-import MenuFoldButton from '../navigation/MenuFoldButton';
 import routes from '../navigation/routes';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import FormImagePicker from '../components/forms/FormImagePicker';
 import AppModal from '../components/AppModal';
 import general from '../api/general';
+import Empty from '../components/Empty';
+import colors from '../config/colors';
+import Header from '../components/Header';
 
 const validationSchema = Yup.object().shape({
 	text: Yup.string().required().min(1).label('Text'),
@@ -106,6 +107,14 @@ const PostsListScreen = ({ navigation }) => {
 					postDeleteApi.loading
 				}
 			/>
+			{!profileViewApi.data?.posts?.length > 0 && (
+				<>
+					<Header />
+					<Empty title="No Posts added yet">
+						<Button title="Reload" onPress={getPosts} color={colors.primary} />
+					</Empty>
+				</>
+			)}
 			<Posts
 				posts={profileViewApi.data?.posts}
 				onLike={(postId) => handlePostLike(postId)}

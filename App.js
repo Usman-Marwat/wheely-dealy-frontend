@@ -17,7 +17,7 @@ const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
 
 	const restoreUser = async () => {
-		// const user = await authStorage.getUser();
+		const user = await authStorage.getUser();
 		// const user = {
 		//   name: "aman",
 		//   role: "Seller",

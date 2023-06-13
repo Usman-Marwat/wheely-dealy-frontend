@@ -13,6 +13,11 @@ const register = (userInfo) => {
 	data.append('phoneNo', userInfo.phoneNo);
 	data.append('accountTypeGId', userInfo.accountTypeGId);
 	data.append('about', userInfo.about);
+	data.append('profilePictureURL', {
+		name: 'image',
+		type: 'image/jpg',
+		uri: userInfo.profilePictureURL[0],
+	});
 
 	return client.post(`${endpoint}/signup`, data);
 };

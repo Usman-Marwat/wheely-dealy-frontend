@@ -27,6 +27,7 @@ import AppPhoneInput from '../components/forms/AppPhoneInput';
 import OtpInput from '../components/forms/OtpInput';
 import colors from '../config/colors';
 import useApi from '../hooks/useApi';
+import FormImagePicker from '../components/forms/FormImagePicker';
 
 const { width } = Dimensions.get('screen');
 const DURATION = 400;
@@ -45,6 +46,7 @@ const schemaFunction = (isValid) => {
 				'phone input should be like (0)3125103497',
 				(value) => isValid
 			),
+		profilePictureURL: Yup.array().max(1, 'You can only select 1 image'),
 	});
 	return validationSchema;
 };
@@ -101,7 +103,12 @@ function RegisterScreen({ navigation, route }) {
 					</View>
 					<Animatable.View animation="fadeInUp" delay={DURATION}>
 						<Form
-							initialValues={{ name: '', email: '', password: '' }}
+							initialValues={{
+								name: '',
+								email: '',
+								password: '',
+								profilePictureURL: [],
+							}}
 							onSubmit={handleSubmit}
 							validationSchema={schemaFunction(isValid)}
 						>
@@ -151,6 +158,7 @@ function RegisterScreen({ navigation, route }) {
 								numberOfLines={3}
 								placeholder="About"
 							/>
+							<FormImagePicker name="profilePictureURL" />
 							{registerApi.data?.statusCode === 200 && (
 								<TouchableOpacity
 									style={styles.otpInput}

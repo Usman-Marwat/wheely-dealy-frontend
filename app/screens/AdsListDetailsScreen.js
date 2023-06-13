@@ -1,4 +1,10 @@
-import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons';
+import {
+	MaterialIcons,
+	FontAwesome,
+	Entypo,
+	FontAwesome5,
+} from '@expo/vector-icons';
+
 import { useEffect, useState } from 'react';
 import {
 	Alert,
@@ -183,18 +189,27 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 						<Text style={styles.price}>Rs {item.price}</Text>
 					</SharedElement>
 					<View style={{ marginLeft: -3 }}>
-						<Text style={{ color: 'lightgrey' }}>
-							Body: {item.bodyType.title}
-						</Text>
-						<Text style={{ color: 'lightgrey' }}>
-							Fuel: {item.fuelType.title}
-						</Text>
-						<Text style={{ color: 'lightgrey' }}>
-							Registeration: {item.registrationCity.title}
-						</Text>
-						<Text style={{ color: 'lightgrey' }}>
-							Transmission: {item.transmissionType.title}
-						</Text>
+						<View style={styles.row}>
+							<FontAwesome name="automobile" size={18} color="white" />
+							<Text style={{ color: 'lightgrey' }}>{item.bodyType.title}</Text>
+						</View>
+						<View style={styles.row}>
+							<FontAwesome5 name="gas-pump" size={20} color="white" />
+							<Text style={{ color: 'lightgrey' }}>{item.fuelType.title}</Text>
+						</View>
+						<View style={styles.row}>
+							<FontAwesome5 name="city" size={17} color="white" />
+							<Text style={{ color: 'lightgrey' }}>
+								{item.registrationCity.title}
+							</Text>
+						</View>
+
+						<View style={styles.row}>
+							<MaterialIcons name="autorenew" size={20} color="white" />
+							<Text style={{ color: 'lightgrey' }}>
+								{item.transmissionType.title}
+							</Text>
+						</View>
 					</View>
 				</View>
 				<TouchableOpacity
@@ -430,7 +445,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingTop: 60,
+		paddingTop: 20,
 		padding: 10,
 	},
 	dealBtn: {
@@ -460,9 +475,11 @@ const styles = StyleSheet.create({
 	},
 	model: {
 		fontSize: 32,
-		fontWeight: '700',
+		fontWeight: '500',
+		fontFamily: 'Avenir',
 	},
 	price: {
+		marginVertical: 10,
 		fontSize: 18,
 		fontWeight: '700',
 		opacity: 0.7,
@@ -493,5 +510,11 @@ const styles = StyleSheet.create({
 		borderRadius: '50%',
 		borderWidth: 0.3,
 		borderColor: '#98AFC7',
+	},
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		columnGap: 7,
+		marginBottom: 10,
 	},
 });
