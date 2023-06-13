@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
-import randomCarImages from '../config/randomCarImages';
+import randomCarImages, { shuffledImages } from '../config/randomCarImages';
 import ActionButtons from './ActionButtons';
 import ExpandableText from './ExpandableText';
+import Carousel from './ParallaxCarousel';
 
 const UserPost = ({
 	post,
@@ -20,7 +21,6 @@ const UserPost = ({
 	onDelete,
 }) => {
 	const [isActionVisible, setActionsVisible] = useState(false);
-	const [randomImage, _] = useState(randomCarImages());
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -57,9 +57,10 @@ const UserPost = ({
 				</Animatable.View>
 			)}
 
-			<View style={styles.imageWrapper}>
-				<Image source={{ uri: randomImage }} style={styles.image} />
-			</View>
+			{/* <View style={styles.imageWrapper}> */}
+			{/* <Image source={{ uri: randomImage }} style={styles.image} /> */}
+			<Carousel images={shuffledImages()} />
+			{/* </View> */}
 
 			<ExpandableText>{post.text}</ExpandableText>
 
