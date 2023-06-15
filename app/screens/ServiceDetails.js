@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	ScrollView,
 	Alert,
+	Platform,
 } from 'react-native';
 import { useState } from 'react';
 import * as Yup from 'yup';
@@ -32,7 +33,7 @@ import { useChatContext } from 'stream-chat-expo';
 import colors from '../config/colors';
 
 const BG_IMG =
-	'https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2Fyc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60';
+	'https://images.unsplash.com/photo-1555353540-64580b51c258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNhcnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -140,14 +141,20 @@ const ServiceDetails = ({ navigation, route }) => {
 				<View>
 					<Text style={styles.model}>{service.title}</Text>
 					<Text style={styles.price}>Rs {service.price}</Text>
-					<Text style={{ color: 'silver' }}>{service.contactNo}</Text>
-					<Text style={{ color: 'silver' }}>{service.description}</Text>
+					<View style={styles.row}>
+						<MaterialIcons name="contact-phone" size={18} color="white" />
+						<Text style={{ color: 'white' }}>{service.contactNo}</Text>
+					</View>
+					<View style={styles.row}>
+						<MaterialIcons name="airplay" size={18} color="white" />
+						<Text style={{ color: 'white' }}>{service.description}</Text>
+					</View>
 				</View>
 				<TouchableOpacity
 					onPress={() => setMapVisible(true)}
 					style={styles.mapIcon}
 				>
-					<Entypo name="location-pin" size={30} color="#98AFC7" />
+					<Entypo name="location-pin" size={30} color="white" />
 				</TouchableOpacity>
 			</View>
 			<AnimatableScrollview
@@ -318,14 +325,16 @@ const styles = StyleSheet.create({
 		padding: 10,
 	},
 	model: {
-		fontSize: 32,
-		fontWeight: '700',
+		fontWeight: '500',
+		fontSize: Platform.OS === 'android' ? 28 : 32,
+		fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Avenir',
 	},
 	price: {
 		fontSize: 18,
 		fontWeight: '700',
 		opacity: 0.7,
 		color: 'white',
+		marginBottom: 7,
 	},
 	rowButtons: {
 		flexDirection: 'row',
@@ -351,6 +360,12 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 		borderRadius: '50%',
 		borderWidth: 0.3,
-		borderColor: '#98AFC7',
+		borderColor: 'white',
+	},
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		columnGap: 7,
+		marginBottom: 10,
 	},
 });

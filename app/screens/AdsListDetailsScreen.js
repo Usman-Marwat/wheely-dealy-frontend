@@ -39,9 +39,7 @@ import useApi from '../hooks/useApi';
 import BackButton from '../navigation/BackButton';
 import routes from '../navigation/routes';
 import colors from '../config/colors';
-
-const BG_IMG =
-	'https://images.unsplash.com/photo-1602786195490-c785a218df40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjZ8fGNhcnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60';
+import { ImageBackground } from 'react-native';
 
 const AnimatableScrollview = Animatable.createAnimatableComponent(ScrollView);
 const animation = {
@@ -159,7 +157,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 		uri: image.url,
 	}));
 	return (
-		<View>
+		<View style={{ flex: 1 }}>
 			<ActivityIndicator
 				visible={
 					myBidApi.loading ||
@@ -172,12 +170,11 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				}
 			/>
 
-			<View style={styles.dataContainer}>
-				<Image
-					source={{ uri: BG_IMG }}
-					style={StyleSheet.absoluteFillObject}
-					blurRadius={70}
-				/>
+			<ImageBackground
+				source={require('../assets/adsDetailBg.png')}
+				blurRadius={70}
+				style={styles.dataContainer}
+			>
 				<View style={styles.meta}>
 					<SharedElement id={`item.${item.key}.modal`}>
 						<Text numberOfLines={1} adjustsFontSizeToFit style={styles.model}>
@@ -218,7 +215,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				>
 					<Entypo name="location-pin" size={30} color="white" />
 				</TouchableOpacity>
-			</View>
+			</ImageBackground>
 
 			<AnimatableScrollview
 				useNativeDriver
@@ -227,7 +224,7 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				horizontal
 				showsHorizontalScrollIndicator={false}
 				contentContainerStyle={{ padding: SPACING }}
-				style={{ flexGrow: 0, marginVertical: SPACING }}
+				style={{ flexGrow: 0, marginVertical: 0 }}
 			>
 				{item.imageUrls.map((image, index) => {
 					return (
@@ -251,81 +248,87 @@ const AdsListDetailsScreen = ({ navigation, route }) => {
 				onUpdate={() => setUpdateVisible(true)}
 				onDelete={handleAdDelete}
 			/>
-
-			{!ownAd && (
-				<TouchableOpacity
-					style={styles.userButton}
-					onPress={() => setUserVisible(!isUserVisible)}
-				>
-					<View style={styles.userDetailBtn}>
-						<Text style={{ fontWeight: '500', color: 'white' }}>
-							see user details
-						</Text>
-						<MaterialIcons size={20} name="expand-more" color="white" />
-					</View>
-				</TouchableOpacity>
-			)}
-
-			{isUserVisible && (
-				<Animatable.View
-					animation="slideInLeft"
-					delay={10}
-					style={{ alignItems: 'center' }}
-				>
-					<TouchableOpacity onPress={() => handleChat(item.user.alternateKey)}>
-						<UserCard
-							email={item.user.email}
-							name={item.user.name}
-							imageUri={randomAvatars()}
-						/>
-					</TouchableOpacity>
-				</Animatable.View>
-			)}
-
-			{ownAd && (
-				<Animatable.View useNativeDriver animation={animation} delay={700}>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{ paddingBottom: 40 }}
+			>
+				{!ownAd && (
 					<TouchableOpacity
-						style={[styles.rowButton, { marginTop: 20 }]}
-						onPress={() =>
-							navigation.navigate(routes.BIDS_LIST, {
-								adId: item.alternateKey,
-							})
-						}
+						style={styles.userButton}
+						onPress={() => setUserVisible(!isUserVisible)}
 					>
-						<View style={[styles.dealBtn, { padding: 13 }]}>
-							<Text style={{ color: 'white' }}>See all the bids</Text>
+						<View style={styles.userDetailBtn}>
+							<Text style={{ fontWeight: '500', color: 'white' }}>
+								see user details
+							</Text>
+							<MaterialIcons size={20} name="expand-more" color="white" />
 						</View>
 					</TouchableOpacity>
-				</Animatable.View>
-			)}
+				)}
 
-			{user.account_type === 'Client' && (
-				<>
-					<View style={styles.rowButton}>
-						<Text style={{ fontWeight: '700', marginTop: 10 }}>
-							Your current bid:{myBidApi.data?.obj.bidAmount}{' '}
-						</Text>
-					</View>
-					<View style={styles.dealBtnWrapper}>
+				{isUserVisible && (
+					<Animatable.View
+						animation="slideInLeft"
+						delay={10}
+						style={{ alignItems: 'center' }}
+					>
 						<TouchableOpacity
-							style={[styles.rowButton]}
-							onPress={() => setBidVisible(true)}
+							onPress={() => handleChat(item.user.alternateKey)}
 						>
-							<View style={styles.dealBtn}>
-								<Text style={{ color: 'white' }}>Give Your Bid </Text>
+							<UserCard
+								email={item.user.email}
+								name={item.user.name}
+								imageUri={item.user.profilePictureURL || randomAvatars()}
+							/>
+						</TouchableOpacity>
+					</Animatable.View>
+				)}
+
+				{ownAd && (
+					<Animatable.View useNativeDriver animation={animation} delay={700}>
+						<TouchableOpacity
+							style={[styles.rowButton, { marginTop: 20 }]}
+							onPress={() =>
+								navigation.navigate(routes.BIDS_LIST, {
+									adId: item.alternateKey,
+								})
+							}
+						>
+							<View style={[styles.dealBtn, { padding: 13 }]}>
+								<Text style={{ color: 'white' }}>See all the bids</Text>
 							</View>
 						</TouchableOpacity>
-						<TouchableOpacity
-							style={[styles.rowButton]}
-							onPress={() => setDealVisible(true)}
-						>
-							<View style={styles.dealBtn}>
-								<Text style={{ color: 'white' }}>claim Deal </Text>
-							</View>
-						</TouchableOpacity>
-					</View>
-				</>
-			)}
+					</Animatable.View>
+				)}
+
+				{user.account_type === 'Client' && (
+					<>
+						<View style={styles.rowButton}>
+							<Text style={{ fontWeight: '700', marginTop: 10 }}>
+								Your current bid:{myBidApi.data?.obj.bidAmount}{' '}
+							</Text>
+						</View>
+						<View style={styles.dealBtnWrapper}>
+							<TouchableOpacity
+								style={[styles.rowButton]}
+								onPress={() => setBidVisible(true)}
+							>
+								<View style={styles.dealBtn}>
+									<Text style={{ color: 'white' }}>Give Your Bid </Text>
+								</View>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={[styles.rowButton]}
+								onPress={() => setDealVisible(true)}
+							>
+								<View style={styles.dealBtn}>
+									<Text style={{ color: 'white' }}>claim Deal </Text>
+								</View>
+							</TouchableOpacity>
+						</View>
+					</>
+				)}
+			</ScrollView>
 
 			<ImageView
 				images={mappedImages}
@@ -446,7 +449,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		paddingTop: 20,
-		padding: 10,
+		// padding: 10,
+		// paddingLeft: 10,
 	},
 	dealBtn: {
 		borderRadius: 30,
@@ -472,11 +476,12 @@ const styles = StyleSheet.create({
 	meta: {
 		width: width * 0.6,
 		marginBottom: 10,
+		marginLeft: 20,
 	},
 	model: {
-		fontSize: 32,
 		fontWeight: '500',
-		fontFamily: 'Avenir',
+		fontSize: Platform.OS === 'android' ? 28 : 32,
+		fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Avenir',
 	},
 	price: {
 		marginVertical: 10,

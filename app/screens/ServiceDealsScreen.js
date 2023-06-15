@@ -16,8 +16,8 @@ import TableRow from '../components/TableRow';
 import colors from '../config/colors';
 import useApi from '../hooks/useApi';
 
-const tabs = ['Approved', 'Rejected', 'Pending'];
-const statusIds = { Approved: 1, Rejected: 2, Pending: 5 };
+const tabs = ['All', 'Pending', 'Approved', 'Rejected'];
+const statusIds = { Pending: 5, Approved: 1, Rejected: 2 };
 
 const ServiceDealsScreen = () => {
 	const [selectedTab, setSelectedTab] = useState(tabs[0]);
@@ -53,9 +53,12 @@ const ServiceDealsScreen = () => {
 		getData();
 	}, []);
 
-	const data = serviceDealsApi.data?.items.filter(
-		(item) => item.statusId === statusIds[selectedTab]
-	);
+	const filtered =
+		selectedTab !== 'All'
+			? serviceDealsApi.data?.items.filter(
+					(item) => item.statusId === statusIds[selectedTab]
+			  )
+			: serviceDealsApi.data?.items;
 
 	return (
 		<>
@@ -82,7 +85,7 @@ const ServiceDealsScreen = () => {
 					paddingHorizontal: 10,
 					paddingVerticle: 10,
 				}}
-				data={data}
+				data={filtered}
 				keyExtractor={(item) => item.alternateKey}
 				refreshControl={<RefreshControl onRefresh={getData} />}
 				renderItem={({ item }) => {

@@ -33,7 +33,7 @@ const MyAdsListScreen = ({ navigation }) => {
 			<View style={styles.container}>
 				{!userAdsApi.data?.items.length > 0 && (
 					<Empty title="No Ads added yet">
-						<Button title="Reload" onPress={() => getUserAds()} />
+						<Button title="Reload" onPress={() => getMyAds()} />
 					</Empty>
 				)}
 				<Vehicles

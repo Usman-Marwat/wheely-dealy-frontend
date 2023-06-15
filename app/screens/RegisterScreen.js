@@ -46,7 +46,7 @@ const schemaFunction = (isValid) => {
 				'phone input should be like (0)3125103497',
 				(value) => isValid
 			),
-		profilePictureURL: Yup.array().max(1, 'You can only select 1 image'),
+		images: Yup.array().max(1, 'You can only select 1 image'),
 	});
 	return validationSchema;
 };
@@ -107,7 +107,7 @@ function RegisterScreen({ navigation, route }) {
 								name: '',
 								email: '',
 								password: '',
-								profilePictureURL: [],
+								images: [],
 							}}
 							onSubmit={handleSubmit}
 							validationSchema={schemaFunction(isValid)}
@@ -158,7 +158,7 @@ function RegisterScreen({ navigation, route }) {
 								numberOfLines={3}
 								placeholder="About"
 							/>
-							<FormImagePicker name="profilePictureURL" />
+							<FormImagePicker name="images" />
 							{registerApi.data?.statusCode === 200 && (
 								<TouchableOpacity
 									style={styles.otpInput}

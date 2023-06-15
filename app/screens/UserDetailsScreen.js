@@ -22,6 +22,7 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import dashboard from '../api/dashboard';
 import { useChatContext } from 'stream-chat-expo';
 import useAuth from '../auth/useAuth';
+import { Platform } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 const ITEM_HEIGHT = height * 0.18;
@@ -283,7 +284,8 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		fontWeight: '700',
-		fontSize: 20,
+		fontSize: Platform.OS === 'android' ? 18 : 20,
+		fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Avenir',
 		top: TOP_HEADER_HEIGHT - SPACING * 3,
 		left: SPACING,
 	},

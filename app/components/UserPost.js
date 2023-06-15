@@ -7,6 +7,8 @@ import randomCarImages, { shuffledImages } from '../config/randomCarImages';
 import ActionButtons from './ActionButtons';
 import ExpandableText from './ExpandableText';
 import Carousel from './ParallaxCarousel';
+import { Platform } from 'react-native';
+import colors from '../config/colors';
 
 const UserPost = ({
 	post,
@@ -21,6 +23,7 @@ const UserPost = ({
 	onDelete,
 }) => {
 	const [isActionVisible, setActionsVisible] = useState(false);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -59,10 +62,13 @@ const UserPost = ({
 
 			{/* <View style={styles.imageWrapper}> */}
 			{/* <Image source={{ uri: randomImage }} style={styles.image} /> */}
-			<Carousel images={shuffledImages()} />
+			<Carousel
+				images={post.imageUrls.length > 0 ? post.imageUrls : shuffledImages()}
+			/>
 			{/* </View> */}
-
-			<ExpandableText>{post.text}</ExpandableText>
+			<Text style={styles.expandAbleText}>
+				<ExpandableText>{post.text}</ExpandableText>
+			</Text>
 
 			<View style={styles.actionsContainer}>
 				<TouchableOpacity
@@ -151,6 +157,12 @@ const styles = StyleSheet.create({
 	commentForm: {
 		alignItems: 'center',
 		paddingTop: 17,
+	},
+	expandAbleText: {
+		fontSize: Platform.OS === 'android' ? 15 : 17,
+		fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Courier New',
+		opacity: 0.7,
+		margin: 10,
 	},
 	image: {
 		width: '100%',
